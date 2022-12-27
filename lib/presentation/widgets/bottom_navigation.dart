@@ -5,8 +5,9 @@ import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
-import 'package:shoeclub/presentation/signup/screen_signup.dart';
 import 'package:shoeclub/presentation/whishlist/screen_whishlist.dart';
+
+import '../cart/screen_cart.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({super.key});
@@ -14,7 +15,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
   final List<Widget> tabItems = const [
     ScreenHome(),
     ScreenSignIn(),
-    ScreenSignUp(),
+    ScreenCart(),
     ScreenWhishlist(),
     ScreenSignIn()
   ];
@@ -55,7 +56,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             ),
             FlashyTabBarItem(
               icon: Icon(
-                Icons.shopping_cart,
+                Icons.shopping_bag,
                 color: splashColorPlatinum,
                 size: 30,
               ),

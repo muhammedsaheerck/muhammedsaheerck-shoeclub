@@ -36,6 +36,7 @@ dependencies:
   flashy_tab_bar2: ^0.0.5
   provider: ^6.0.0
   carousel_slider: ^4.2.1
+  flutter_slidable: ^2.0.0
 
   
 
@@ -75,6 +76,9 @@ flutter:
     - asset/shoe3.jpg
     - asset/shoe4.jpg
     - asset/shoe5.jpg
+    - asset/product1.png
+    - asset/product4.png
+    - asset/product5.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

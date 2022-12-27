@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
+import 'package:shoeclub/application/home/dropdown_filter_provider.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: ((context) => BottomNavigationProvider())),
+        ChangeNotifierProvider(create: ((context) => DropdownFilterProvider())),
       ],
       builder: (context, child) {
         return MaterialApp(

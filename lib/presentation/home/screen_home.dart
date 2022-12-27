@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
+import 'package:shoeclub/presentation/product_details/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
+
+import 'widgets/dropdownn_filter_widget.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -62,12 +65,20 @@ class ScreenHome extends StatelessWidget {
             padding: const EdgeInsets.only(
               left: 8,
             ),
-            child: Text(
-              'Collection',
-              style: GoogleFonts.inika(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Collection',
+                  style: GoogleFonts.inika(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
+                const Flexible(
+                  child: DropdownFilter(),
+                ),
+              ],
             ),
           ),
           height10,
@@ -76,71 +87,71 @@ class ScreenHome extends StatelessWidget {
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
-                itemCount: 10,
+                itemCount: 5,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 4.0,
                     mainAxisSpacing: 4.0),
                 itemBuilder: ((context, index) {
                   return Card(
+                    color: cardColorAlilceBlue,
                     elevation: 1,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    )),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          color: Colors.amber,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30)),
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          // color: Colors.amber,
                           width: double.infinity,
-                          child: Image.asset(
-                            "asset/splash.png", fit: BoxFit.fill,
-                            // width: double.infinity,
-                            // height: MediaQuery.of(context).size.height * 0.2,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const ScreenProductDetails())));
+                            },
+                            child: Image.asset(
+                              "asset/product1.png", fit: BoxFit.fill,
+                              // width: double.infinity,
+                              // height: MediaQuery.of(context).size.height * 0.2,
+                            ),
                           ),
                         ),
+                        const Divider(thickness: 2),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "Nike",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500),
                               ),
-                              Icon(Icons.favorite)
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.favorite_border))
                             ],
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(left: 8.0),
+                          padding: EdgeInsets.only(
+                            left: 10.0,
+                          ),
                           child: Text("₹ 2500"),
                         ),
                       ],
                     ),
                   );
-                  // return Column(
-                  //   children: [
-                  //     Container(
-                  //       child: Icon(Icons.person,
-                  //           size: 24, color: Colors.blueAccent),
-                  //       padding: const EdgeInsets.all(12),
-                  //     ),
-                  //     Container(
-                  //       decoration: const BoxDecoration(
-                  //           color: Colors.blueAccent,
-                  //           borderRadius: BorderRadius.only(
-                  //               bottomRight: Radius.circular(12),
-                  //               bottomLeft: Radius.circular(12))),
-                  //       child: Text("Student"),
-                  //       padding: const EdgeInsets.all(12),
-                  //     )
-                  //   ],
-                  // );
                 })),
           )
         ]),
