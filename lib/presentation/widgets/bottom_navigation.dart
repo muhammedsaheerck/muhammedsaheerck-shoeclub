@@ -4,20 +4,19 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
-import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/whishlist/screen_whishlist.dart';
 
 import '../cart/screen_cart.dart';
+import '../settings/screen_settings.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({super.key});
 
   final List<Widget> tabItems = const [
     ScreenHome(),
-    ScreenSignIn(),
     ScreenCart(),
     ScreenWhishlist(),
-    ScreenSignIn()
+    ScreenSettings()
   ];
 
   @override
@@ -44,15 +43,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 'Home',
                 style: TextStyle(color: splashColorPlatinum, fontSize: 17),
               ),
-            ),
-            FlashyTabBarItem(
-              icon: Icon(
-                Icons.search,
-                color: splashColorPlatinum,
-                size: 30,
-              ),
-              title: Text('Search',
-                  style: TextStyle(color: splashColorPlatinum, fontSize: 17)),
             ),
             FlashyTabBarItem(
               icon: Icon(

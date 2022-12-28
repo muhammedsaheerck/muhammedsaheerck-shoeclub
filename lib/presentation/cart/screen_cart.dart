@@ -27,19 +27,21 @@ class ScreenCart extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(),
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
             icon: const Icon(
               Icons.arrow_back,
               size: 30,
             )),
       ),
-      body: ListView(
+      body: Column(
         children: [
-          Container(
+          SizedBox(
             // color: Colors.amber,
-            height: MediaQuery.of(context).size.height * 0.6,
+            height: MediaQuery.of(context).size.height * 0.5,
             child: ListView.builder(
-                itemCount: 2,
+                itemCount: 3,
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
                 itemBuilder: ((context, index) {
@@ -92,6 +94,8 @@ class ScreenCart extends StatelessWidget {
                                       ),
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
+                                              backgroundColor: buttonColor2,
+                                               minimumSize:const Size(30, 30),
                                               shape: const CircleBorder()),
                                           onPressed: (() {}),
                                           child: const Icon(Icons.add))
@@ -108,9 +112,11 @@ class ScreenCart extends StatelessWidget {
                                       const Text("₹ 2500"),
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
+                                            minimumSize:const Size(30, 30),
+                                              backgroundColor: buttonColor2,
                                               shape: const CircleBorder()),
                                           onPressed: (() {}),
-                                          child: const Icon(Icons.add))
+                                          child: const Icon(Icons.remove))
                                     ],
                                   ),
                                 ],
@@ -123,16 +129,20 @@ class ScreenCart extends StatelessWidget {
                   );
                 })),
           ),
+          height10,
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50))),
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40))),
               height: MediaQuery.of(context).size.height * 0.25,
               child: Padding(
-                padding: const EdgeInsets.only(left: 40, top: 30, right: 30),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.1,
+                    vertical: MediaQuery.of(context).size.width * 0.03),
+                // padding: const EdgeInsets.only(left: 40, top: 20, right: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -177,7 +187,7 @@ class ScreenCart extends StatelessWidget {
                         ),
                       ],
                     ),
-                    height10,
+                    height20,
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size.fromHeight(35),

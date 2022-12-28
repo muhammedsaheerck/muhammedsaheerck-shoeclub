@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
+import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import '../widgets/text_widget_inikafont.dart';
 import 'widgets/form_widget.dart';
 
@@ -41,7 +42,12 @@ class ScreenSignUp extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(
-                  onPressed: (() {}),
+                  onPressed: (() {
+                     Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const BottomNavigationBarWidget())));
+                  }),
                   style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 40)),
                       backgroundColor: MaterialStateProperty.all(buttonColor),

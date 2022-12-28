@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/presentation/cart/screen_cart.dart';
 
 class ScreenWhishlist extends StatelessWidget {
   const ScreenWhishlist({super.key});
@@ -9,31 +10,39 @@ class ScreenWhishlist extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: splashColorPlatinum,
         appBar: AppBar(
-          elevation: 1,
+          elevation: 0,
           toolbarHeight: 70,
-          backgroundColor: buttonColor,
+          backgroundColor: splashColorPlatinum,
+          iconTheme: const IconThemeData(),
           title: Center(
             child: Text(
               'Whishllist',
               style: GoogleFonts.inika(
-                fontWeight: FontWeight.w500,
-                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,color: buttonColor
               ),
             ),
           ),
           actions: [
-            IconButton(onPressed: (() {}), icon: const Icon(Icons.shopping_bag))
+            IconButton(
+                onPressed: (() {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => const ScreenCart())));
+                }),
+                icon: const Icon(Icons.shopping_bag))
           ],
         ),
         body: ListView.builder(
-            itemCount: 8,
+            itemCount: 5,
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             itemBuilder: ((context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
+                  color: cardColorAlilceBlue,
                   elevation: 2,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),
@@ -73,7 +82,7 @@ class ScreenWhishlist extends StatelessWidget {
                                   ),
                                   IconButton(
                                     onPressed: (() {}),
-                                    icon: const Icon(Icons.favorite_border),
+                                    icon: const Icon(Icons.favorite,color: Colors.red,),
                                   )
                                 ],
                               ),
@@ -81,7 +90,8 @@ class ScreenWhishlist extends StatelessWidget {
                               OutlinedButton(
                                 style: OutlinedButton.styleFrom(),
                                 onPressed: (() {}),
-                                child: const Text("MOVE TO BAG",style:  TextStyle(
+                                child: const Text("MOVE TO BAG",
+                                    style: TextStyle(
                                         color: Color.fromRGBO(237, 91, 78, 1))),
                               )
                             ],

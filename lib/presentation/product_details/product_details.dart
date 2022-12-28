@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
+import 'package:shoeclub/presentation/address/screen_address.dart';
 
 class ScreenProductDetails extends StatelessWidget {
   const ScreenProductDetails({super.key});
@@ -8,8 +10,9 @@ class ScreenProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: splashColorPlatinum,
         appBar: AppBar(
+          // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: splashColorPlatinum),
           iconTheme: const IconThemeData(),
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -104,7 +107,10 @@ class ScreenProductDetails extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         elevation: 1,
                         backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
-                    onPressed: (() {}),
+                    onPressed: (() {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: ((context) => const ScreenAddress())));
+                    }),
                     child: const Text("BUY NOW")),
               )
             ],

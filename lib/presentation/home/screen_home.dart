@@ -15,30 +15,64 @@ class ScreenHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          toolbarHeight: 50,
+          leadingWidth: 100,
+          backgroundColor: splashColorPlatinum,
+          leading: Image.asset(
+            "asset/logo2.png",
+            // height: 50,
+            // width: 50,
+            fit: BoxFit.fill,
+            color: Colors.black,
+          ),
+          title: TextItalianaWidget(
+            name: "Shoe Club",
+            size: MediaQuery.of(context).size.height * 0.050,
+          ),
+        ),
         backgroundColor: splashColorPlatinum,
         body: ListView(children: [
+          height10,
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                "asset/logo2.png",
-                height: 100,
-                width: 100,
-                fit: BoxFit.fill,
-                color: Colors.black,
+              Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    cursorColor: Colors.grey,
+                    decoration: InputDecoration(
+                      fillColor: backgroundColor,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                      hintText: 'Search',
+                      hintStyle: TextStyle(color: buttonColor, fontSize: 18),
+                      prefixIcon: const Icon(Icons.search),
+                    ),
+                  ),
+                ),
               ),
-              TextItalianaWidget(
-                name: "Shoe Club",
-                size: MediaQuery.of(context).size.height * 0.050,
-              )
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  margin: EdgeInsets.only(left: 2, right: 5),
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: buttonColor2,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownFilter(),
+                  width: MediaQuery.of(context).size.width * 0.13),
             ],
           ),
           height10,
           CarouselSlider(
             options: CarouselOptions(
-                height: 180.0,
+                height: 200.0,
                 autoPlay: true,
-                autoPlayAnimationDuration: const Duration(seconds: 1)),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800)),
             items: [
               Image.asset("asset/splash.png", fit: BoxFit.fill),
               Image.asset("asset/shoe2.jpg", fit: BoxFit.fill),
@@ -53,7 +87,7 @@ class ScreenHome extends StatelessWidget {
                 builder: (BuildContext context) {
                   return Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                      margin: const EdgeInsets.symmetric(horizontal: 0.0),
                       decoration: const BoxDecoration(color: Colors.white),
                       child: i);
                 },
@@ -62,23 +96,13 @@ class ScreenHome extends StatelessWidget {
           ),
           height10,
           Padding(
-            padding: const EdgeInsets.only(
-              left: 8,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Collection',
-                  style: GoogleFonts.inika(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                ),
-                const Flexible(
-                  child: DropdownFilter(),
-                ),
-              ],
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Collection',
+              style: GoogleFonts.inika(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
             ),
           ),
           height10,
@@ -97,9 +121,10 @@ class ScreenHome extends StatelessWidget {
                     color: cardColorAlilceBlue,
                     elevation: 1,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: ListView(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
                           decoration: const BoxDecoration(

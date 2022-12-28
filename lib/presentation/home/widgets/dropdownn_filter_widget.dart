@@ -16,10 +16,10 @@ class DropdownFilter extends StatelessWidget {
       builder: (context, valueProvider, child) => DropdownButtonHideUnderline(
         child: DropdownButton2(
           isExpanded: true,
-          customButton: Icon(
-            Icons.list,
-            size: 46,
-            color: buttonColor,
+          customButton: const Icon(
+            Icons.sort,
+            size: 35,
+            color: Colors.white,
           ),
           items: valueProvider.filter
               .map((item) => DropdownMenuItem<String>(
