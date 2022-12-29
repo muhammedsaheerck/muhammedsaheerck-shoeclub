@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
 
-import '../address/screen_address.dart';
+import '../checkout/screen_checkout.dart';
 
 class ScreenCart extends StatelessWidget {
   const ScreenCart({super.key});
@@ -95,7 +95,7 @@ class ScreenCart extends StatelessWidget {
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: buttonColor2,
-                                               minimumSize:const Size(30, 30),
+                                              minimumSize: const Size(30, 30),
                                               shape: const CircleBorder()),
                                           onPressed: (() {}),
                                           child: const Icon(Icons.add))
@@ -112,7 +112,7 @@ class ScreenCart extends StatelessWidget {
                                       const Text("₹ 2500"),
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            minimumSize:const Size(30, 30),
+                                              minimumSize: const Size(30, 30),
                                               backgroundColor: buttonColor2,
                                               shape: const CircleBorder()),
                                           onPressed: (() {}),
@@ -169,24 +169,24 @@ class ScreenCart extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Divider(
-                      thickness: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "Total ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w400),
-                        ),
-                        Text(
-                          "₹ 5000 ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
+                    // const Divider(
+                    //   thickness: 1,
+                    // ),
+                    // // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: const [
+                    //     Text(
+                    //       "Total ",
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.w400),
+                    //     ),
+                    //     Text(
+                    //       "₹ 5000 ",
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.w400),
+                    //     ),
+                    //   ],
+                    // ),
                     height20,
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -196,7 +196,7 @@ class ScreenCart extends StatelessWidget {
                                 const Color.fromRGBO(237, 91, 78, 1)),
                         onPressed: (() {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: ((context) => const ScreenAddress())));
+                              builder: ((context) => const ScreenCheckout())));
                         }),
                         child: const Text("PLACE ORDER"))
                   ],

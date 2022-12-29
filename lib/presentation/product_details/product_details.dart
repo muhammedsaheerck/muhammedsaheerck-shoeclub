@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
-import 'package:shoeclub/presentation/address/screen_address.dart';
+
+import '../checkout/screen_checkout.dart';
 
 class ScreenProductDetails extends StatelessWidget {
   const ScreenProductDetails({super.key});
@@ -109,7 +110,7 @@ class ScreenProductDetails extends StatelessWidget {
                         backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
                     onPressed: (() {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => const ScreenAddress())));
+                          builder: ((context) => const ScreenCheckout())));
                     }),
                     child: const Text("BUY NOW")),
               )

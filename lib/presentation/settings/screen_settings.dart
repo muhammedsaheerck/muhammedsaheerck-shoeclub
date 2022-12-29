@@ -56,71 +56,78 @@ class ScreenSettings extends StatelessWidget {
                 )
               ],
             ),
-            Flexible(child: ListView(children: [
-              ListTile(
-              iconColor: buttonColor,
-              leading: const Icon(Icons.person, size: 25),
-              title: const Text(
-                "Muhammed Sheer Ck",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            divider1,
-            ListTile(
-              iconColor: buttonColor,
-              leading: const Icon(
-                Icons.location_city,
-                size: 25,
-              ),
-              title: const Text(
-                "Address",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            divider1,
-            ListTile(
-              iconColor: buttonColor,
-              leading: Image.asset(
-                "asset/terms-and-conditions.png",
-                height: 25,
-              ),
-              title: const Text(
-                "Terms & Conditions",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            divider1,
-            ListTile(
-              iconColor: buttonColor,
-              leading: const Icon(
-                Icons.privacy_tip,
-                size: 25,
-              ),
-              title: const Text(
-                "Privacy & Policy",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            divider1,
-            ListTile(
-              iconColor: buttonColor,
-              leading: Image.asset(
-                "asset/information-button.png",
-                height: 25,
-              ),
-              title: const Text(
-                "About",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(side: BorderSide(color: buttonColor2,width: 2)),
-                onPressed: (() {}), child:  Text("LOG OUT",style: TextStyle(color: buttonColor),)),
-            )
-            ],))
-            
+            Flexible(
+                child: ListView(
+              children: [
+                ListTile(
+                  iconColor: buttonColor,
+                  leading: const Icon(Icons.person, size: 25),
+                  title: const Text(
+                    "Muhammed Sheer Ck",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                divider1,
+                ListTile(
+                  iconColor: buttonColor,
+                  leading: const Icon(
+                    Icons.location_city,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    "My Order",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                divider1,
+                ListTile(
+                  iconColor: buttonColor,
+                  leading: Image.asset(
+                    "asset/terms-and-conditions.png",
+                    height: 25,
+                  ),
+                  title: const Text(
+                    "Terms & Conditions",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                divider1,
+                ListTile(
+                  iconColor: buttonColor,
+                  leading: const Icon(
+                    Icons.privacy_tip,
+                    size: 25,
+                  ),
+                  title: const Text(
+                    "Privacy & Policy",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                divider1,
+                ListTile(
+                  iconColor: buttonColor,
+                  leading: Image.asset(
+                    "asset/information-button.png",
+                    height: 25,
+                  ),
+                  title: const Text(
+                    "About",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: buttonColor2, width: 2)),
+                      onPressed: (() {}),
+                      child: Text(
+                        "LOG OUT",
+                        style: TextStyle(color: buttonColor),
+                      )),
+                )
+              ],
+            ))
           ],
         ),
       ),
