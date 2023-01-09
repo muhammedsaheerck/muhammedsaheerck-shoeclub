@@ -13,7 +13,8 @@ class TextItalianaWidget extends StatelessWidget {
     return Text(
       name,
       style: GoogleFonts.italiana(
-          textStyle: TextStyle(fontSize: size, fontWeight: FontWeight.w900,color: buttonColor)),
+          textStyle: TextStyle(
+              fontSize: size, fontWeight: FontWeight.w900, color: buttonColor)),
     );
   }
 }

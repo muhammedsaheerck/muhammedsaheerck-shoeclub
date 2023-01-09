@@ -64,7 +64,7 @@ class ScreenCart extends StatelessWidget {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
+                              borderRadius: BorderRadius.circular(20),
                               // color: Colors.amber,
                             ),
                             width: MediaQuery.of(context).size.width * 0.50,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
+import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/product_details/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
@@ -13,6 +14,7 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductApiCalls().getProducts();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -57,14 +59,15 @@ class ScreenHome extends StatelessWidget {
                 ),
               ),
               Container(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  margin: EdgeInsets.only(left: 2, right: 5),
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: buttonColor2,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownFilter(),
-                  width: MediaQuery.of(context).size.width * 0.13),
+                height: MediaQuery.of(context).size.height * 0.07,
+                margin: const EdgeInsets.only(left: 2, right: 5),
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: buttonColor2,
+                    borderRadius: BorderRadius.circular(10)),
+                width: MediaQuery.of(context).size.width * 0.13,
+                child: const DropdownFilter(),
+              ),
             ],
           ),
           height10,
@@ -106,78 +109,197 @@ class ScreenHome extends StatelessWidget {
             ),
           ),
           height10,
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemCount: 5,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 4.0,
-                    mainAxisSpacing: 4.0),
-                itemBuilder: ((context, index) {
-                  return Card(
-                    color: cardColorAlilceBlue,
-                    elevation: 1,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: ListView(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30)),
-                          ),
-                          height: MediaQuery.of(context).size.height * 0.11,
-                          // color: Colors.amber,
-                          width: double.infinity,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const ScreenProductDetails())));
-                            },
-                            child: Image.asset(
-                              "asset/product1.png", fit: BoxFit.fill,
-                              // width: double.infinity,
-                              // height: MediaQuery.of(context).size.height * 0.2,
-                            ),
-                          ),
-                        ),
-                        const Divider(thickness: 2),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 8,
-                          ),
+          ValueListenableBuilder(
+            valueListenable: productListNotifier,
+            builder: (context, value, child) =>
+                //  GridView.builder(
+                //     shrinkWrap: true,
+                //     physics: const ScrollPhysics(),
+                //     itemCount: value.length,
+                //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //         crossAxisCount: 2,
+                //         crossAxisSpacing: 0.0,
+                //         mainAxisSpacing: 0.0),
+                //     itemBuilder: ((context, index) {
+                //       return Card(
+                //         color: cardColorAlilceBlue,
+                //         elevation: 1,
+                //         shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(15)),
+                //         child: ListView(
+                //           physics: const NeverScrollableScrollPhysics(),
+                //           // crossAxisAlignment: CrossAxisAlignment.start,
+                //           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             Container(
+                //               decoration: const BoxDecoration(
+                //                 borderRadius: BorderRadius.only(
+                //                     topLeft: Radius.circular(30),
+                //                     topRight: Radius.circular(30)),
+                //               ),
+                //               height: MediaQuery.of(context).size.height * 0.11,
+                //               // color: Colors.amber,
+                //               width: double.infinity,
+                //               child: InkWell(
+                //                 onTap: () {
+                //                   Navigator.of(context).push(MaterialPageRoute(
+                //                       builder: ((context) =>
+                //                           const ScreenProductDetails())));
+                //                 },
+                //                 child: Image.network(
+                //                   value[index]["image"][0], fit: BoxFit.fill,
+                //                   // width: double.infinity,
+                //                   // height: MediaQuery.of(context).size.height * 0.2,
+                //                 ),
+                //               ),
+                //             ),
+                //             const Divider(thickness: 2),
+                //             Padding(
+                //               padding: const EdgeInsets.only(
+                //                 left: 8,
+                //                 right: 8,
+                //               ),
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   const Text(
+                //                     "Nike",
+                //                     style: TextStyle(
+                //                         fontSize: 20,
+                //                         fontWeight: FontWeight.w500),
+                //                   ),
+                //                   IconButton(
+                //                       onPressed: () {},
+                //                       icon: const Icon(Icons.favorite_border))
+                //                 ],
+                //               ),
+                //             ),
+                //             const Padding(
+                //               padding: EdgeInsets.only(
+                //                 left: 10.0,
+                //               ),
+                //               child: Text("₹ 2500"),
+                //             ),
+                //           ],
+                //         ),
+                //       );
+                //     })),
+
+                ListView.builder(
+                    itemCount: value.length,
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          // color: cardColorAlilceBlue,
+                          color: Colors.black87,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "Nike",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                  ),
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  // width: double.infinity,
+                                  child: Image.network(
+                                    value[index]["image"][0], fit: BoxFit.fill,
+                                    // width: double.infinity,
+                                    // height: MediaQuery.of(context).size.height * 0.2,
+                                  ),
+                                ),
                               ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border))
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            value[index]["name"],
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w500,
+                                                color: cardColorAlilceBlue),
+                                          ),
+                                          IconButton(
+                                            onPressed: (() {}),
+                                            icon: const Icon(
+                                              Icons.favorite,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        value[index]["description"],
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: cardColorAlilceBlue),
+                                      ),
+                                      height10,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            value[index]["price"].toString(),
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: cardColorAlilceBlue),
+                                          ),
+                                          SizedBox(
+                                            height: 30,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5, right: 5),
+                                                elevation: 1,
+                                                backgroundColor:
+                                                    Colors.amber.shade600,
+                                              ),
+                                              onPressed: (() {}),
+                                              child: Text(
+                                                "MOVE TO BAG",
+                                                style: TextStyle(
+                                                    color: buttonColor),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(
-                            left: 10.0,
-                          ),
-                          child: Text("₹ 2500"),
-                        ),
-                      ],
-                    ),
-                  );
-                })),
+                      );
+                    })),
           )
         ]),
       ),

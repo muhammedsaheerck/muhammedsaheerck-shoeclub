@@ -20,9 +20,9 @@ class ScreenWhishlist extends StatelessWidget {
             child: Text(
               'Whishllist',
               style: GoogleFonts.inika(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,color: buttonColor
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: buttonColor),
             ),
           ),
           actions: [
@@ -82,7 +82,10 @@ class ScreenWhishlist extends StatelessWidget {
                                   ),
                                   IconButton(
                                     onPressed: (() {}),
-                                    icon: const Icon(Icons.favorite,color: Colors.red,),
+                                    icon: const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    ),
                                   )
                                 ],
                               ),

@@ -43,10 +43,9 @@ class ScreenSignUp extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(
                   onPressed: (() {
-                     Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const BottomNavigationBarWidget())));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) =>
+                            const BottomNavigationBarWidget())));
                   }),
                   style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 40)),

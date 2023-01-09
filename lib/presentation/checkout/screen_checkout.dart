@@ -150,10 +150,12 @@ class ScreenCheckout extends StatelessWidget {
                       height: 40,
                     ),
                     const Text("**131242"),
-                    TextButton(onPressed: (() {
-                      Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => const ScreenPayment())));
-                    }), child: const Text("Change"))
+                    TextButton(
+                        onPressed: (() {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => const ScreenPayment())));
+                        }),
+                        child: const Text("Change"))
                   ],
                 ),
               ),
