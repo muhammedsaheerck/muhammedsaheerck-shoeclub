@@ -10,11 +10,13 @@ class ScreenWhishlist extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 70,
-          backgroundColor: splashColorPlatinum,
+          // backgroundColor: splashColorPlatinum,
+          backgroundColor: test,
           iconTheme: const IconThemeData(),
           title: Center(
             child: Text(

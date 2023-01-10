@@ -11,7 +11,8 @@ class ScreenSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         appBar: AppBar(
           backgroundColor: buttonColor2,
           elevation: 0,
@@ -45,7 +46,7 @@ class ScreenSettings extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.4,
                       vertical: MediaQuery.of(context).size.height * 0.05),
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: test,
                     radius: 60,
                     child: Image.asset(
                       "asset/user (1).png",

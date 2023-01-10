@@ -21,7 +21,8 @@ class ScreenHome extends StatelessWidget {
           elevation: 0,
           toolbarHeight: 50,
           leadingWidth: 100,
-          backgroundColor: splashColorPlatinum,
+          // backgroundColor: splashColorPlatinum,
+          backgroundColor: test,
           leading: Image.asset(
             "asset/logo2.png",
             // height: 50,
@@ -34,7 +35,8 @@ class ScreenHome extends StatelessWidget {
             size: MediaQuery.of(context).size.height * 0.050,
           ),
         ),
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         body: ListView(children: [
           height10,
           Row(

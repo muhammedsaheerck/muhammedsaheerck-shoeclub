@@ -13,6 +13,7 @@ class ScreenCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
+      // backgroundColor: test,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

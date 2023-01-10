@@ -16,7 +16,8 @@ class ScreenSplash extends StatelessWidget {
             builder: (BuildContext context) => const ScreenSignIn()))));
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         body: Stack(
           children: [
             Image.asset("asset/splash.png",

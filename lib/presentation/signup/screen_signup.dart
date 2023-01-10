@@ -7,7 +7,7 @@ import 'package:shoeclub/core/sizes.dart';
 import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
-import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
+import 'package:shoeclub/presentation/signup/widgets/screen_otp.dart';
 import '../widgets/text_widget_inikafont.dart';
 
 class ScreenSignUp extends StatelessWidget {
@@ -23,7 +23,8 @@ class ScreenSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         body: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,8 +48,10 @@ class ScreenSignUp extends StatelessWidget {
                 ),
               ),
               // FormCustomWidget(),
+              height30,
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.height / 80),
                 child: Form(
                     key: _formKey,
                     child: Column(
@@ -112,8 +115,11 @@ class ScreenSignUp extends StatelessWidget {
                         TextFormField(
                           controller: signupConfirmPasswordController,
                           validator: ((value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please confirm your password";
+                            if (signupPasswordController.text !=
+                                signupConfirmPasswordController.text) {
+                              return "You'r entered incorrect password";
+                            } else if (value!.isEmpty) {
+                              return "Please fill the confirm password";
                             }
                           }),
                           cursorColor: buttonColor,
@@ -129,12 +135,17 @@ class ScreenSignUp extends StatelessWidget {
                       ],
                     )),
               ),
-              height10,
+              height30,
               Padding(
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(
                   onPressed: (() {
-                    addUser(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) => const ScreenOtp()),
+                      ),
+                    );
+                    // addUser(context);
                   }),
                   style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 40)),
@@ -162,31 +173,31 @@ class ScreenSignUp extends StatelessWidget {
                   ],
                 ),
               ),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 150, top: 120),
-                    child: Container(
-                        height: 60,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(100)),
-                            color: Color.fromRGBO(186, 162, 135, 1))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Container(
-                        height: 140,
-                        width: 200,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.elliptical(500, 400)),
-                            color: Color.fromRGBO(124, 133, 132, 1))),
-                  ),
-                ],
-              )
+              // Stack(
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.only(left: 150, top: 120),
+              //       child: Container(
+              //           height: 60,
+              //           width: 100,
+              //           decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                   topLeft: Radius.circular(40),
+              //                   topRight: Radius.circular(100)),
+              //               color: Color.fromRGBO(186, 162, 135, 1))),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(top: 40),
+              //       child: Container(
+              //           height: 140,
+              //           width: 200,
+              //           decoration: const BoxDecoration(
+              //               borderRadius: BorderRadius.only(
+              //                   topRight: Radius.elliptical(500, 400)),
+              //               color: Color.fromRGBO(124, 133, 132, 1))),
+              //     ),
+              //   ],
+              // )
             ]),
       ),
     );
@@ -211,7 +222,7 @@ class ScreenSignUp extends StatelessWidget {
         log(newUserSignUp.toString());
         await AuthApiCall.instance.signUp(newUserSignUp);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('SignUp Successful')),
+          const SnackBar(content: Text('SignUp Successfully completed')),
         );
       }
     } catch (e) {

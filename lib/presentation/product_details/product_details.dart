@@ -11,7 +11,8 @@ class ScreenProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        // backgroundColor: splashColorPlatinum,
+        backgroundColor: test,
         appBar: AppBar(
           // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: splashColorPlatinum),
           iconTheme: const IconThemeData(),
