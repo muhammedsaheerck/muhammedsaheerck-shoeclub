@@ -212,7 +212,7 @@ class ScreenHome extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width / 2.5,
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height / 6,
                                   // width: double.infinity,
                                   child: Image.network(
                                     value[index]["image"][0], fit: BoxFit.fill,
@@ -234,61 +234,74 @@ class ScreenHome extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            value[index]["name"],
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w500,
-                                                color: cardColorAlilceBlue),
+                                          SizedBox(
+                                            width: 120,
+                                            child: Text(
+                                              value[index]["name"],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: cardColorAlilceBlue),
+                                            ),
                                           ),
-                                          IconButton(
-                                            onPressed: (() {}),
-                                            icon: const Icon(
-                                              Icons.favorite,
-                                              color: Colors.white,
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: (() {}),
+                                              icon: const Icon(
+                                                Icons.favorite,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           )
                                         ],
                                       ),
                                       Text(
                                         value[index]["description"],
-                                        maxLines: 3,
+                                        maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w500,
                                             color: cardColorAlilceBlue),
                                       ),
-                                      height10,
+                                      // height10,
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            value[index]["price"].toString(),
+                                            "₹ ${value[index]["price"].toString()}",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w500,
                                                 color: cardColorAlilceBlue),
                                           ),
-                                          SizedBox(
-                                            height: 30,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5, right: 5),
-                                                elevation: 1,
-                                                backgroundColor:
-                                                    Colors.amber.shade600,
-                                              ),
-                                              onPressed: (() {}),
-                                              child: Text(
-                                                "MOVE TO BAG",
-                                                style: TextStyle(
-                                                    color: buttonColor),
-                                              ),
+                                          // SizedBox(
+                                          //   height: 30,
+                                          //   child: ElevatedButton(
+                                          //     style: ElevatedButton.styleFrom(
+                                          //       padding: const EdgeInsets.only(
+                                          //           left: 5, right: 5),
+                                          //       elevation: 1,
+                                          //       backgroundColor:
+                                          //           Colors.amber.shade600,
+                                          //     ),
+                                          //     onPressed: (() {}),
+                                          //     child: Text(
+                                          //       "MOVE TO BAG",
+                                          //       style: TextStyle(
+                                          //           color: buttonColor),
+                                          //     ),
+                                          //   ),
+                                          // ),
+                                          IconButton(
+                                            onPressed: (() {}),
+                                            icon: const Icon(
+                                              Icons.shopping_bag,
+                                              color: Colors.white,
                                             ),
-                                          ),
+                                          )
                                         ],
                                       )
                                     ],

@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/core/url.dart';
 import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
-ValueNotifier<List<dynamic>> productListNotifier = ValueNotifier([]);
-class ProductApiCalls {
-  
 
+ValueNotifier<List<dynamic>> productListNotifier = ValueNotifier([]);
+
+class ProductApiCalls {
   final dio = Dio();
 
   ProductApiCalls() {

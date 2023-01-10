@@ -39,16 +39,35 @@ class ScreenSignIn extends StatelessWidget {
                 ),
               ),
               height10,
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 10, top: 40, right: 10),
-                child: TextFieldWidget(
-                    keybordtype: TextInputType.name, hint: "User Name"),
+                child: TextFormField(
+                  validator: ((value) {}),
+                  cursorColor: buttonColor,
+                  decoration: InputDecoration(
+                    focusColor: buttonColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    hintText: "User Name",
+                  ),
+                  keyboardType: TextInputType.name,
+                ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 10, top: 10, right: 10),
-                child: TextFieldWidget(
-                    keybordtype: TextInputType.visiblePassword,
-                    hint: "Password"),
+                child: TextFormField(
+                  validator: ((value) {}),
+                  cursorColor: buttonColor,
+                  decoration: InputDecoration(
+                    focusColor: buttonColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    hintText: "User Name",
+                  ),
+                  keyboardType: TextInputType.name,
+                ),
               ),
 
               // const FormCustomWidget(),
@@ -76,8 +95,7 @@ class ScreenSignIn extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const ScreenSignUp())));
+                                  builder: ((context) => ScreenSignUp())));
                         },
                         child: const Text("Sign Up"))
                   ],

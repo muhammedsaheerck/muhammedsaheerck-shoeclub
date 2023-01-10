@@ -1,15 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
+import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
+import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import '../widgets/text_widget_inikafont.dart';
-import 'widgets/form_widget.dart';
 
 class ScreenSignUp extends StatelessWidget {
-  const ScreenSignUp({super.key});
+  ScreenSignUp({super.key});
 
+  final signupNameController = TextEditingController();
+  final signupEmailController = TextEditingController();
+  final signupPasswordController = TextEditingController();
+  final signupConfirmPasswordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,15 +46,95 @@ class ScreenSignUp extends StatelessWidget {
                   size: 30,
                 ),
               ),
-              const FormCustomWidget(),
+              // FormCustomWidget(),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextFormField(
+                          controller: signupNameController,
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your name";
+                            }
+                          }),
+                          cursorColor: buttonColor,
+                          decoration: InputDecoration(
+                            // fillColor: const Color.fromRGBO(222, 219, 219, 1),
+                            focusColor: buttonColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            hintText: "User Name",
+                          ),
+                          keyboardType: TextInputType.name,
+                        ),
+                        height10,
+                        TextFormField(
+                          controller: signupEmailController,
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your Emile";
+                            }
+                          }),
+                          cursorColor: buttonColor,
+                          decoration: InputDecoration(
+                            focusColor: buttonColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            hintText: "Email",
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        height10,
+                        TextFormField(
+                          controller: signupPasswordController,
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a password";
+                            }
+                          }),
+                          cursorColor: buttonColor,
+                          decoration: InputDecoration(
+                            focusColor: buttonColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            hintText: "Password",
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                        height10,
+                        TextFormField(
+                          controller: signupConfirmPasswordController,
+                          validator: ((value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please confirm your password";
+                            }
+                          }),
+                          cursorColor: buttonColor,
+                          decoration: InputDecoration(
+                            focusColor: buttonColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            hintText: "Confirm Password",
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ],
+                    )),
+              ),
               height10,
               Padding(
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(
                   onPressed: (() {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: ((context) =>
-                            const BottomNavigationBarWidget())));
+                    addUser(context);
                   }),
                   style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 40)),
@@ -101,5 +190,32 @@ class ScreenSignUp extends StatelessWidget {
             ]),
       ),
     );
+  }
+
+  Future<void> addUser(BuildContext context) async {
+    try {
+      if (signupNameController.text.isEmpty &&
+          signupEmailController.text.isEmpty &&
+          signupPasswordController.text.isEmpty &&
+          signupConfirmPasswordController.text.isEmpty &&
+          signupPasswordController.text ==
+              signupConfirmPasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please add all fields')),
+        );
+      } else if (_formKey.currentState!.validate()) {
+        final newUserSignUp = NewUser(
+            email: signupEmailController.text,
+            fullname: signupNameController.text,
+            password: signupPasswordController.text);
+        log(newUserSignUp.toString());
+        await AuthApiCall.instance.signUp(newUserSignUp);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('SignUp Successful')),
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

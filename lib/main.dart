@@ -5,6 +5,7 @@ import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/application/home/dropdown_filter_provider.dart';
 import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/presentation/signup/screen_signup.dart';
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
 void main() {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primaryColor: Colors.black,
           ),
-          home: const ScreenSplash(),
+          home: ScreenSignUp(),
           debugShowCheckedModeBanner: false,
         );
       },

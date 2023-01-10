@@ -40,14 +40,14 @@ class ScreenAddAddress extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const TextFieldWidget(
-                  keybordtype: TextInputType.name, hint: "Name"),
-              height10,
-              const TextFieldWidget(
-                  keybordtype: TextInputType.name, hint: "Adress"),
-              height10,
-              const TextFieldWidget(
-                  keybordtype: TextInputType.name, hint: "Mobile"),
+              // const TextFieldWidget(
+              //     keybordtype: TextInputType.name, hint: "Name"),
+              // height10,
+              // const TextFieldWidget(
+              //     keybordtype: TextInputType.name, hint: "Adress"),
+              // height10,
+              // const TextFieldWidget(
+              //     keybordtype: TextInputType.name, hint: "Mobile"),
               height10,
               Padding(
                 padding: EdgeInsets.symmetric(
