@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
+import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/application/home/dropdown_filter_provider.dart';
+import 'package:shoeclub/application/auth/login_provider.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
             create: ((context) => BottomNavigationProvider())),
         ChangeNotifierProvider(create: ((context) => DropdownFilterProvider())),
         ChangeNotifierProvider(create: ((context) => AddressProvider())),
+        ChangeNotifierProvider(create: ((context) => LogInProvider())),
+        ChangeNotifierProvider(create: ((context) => ForgotPassWord())),
       ],
       builder: (context, child) {
         return MaterialApp(

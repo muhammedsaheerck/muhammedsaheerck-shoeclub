@@ -11,7 +11,9 @@ import 'package:shoeclub/presentation/signup/widgets/screen_otp.dart';
 import '../widgets/text_widget_inikafont.dart';
 
 class ScreenSignUp extends StatelessWidget {
-  ScreenSignUp({super.key});
+  ScreenSignUp({
+    super.key,
+  });
 
   final signupNameController = TextEditingController();
   final signupEmailController = TextEditingController();
@@ -140,12 +142,7 @@ class ScreenSignUp extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(
                   onPressed: (() {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: ((context) => const ScreenOtp()),
-                      ),
-                    );
-                    // addUser(context);
+                    signUpUser(context);
                   }),
                   style: ButtonStyle(
                       fixedSize: MaterialStateProperty.all(const Size(100, 40)),
@@ -166,8 +163,7 @@ class ScreenSignUp extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const ScreenSignIn())));
+                                  builder: ((context) => ScreenSignIn())));
                         },
                         child: const Text("Sign In"))
                   ],
@@ -203,26 +199,27 @@ class ScreenSignUp extends StatelessWidget {
     );
   }
 
-  Future<void> addUser(BuildContext context) async {
+  Future<void> signUpUser(BuildContext context) async {
     try {
       if (signupNameController.text.isEmpty &&
           signupEmailController.text.isEmpty &&
           signupPasswordController.text.isEmpty &&
           signupConfirmPasswordController.text.isEmpty &&
-          signupPasswordController.text ==
+          signupPasswordController.text !=
               signupConfirmPasswordController.text) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please add all fields')),
         );
       } else if (_formKey.currentState!.validate()) {
-        final newUserSignUp = NewUser(
-            email: signupEmailController.text,
-            fullname: signupNameController.text,
-            password: signupPasswordController.text);
-        log(newUserSignUp.toString());
-        await AuthApiCall.instance.signUp(newUserSignUp);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('SignUp Successfully completed')),
+        AuthApiCall().sendOtp(signupEmailController.text);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => ScreenOtp(
+                  email: signupEmailController.text,
+                  pass: signupPasswordController.text,
+                  name: signupNameController.text,
+                )),
+          ),
         );
       }
     } catch (e) {

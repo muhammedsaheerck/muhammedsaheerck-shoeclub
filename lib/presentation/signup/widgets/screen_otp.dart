@@ -1,16 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:shoeclub/domain/modal/otp_modal/otp_modal.dart';
+import 'package:shoeclub/infrastructure/auth/auth_services.dart';
+import 'package:shoeclub/presentation/login/screen_login.dart';
+
+import '../../../domain/modal/user_modal/new_user.dart';
+import '../screen_signup.dart';
 
 class ScreenOtp extends StatelessWidget {
-  const ScreenOtp({super.key});
+  final String email;
+  final String name;
+  final String pass;
 
+  ScreenOtp(
+      {super.key, required this.email, required this.name, required this.pass});
+  final otpControlller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 245, 244, 248),
+        backgroundColor: const Color.fromARGB(255, 245, 244, 248),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(children: [
+          child: ListView(children: [
             Align(
               alignment: Alignment.topLeft,
               child: GestureDetector(
@@ -26,24 +39,31 @@ class ScreenOtp extends StatelessWidget {
             //   height: 18,
             // ),
             Container(
-              width: 200,
-              height: 200,
+              width: 250,
+              height: 250,
               decoration: BoxDecoration(
                 color: Colors.deepPurple.shade50,
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(
-                'asset/logo2.png',
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Image.asset(
+                  'asset/otpVerification.png',
+                ),
               ),
             ),
             const SizedBox(
               height: 24,
             ),
-            const Text(
-              'Verification',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.height / 8),
+              child: const Text(
+                'Verification',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(
@@ -68,7 +88,14 @@ class ScreenOtp extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: TextFormField(),
+              child: TextFormField(
+                controller: otpControlller,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please fill the OTP';
+                  }
+                },
+              ),
             ),
 
             const SizedBox(
@@ -77,7 +104,9 @@ class ScreenOtp extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  verify(context);
+                },
                 style: ButtonStyle(
                   foregroundColor:
                       MaterialStateProperty.all<Color>(Colors.white),
@@ -124,5 +153,25 @@ class ScreenOtp extends StatelessWidget {
             ),
           ]),
         )));
+  }
+
+  Future verify(BuildContext context) async {
+    try {
+      final otp = OtpModal(otp: otpControlller.text, userid: email);
+      await AuthApiCall.instance.verifyOtp(otp);
+      log(otp.toString());
+      final newUserSignUp =
+          NewUser(email: email, fullname: name, password: pass);
+      log(newUserSignUp.toString());
+      await AuthApiCall.instance.signUp(newUserSignUp);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('SignUp Successfully completed')),
+      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: ((context) => ScreenSignIn())),
+          (route) => false);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

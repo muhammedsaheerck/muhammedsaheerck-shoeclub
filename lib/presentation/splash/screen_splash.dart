@@ -13,7 +13,7 @@ class ScreenSplash extends StatelessWidget {
     Timer(
         const Duration(seconds: 3),
         (() => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const ScreenSignIn()))));
+            builder: (BuildContext context) => ScreenSignIn()))));
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,
