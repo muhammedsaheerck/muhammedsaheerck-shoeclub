@@ -1,15 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:shoeclub/application/auth/login_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
 import 'package:shoeclub/presentation/login/widgets/screen_forgot_password.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
+import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
+
+import '../../domain/modal/user_modal/new_user.dart';
+import '../../infrastructure/auth/auth_services.dart';
 
 class ScreenSignIn extends StatelessWidget {
-  const ScreenSignIn({super.key});
-  // final _formKey = GlobalKey<FormState>();
+  ScreenSignIn({super.key});
+  // final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final signInEmailCOntroller = TextEditingController();
+  final signInPasswordCOntroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,142 +54,137 @@ class ScreenSignIn extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height / 10,
                     horizontal: MediaQuery.of(context).size.height / 80),
-                child: Consumer<LogInProvider>(
-                  builder: (context, valueProvider, child) => Form(
-                    key: valueProvider.formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: valueProvider.signInEmailCOntroller,
-                          validator: ((value) {
-                            if (value!.isEmpty) {
-                              return "Please fill the email field";
-                            }
-                          }),
-                          cursorColor: buttonColor,
-                          decoration: InputDecoration(
-                            focusColor: Colors.deepPurple,
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    const BorderSide(color: Colors.deepPurple)),
-                            border: OutlineInputBorder(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: signInEmailCOntroller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        autocorrect: true,
+                        // validator: ((value) {
+                        //   if (value!.isEmpty) {
+                        //     return "Please fill the email field";
+                        //   }
+                        // }),
+                        cursorColor: buttonColor,
+                        decoration: InputDecoration(
+                          focusColor: Colors.deepPurple,
+                          focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                            ),
-                            hintText: "User Email",
+                              borderSide:
+                                  const BorderSide(color: Colors.deepPurple)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          keyboardType: TextInputType.name,
+                          hintText: "User Email",
                         ),
-                        height10,
-                        TextFormField(
-                          controller: valueProvider.signInPasswordCOntroller,
-                          validator: ((value) {
-                            if (value!.isEmpty) {
-                              return "Please fill the password field";
-                            }
-                          }),
-                          cursorColor: buttonColor,
-                          decoration: InputDecoration(
-                            focusColor: Colors.deepPurple,
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    const BorderSide(color: Colors.deepPurple)),
-                            border: OutlineInputBorder(
+                        keyboardType: TextInputType.name,
+                      ),
+                      height10,
+                      TextFormField(
+                        controller: signInPasswordCOntroller,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return "Please fill the password field";
+                          }
+                        }),
+                        cursorColor: buttonColor,
+                        decoration: InputDecoration(
+                          focusColor: Colors.deepPurple,
+                          focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  const BorderSide(color: Colors.deepPurple)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          hintText: "User Password",
+                        ),
+                        keyboardType: TextInputType.name,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: MediaQuery.of(context).size.height / 4),
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) =>
+                                      ScreenForgotPassword())));
+                            },
+                            child: const Text(
+                              "Forgot password",
+                              style: TextStyle(fontSize: 15),
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.height / 5),
+                        child: SizedBox(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: ElevatedButton(
+                            onPressed: (() {
+                              logInUser(
+                                context,
+                              );
+                            }),
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.purple),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                              ),
                             ),
-                            hintText: "User Password",
-                          ),
-                          keyboardType: TextInputType.name,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              right: MediaQuery.of(context).size.height / 4),
-                          child: TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const ScreenForgotPassword())));
-                              },
-                              child: const Text(
-                                "Forgotten password",
-                                style: TextStyle(fontSize: 15),
-                              )),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.height / 5),
-                          child: SizedBox(
-                            height: 40,
-                            width: 150,
-                            child: ElevatedButton(
-                              onPressed: (() {
-                                valueProvider.logInUser(context);
-                              }),
-                              style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.purple),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24.0),
-                                  ),
-                                ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Sign In',
+                                style: TextStyle(fontSize: 16),
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  'SignIn',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              // style: ButtonStyle(
-                              //     // fixedSize: MaterialStateProperty.all(const Size(100, 40)),
-                              //     backgroundColor:
-                              //         MaterialStateProperty.all(buttonColor),
-                              //     shape: MaterialStateProperty.all<
-                              //             RoundedRectangleBorder>(
-                              //         RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(18.0),
-                              //     ))),
-                              // child: const Text("Sign In"),
                             ),
+                            // style: ButtonStyle(
+                            //     // fixedSize: MaterialStateProperty.all(const Size(100, 40)),
+                            //     backgroundColor:
+                            //         MaterialStateProperty.all(buttonColor),
+                            //     shape: MaterialStateProperty.all<
+                            //             RoundedRectangleBorder>(
+                            //         RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(18.0),
+                            //     ))),
+                            // child: const Text("Sign In"),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.height / 10,
-                              vertical:
-                                  MediaQuery.of(context).size.height / 20),
-                          child: Row(
-                            children: [
-                              const Text(
-                                "Don't have a account?",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black45,
-                                ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.height / 10,
+                            vertical: MediaQuery.of(context).size.height / 50),
+                        child: Row(
+                          children: [
+                            const Text(
+                              "Don't have a account?",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black45,
                               ),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: ((context) =>
-                                                ScreenSignUp())));
-                                  },
-                                  child: const Text("Sign Up"))
-                            ],
-                          ),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => ScreenSignUp())));
+                                },
+                                child: const Text("Sign Up"))
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ), // const FormCustomWidget(),
@@ -215,5 +218,26 @@ class ScreenSignIn extends StatelessWidget {
             ]),
       ),
     );
+  }
+
+  Future<void> logInUser(
+    context,
+  ) async {
+    if (signInEmailCOntroller.text.isEmpty &&
+        signInPasswordCOntroller.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please add all fields')),
+      );
+    } else if (_formKey.currentState!.validate()) {
+      try {
+        final login = NewUser(
+            email: signInEmailCOntroller.text,
+            password: signInPasswordCOntroller.text);
+        await AuthApiCall().logIn(login, context);
+      } catch (e) {
+        
+        log("aaaaaa"+e.toString());
+      }
+    }
   }
 }

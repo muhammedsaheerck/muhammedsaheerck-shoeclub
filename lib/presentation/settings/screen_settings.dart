@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/infrastructure/auth/auth_services.dart';
+import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
 import '../../core/sizes.dart';
 
@@ -121,7 +124,16 @@ class ScreenSettings extends StatelessWidget {
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                           side: BorderSide(color: buttonColor2, width: 2)),
-                      onPressed: (() {}),
+                      onPressed: (() async {
+                        SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                        sharedPreferences.remove("isSignIn");
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: ((context) => const ScreenSplash()),
+                            ),
+                            (route) => false);
+                      }),
                       child: Text(
                         "LOG OUT",
                         style: TextStyle(color: buttonColor),

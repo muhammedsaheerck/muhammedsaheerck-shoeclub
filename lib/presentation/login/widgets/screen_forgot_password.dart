@@ -7,8 +7,8 @@ import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 import 'package:shoeclub/core/sizes.dart';
 
 class ScreenForgotPassword extends StatelessWidget {
-  const ScreenForgotPassword({super.key});
-
+  ScreenForgotPassword({super.key});
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,6 @@ class ScreenForgotPassword extends StatelessWidget {
           child: Consumer<ForgotPassWord>(
             builder: (context, valueProvider, child) => ListView(
               children: [
-                
                 Align(
                   alignment: Alignment.topLeft,
                   child: GestureDetector(
@@ -44,6 +43,7 @@ class ScreenForgotPassword extends StatelessWidget {
                   ),
                 ),
                 Form(
+                  key: formKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -94,7 +94,10 @@ class ScreenForgotPassword extends StatelessWidget {
                         controller:
                             valueProvider.forgotConfirmPasswordCOntroller,
                         validator: ((value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty ||
+                              valueProvider.forgotPasswordCOntroller.text !=
+                                  valueProvider
+                                      .forgotConfirmPasswordCOntroller.text) {
                             return "Please confirm the password field";
                           }
                         }),
@@ -120,12 +123,9 @@ class ScreenForgotPassword extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      log("message");
+                      log("aaaaa");
+                      valueProvider.changePassword(context, formKey);
                     },
-                    // onPressed: () {
-                    //   log("aaaaa");
-                    //   // valueProvider.changePassword(context);
-                    // },
                     style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),

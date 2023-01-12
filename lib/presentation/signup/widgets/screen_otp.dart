@@ -6,7 +6,6 @@ import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 
 import '../../../domain/modal/user_modal/new_user.dart';
-import '../screen_signup.dart';
 
 class ScreenOtp extends StatelessWidget {
   final String email;

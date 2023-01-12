@@ -5,3 +5,4 @@ String signUpUrl = '/auth/signup';
 String otppUrl = '/auth/otp';
 String logInUrl = '/auth/login';
 String forgotPasswordUrl = '/auth/password';
+String logOutUrl = '/auth/logout';

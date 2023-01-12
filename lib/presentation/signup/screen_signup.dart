@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/color.dart';
 import 'package:shoeclub/core/sizes.dart';
-import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/signup/widgets/screen_otp.dart';
@@ -23,11 +22,11 @@ class ScreenSignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
-        body: ListView(
+    return Scaffold(
+      // backgroundColor: splashColorPlatinum,
+      backgroundColor: test,
+      body: SafeArea(
+        child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
@@ -60,16 +59,24 @@ class ScreenSignUp extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupNameController,
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
                               return "Please enter your name";
+                            } else if (signupNameController.text.length < 4) {
+                              return "Please enter minimum four charecter";
                             }
+                            return null;
                           }),
                           cursorColor: buttonColor,
                           decoration: InputDecoration(
                             // fillColor: const Color.fromRGBO(222, 219, 219, 1),
-                            focusColor: buttonColor,
+                            focusColor: Colors.deepPurple,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -79,15 +86,25 @@ class ScreenSignUp extends StatelessWidget {
                         ),
                         height10,
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupEmailController,
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
                               return "Please enter your Emile";
+                            } else if (!RegExp(
+                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                .hasMatch(signupEmailController.text)) {
+                              return 'Please check your email';
                             }
+                            return null;
                           }),
                           cursorColor: buttonColor,
                           decoration: InputDecoration(
-                            focusColor: buttonColor,
+                            focusColor: Colors.deepPurple,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -97,15 +114,21 @@ class ScreenSignUp extends StatelessWidget {
                         ),
                         height10,
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupPasswordController,
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
                               return "Please enter a password";
                             }
+                            return null;
                           }),
                           cursorColor: buttonColor,
                           decoration: InputDecoration(
-                            focusColor: buttonColor,
+                            focusColor: Colors.deepPurple,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -115,6 +138,8 @@ class ScreenSignUp extends StatelessWidget {
                         ),
                         height10,
                         TextFormField(
+                          obscureText: true,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupConfirmPasswordController,
                           validator: ((value) {
                             if (signupPasswordController.text !=
@@ -123,10 +148,15 @@ class ScreenSignUp extends StatelessWidget {
                             } else if (value!.isEmpty) {
                               return "Please fill the confirm password";
                             }
+                            return null;
                           }),
                           cursorColor: buttonColor,
                           decoration: InputDecoration(
-                            focusColor: buttonColor,
+                            focusColor: Colors.deepPurple,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -145,25 +175,44 @@ class ScreenSignUp extends StatelessWidget {
                     signUpUser(context);
                   }),
                   style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(const Size(100, 40)),
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                      ))),
-                  child: const Text("Sign Up"),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.purple),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                      ),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 70),
                 child: Row(
                   children: [
-                    const Text("Already have a account?"),
+                    const Text(
+                      "Already have a account?",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black45,
+                      ),
+                    ),
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: ((context) => ScreenSignIn())));
+                            MaterialPageRoute(
+                              builder: ((context) => ScreenSignIn()),
+                            ),
+                          );
                         },
                         child: const Text("Sign In"))
                   ],

@@ -13,5 +13,7 @@ SizedBox height30 = const SizedBox(
 Divider divider1 = const Divider(
   thickness: 1,
 );
-
+SizedBox width10 = const SizedBox(
+  width: 10,
+);
 

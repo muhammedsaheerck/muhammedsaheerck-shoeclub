@@ -7,12 +7,11 @@ import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import '../../presentation/login/screen_login.dart';
 
 class ForgotPassWord extends ChangeNotifier {
-  final forgotformKey = GlobalKey<FormState>();
   final forgotEmailCOntroller = TextEditingController();
   final forgotPasswordCOntroller = TextEditingController();
   final forgotConfirmPasswordCOntroller = TextEditingController();
 
-  Future<void> changePassword(BuildContext context) async {
+  Future<void> changePassword(context, key) async {
     log("message");
     try {
       if (forgotEmailCOntroller.text.isEmpty &&
@@ -23,7 +22,7 @@ class ForgotPassWord extends ChangeNotifier {
           const SnackBar(content: Text('Please fill all fields')),
         );
       } else {
-        if (forgotformKey.currentState!.validate()) {
+        if (key.currentState!.validate()) {
           final changePass = NewUser(
               email: forgotEmailCOntroller.text,
               password: forgotPasswordCOntroller.text);
@@ -32,11 +31,7 @@ class ForgotPassWord extends ChangeNotifier {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Password Changed Successfully')),
           );
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: ((context) => const ScreenSignIn()),
-            ),
-          );
+          Navigator.of(context).pop();
         }
       }
     } catch (e) {
