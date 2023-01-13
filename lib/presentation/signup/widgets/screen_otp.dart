@@ -92,7 +92,10 @@ class ScreenOtp extends StatelessWidget {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please fill the OTP';
+                  } else if (otpControlller.text.length != 4) {
+                    return 'Please enter your correct otp';
                   }
+                  return null;
                 },
               ),
             ),
@@ -154,7 +157,7 @@ class ScreenOtp extends StatelessWidget {
         )));
   }
 
-  Future verify(BuildContext context) async {
+  Future verify(context) async {
     try {
       final otp = OtpModal(otp: otpControlller.text, userid: email);
       await AuthApiCall.instance.verifyOtp(otp);
@@ -162,6 +165,7 @@ class ScreenOtp extends StatelessWidget {
       final newUserSignUp =
           NewUser(email: email, fullname: name, password: pass);
       log(newUserSignUp.toString());
+      log(newUserSignUp.id.toString());
       await AuthApiCall.instance.signUp(newUserSignUp);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('SignUp Successfully completed')),

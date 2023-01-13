@@ -2,9 +2,9 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
-import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
-import 'package:shoeclub/presentation/whishlist/screen_whishlist.dart';
+import 'package:shoeclub/presentation/wishlist/screen_wishlist.dart';
 
 import '../cart/screen_cart.dart';
 import '../settings/screen_settings.dart';

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoeclub/core/color.dart';
-import 'package:shoeclub/core/sizes.dart';
+import 'package:shoeclub/core/const_datas.dart';
 
 import '../checkout/screen_checkout.dart';
 

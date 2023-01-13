@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:shoeclub/core/sizes.dart';
+
 import 'package:shoeclub/presentation/checkout/screen_checkout.dart';
 
-import '../../core/color.dart';
+import '../../core/const_datas.dart';
 
 class ScreenPayment extends StatelessWidget {
   const ScreenPayment({super.key});

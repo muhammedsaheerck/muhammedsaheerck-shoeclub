@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
-import 'package:shoeclub/application/home/dropdown_filter_provider.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
-import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
+import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
 void main() {
@@ -26,10 +28,11 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: ((context) => BottomNavigationProvider())),
-        ChangeNotifierProvider(create: ((context) => DropdownFilterProvider())),
+        ChangeNotifierProvider(create: ((context) => HomeProvider())),
         ChangeNotifierProvider(create: ((context) => AddressProvider())),
         ChangeNotifierProvider(create: ((context) => ForgotPassWord())),
         ChangeNotifierProvider(create: ((context) => ProductProvider())),
+        ChangeNotifierProvider(create: ((context) => WhishListProvider())),
       ],
       builder: (context, child) {
         return MaterialApp(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
-
-import '../../core/sizes.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});

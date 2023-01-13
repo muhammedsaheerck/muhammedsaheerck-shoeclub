@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:shoeclub/application/address/address_provider.dart';
-import 'package:shoeclub/core/sizes.dart';
 import 'package:shoeclub/presentation/checkout/payment_details.dart';
 import 'package:shoeclub/presentation/checkout/screen_add_address.dart';
 
-import '../../core/color.dart';
+import '../../core/const_datas.dart';
 
 class ScreenCheckout extends StatelessWidget {
   const ScreenCheckout({super.key});

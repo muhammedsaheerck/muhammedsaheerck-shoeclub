@@ -2,8 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../application/home/dropdown_filter_provider.dart';
-import '../../../core/color.dart';
+import '../../../application/home/home_provider.dart';
+import '../../../core/const_datas.dart';
 
 class DropdownFilter extends StatelessWidget {
   const DropdownFilter({
@@ -12,7 +12,7 @@ class DropdownFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DropdownFilterProvider>(
+    return Consumer<HomeProvider>(
       builder: (context, valueProvider, child) => DropdownButtonHideUnderline(
         child: DropdownButton2(
           isExpanded: true,

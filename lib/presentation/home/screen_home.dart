@@ -3,14 +3,20 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoeclub/core/color.dart';
-import 'package:shoeclub/core/sizes.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
+import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
+import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/infrastructure/product/product_services.dart';
+import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
 import 'package:shoeclub/presentation/product_details/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
 import 'widgets/dropdownn_filter_widget.dart';
 
+ValueNotifier<List> wishlistnotifier = ValueNotifier([]);
 List aProductDetails = [];
 
 class ScreenHome extends StatelessWidget {
@@ -19,6 +25,13 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductApiCalls().getProducts();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      final user = sharedPreferences.getString("UserId");
+      log(user.toString());
+      WhishListProvider().userIdGet(user!);
+    });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -116,8 +129,8 @@ class ScreenHome extends StatelessWidget {
         height10,
         ValueListenableBuilder(
           valueListenable: productListNotifier,
-          builder: (context, value, child) => ListView.builder(
-              itemCount: value.length,
+          builder: (context, valueLi, child) => ListView.builder(
+              itemCount: valueLi.length,
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               itemBuilder: ((context, index) {
@@ -145,21 +158,21 @@ class ScreenHome extends StatelessWidget {
                             // width: double.infinity,
                             child: InkWell(
                               onTap: () {
-                                log(value[index].toString());
+                                log(valueLi[index].toString());
                                 aProductDetails.clear();
-                                aProductDetails.add(value[index]);
+                                aProductDetails.add(valueLi[index]);
                                 // log("name :===="+aProductDetails[0]["name"].toString());
                                 // log("asdas"+aProductDetails.toString());
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: ((context) {
-                                      return ScreenProductDetails();
+                                      return const ScreenProductDetails();
                                     }),
                                   ),
                                 );
                               },
                               child: Image.network(
-                                value[index]["image"][0], fit: BoxFit.fill,
+                                valueLi[index]["image"][0], fit: BoxFit.fill,
                                 // width: double.infinity,
                                 // height: MediaQuery.of(context).size.height * 0.2,
                               ),
@@ -180,7 +193,7 @@ class ScreenHome extends StatelessWidget {
                                     SizedBox(
                                       width: 120,
                                       child: Text(
-                                        value[index]["name"],
+                                        valueLi[index]["name"],
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 30,
@@ -188,19 +201,48 @@ class ScreenHome extends StatelessWidget {
                                             color: cardColorAlilceBlue),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: IconButton(
-                                        onPressed: (() {}),
-                                        icon: const Icon(
-                                          Icons.favorite,
-                                          color: Colors.white,
-                                        ),
+                                    Consumer<WhishListProvider>(
+                                      builder:
+                                          (context, valueProvider, child) =>
+                                              Expanded(
+                                        child: wishlistnotifier.value
+                                                .contains(valueLi[index])
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  valueProvider.addWhishList(
+                                                      true, index);
+                                                  WhishlistApiCalls()
+                                                      .addAndRemoveWishlist(
+                                                          valueProvider.userId,
+                                                          valueLi[index]
+                                                              ["_id"]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.red,
+                                                ))
+                                            : GestureDetector(
+                                                onTap: () {
+                                                  valueProvider.addWhishList(
+                                                      false, index);
+
+                                                  WhishlistApiCalls()
+                                                      .addAndRemoveWishlist(
+                                                          valueProvider.userId,
+                                                          valueLi[index]
+                                                              ["_id"]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                       ),
                                     )
                                   ],
                                 ),
                                 Text(
-                                  value[index]["description"],
+                                  valueLi[index]["description"],
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -214,7 +256,7 @@ class ScreenHome extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "₹ ${value[index]["price"].toString()}",
+                                      "₹ ${valueLi[index]["price"].toString()}",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,

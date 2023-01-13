@@ -2,9 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
-import 'package:shoeclub/core/color.dart';
-import 'package:shoeclub/core/sizes.dart';
-import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
+import 'package:shoeclub/core/const_datas.dart';
 
 import '../checkout/screen_checkout.dart';
 import '../home/screen_home.dart';

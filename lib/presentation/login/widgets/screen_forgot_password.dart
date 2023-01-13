@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
-import 'package:shoeclub/core/sizes.dart';
+
+import '../../../core/const_datas.dart';
 
 class ScreenForgotPassword extends StatelessWidget {
   ScreenForgotPassword({super.key});
@@ -48,10 +49,17 @@ class ScreenForgotPassword extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: valueProvider.forgotEmailCOntroller,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: ((value) {
-                          if (value!.isEmpty) {
-                            return "Please fill the Email field";
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your Emile";
+                          } else if (!RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                              .hasMatch(
+                                  valueProvider.forgotEmailCOntroller.text)) {
+                            return 'Incorrect email';
                           }
+                          return null;
                         }),
                         cursorColor: Colors.deepPurple,
                         decoration: InputDecoration(
@@ -69,11 +77,13 @@ class ScreenForgotPassword extends StatelessWidget {
                       ),
                       height20,
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: valueProvider.forgotPasswordCOntroller,
                         validator: ((value) {
                           if (value!.isEmpty) {
-                            return "Please fill the New password field";
+                            return "Please enter the New password";
                           }
+                          return null;
                         }),
                         cursorColor: Colors.deepPurple,
                         decoration: InputDecoration(
@@ -91,6 +101,7 @@ class ScreenForgotPassword extends StatelessWidget {
                       ),
                       height20,
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
                             valueProvider.forgotConfirmPasswordCOntroller,
                         validator: ((value) {
@@ -98,8 +109,9 @@ class ScreenForgotPassword extends StatelessWidget {
                               valueProvider.forgotPasswordCOntroller.text !=
                                   valueProvider
                                       .forgotConfirmPasswordCOntroller.text) {
-                            return "Please confirm the password field";
+                            return "Incorrect password ";
                           }
+                          return null;
                         }),
                         cursorColor: Colors.deepPurple,
                         decoration: InputDecoration(

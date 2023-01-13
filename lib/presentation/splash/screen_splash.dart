@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:shoeclub/core/color.dart';
+import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import 'widgets/text_ittaliana.dart';

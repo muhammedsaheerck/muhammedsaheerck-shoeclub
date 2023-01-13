@@ -32,6 +32,9 @@ class ForgotPassWord extends ChangeNotifier {
             const SnackBar(content: Text('Password Changed Successfully')),
           );
           Navigator.of(context).pop();
+          forgotConfirmPasswordCOntroller.clear();
+          forgotEmailCOntroller.clear();
+          forgotPasswordCOntroller.clear();
         }
       }
     } catch (e) {
