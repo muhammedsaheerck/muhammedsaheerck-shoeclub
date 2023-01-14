@@ -7,10 +7,10 @@ class WhishListProvider extends ChangeNotifier {
   void addWhishList(bool? click, int index) {
     if (click == true) {
       wishlistnotifier.value.remove(productListNotifier.value[index]);
-      notifyListeners();
+      wishlistnotifier.notifyListeners();
     } else {
       wishlistnotifier.value.add(productListNotifier.value[index]);
-      notifyListeners();
+      wishlistnotifier.notifyListeners();
     }
     notifyListeners();
   }

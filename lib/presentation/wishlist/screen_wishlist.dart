@@ -1,9 +1,10 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
@@ -13,7 +14,8 @@ class ScreenWhishlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WhishlistApiCalls().getWishlist();
+    // WhishlistApiCalls().getWishlist();
+    // log("wishlist"+wishlistnotifier.value.toString());
     return Scaffold(
       // backgroundColor: splashColorPlatinum,
       backgroundColor: test,
@@ -41,6 +43,7 @@ class ScreenWhishlist extends StatelessWidget {
       ),
 
       body: ValueListenableBuilder(
+
         valueListenable: wishlistnotifier,
         builder: (context, valueLis, child) => ListView.builder(
             itemCount: valueLis.length,
@@ -103,7 +106,7 @@ class ScreenWhishlist extends StatelessWidget {
                                           // WhishlistApiCalls()
                                           //     .addAndRemoveWishlist(
                                           //         value.userId,
-                                          //        valueLis[index]["_id"]);
+                                          //         valueLis[index]["_id"]);
                                         }),
                                         icon: const Icon(
                                           Icons.favorite,
@@ -115,7 +118,7 @@ class ScreenWhishlist extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                valueLis[index]["product"]["price"].toString(),
+                                "₹ ${valueLis[index]["product"]["price"].toString()}",
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,

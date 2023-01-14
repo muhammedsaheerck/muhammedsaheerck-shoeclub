@@ -86,6 +86,7 @@ class ScreenSignIn extends StatelessWidget {
                       ),
                       height10,
                       TextFormField(
+                        obscureText: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: signInPasswordCOntroller,
                         validator: ((value) {

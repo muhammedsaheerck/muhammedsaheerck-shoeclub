@@ -166,13 +166,14 @@ class ScreenOtp extends StatelessWidget {
           NewUser(email: email, fullname: name, password: pass);
       log(newUserSignUp.toString());
       log(newUserSignUp.id.toString());
-      await AuthApiCall.instance.signUp(newUserSignUp);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('SignUp Successfully completed')),
-      );
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: ((context) => ScreenSignIn())),
-          (route) => false);
+       AuthApiCall.instance.signUp(newUserSignUp, context);
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('SignUp Successfully completed')),
+      // );
+      // Navigator.of(context).pushAndRemoveUntil(
+      //     MaterialPageRoute(builder: ((context) => ScreenSignIn())),
+      //     (route) => false);
     } catch (e) {
       log(e.toString());
     }

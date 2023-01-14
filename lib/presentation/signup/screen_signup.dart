@@ -240,28 +240,32 @@ class ScreenSignUp extends StatelessWidget {
         return ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please add all fields')),
         );
-      } else {
-        Response? response = await AuthApiCall.instance.userAlreadySigned(
-          signupEmailController.text,
-        );
-        if (response!.statusCode == 200) {
-          return ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('User already exist, Change Your email')),
-          );
-        } else {
-          AuthApiCall().sendOtp(signupEmailController.text);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: ((context) => ScreenOtp(
-                    email: signupEmailController.text,
-                    pass: signupPasswordController.text,
-                    name: signupNameController.text,
-                  )),
-            ),
-          );
-        }
       }
+      // else {
+      //   Response? response = await AuthApiCall.instance.userAlreadySigned(
+      //     signupEmailController.text,
+      //   );
+      //   log(response!.data.toString());
+      //   log(response.statusCode.toString());
+      //   if (response.statusCode == 200) {
+      //     return ScaffoldMessenger.of(context).showSnackBar(
+      //       const SnackBar(
+      //           content: Text('User already exist, Change Your email')),
+      //     );
+      //   }
+      else {
+        AuthApiCall().sendOtp(signupEmailController.text);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: ((context) => ScreenOtp(
+                  email: signupEmailController.text,
+                  pass: signupPasswordController.text,
+                  name: signupNameController.text,
+                )),
+          ),
+        );
+      }
+      // }
     } catch (e) {
       log(e.toString());
     }

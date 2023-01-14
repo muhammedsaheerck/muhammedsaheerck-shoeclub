@@ -8,7 +8,9 @@ import 'package:shoeclub/core/url.dart';
 import 'package:shoeclub/domain/modal/otp_modal/otp_modal.dart';
 import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
+import 'package:shoeclub/presentation/signup/screen_signup.dart';
 
+import '../../presentation/login/screen_login.dart';
 import '../../presentation/signup/widgets/screen_otp.dart';
 import '../../presentation/widgets/bottom_navigation.dart';
 
@@ -27,14 +29,33 @@ class AuthApiCall {
   }
 //signup function
 
-  Future signUp(NewUser value) async {
+  Future signUp(NewUser value, context) async {
     log(value.toString());
     try {
       Response response =
           await dio.post(baseUrl + signUpUrl, data: value.toJson());
       log(response.statusCode.toString());
+      log(response.statusMessage.toString());
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('SignUp Successfully completed')),
+        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: ((context) => ScreenSignIn())),
+            (route) => false);
+      }
     } on DioError catch (e) {
-      log("dioerror $e");
+      log("dio staussa" + e.response!.statusMessage.toString());
+      log(e.message);
+      log(e.response.toString());
+      if (e.response!.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("user already exist")),
+        );
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: ((context) => ScreenSignUp())),
+            (route) => false);
+      }
     } catch (e) {
       log(e.toString());
     }
@@ -72,7 +93,7 @@ class AuthApiCall {
       Response response = await dio.post(baseUrl + logInUrl,
           data: {"email": value.email, "password": value.password});
       log(response.toString());
-      log(response.statusCode.toString());
+      log(response.statusMessage.toString());
 
       if (response.statusCode == 200) {
         SharedPreferences sharedPreferences =
@@ -88,11 +109,16 @@ class AuthApiCall {
           ),
         );
       }
-    } catch (e) {
+    } on DioError catch (e) {
+      int? statuscode = e.response!.statusCode;
+      log(statuscode.toString());
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid Password')),
+        SnackBar(
+            content: statuscode == 401
+                ? const Text("Invalid Email")
+                : const Text("Invalid Password")),
       );
-      log(e.toString());
+      // log(e.toString());
     }
   }
 
