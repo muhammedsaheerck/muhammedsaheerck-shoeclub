@@ -38,7 +38,15 @@ class AuthApiCall {
       log(response.statusMessage.toString());
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('SignUp Successfully completed')),
+          SnackBar(
+              behavior: SnackBarBehavior.floating,
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(style: BorderStyle.none),
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 1,
+              duration: const Duration(seconds: 1),
+              backgroundColor: Colors.green.shade400,
+              content: const Text('SignUp Successfully completed')),
         );
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: ((context) => ScreenSignIn())),
@@ -50,7 +58,15 @@ class AuthApiCall {
       log(e.response.toString());
       if (e.response!.statusCode == 400) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("user already exist")),
+          SnackBar(
+              behavior: SnackBarBehavior.floating,
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(style: BorderStyle.none),
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 1,
+              duration: const Duration(seconds: 1),
+              backgroundColor: Colors.red.shade400,
+              content: const Text("User already exist")),
         );
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: ((context) => ScreenSignUp())),
@@ -100,7 +116,15 @@ class AuthApiCall {
             await SharedPreferences.getInstance();
         sharedPreferences.setBool("isSignIn", true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('SignIn SuccessFull')),
+          SnackBar(
+              behavior: SnackBarBehavior.floating,
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(style: BorderStyle.none),
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 1,
+              duration: const Duration(seconds: 1),
+              backgroundColor: Colors.green.shade400,
+              content: const Text('SignIn successfully completed')),
         );
         userAlreadySigned(value.email!);
         Navigator.of(context).pushReplacement(
@@ -114,6 +138,13 @@ class AuthApiCall {
       log(statuscode.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: OutlineInputBorder(
+                borderSide: const BorderSide(style: BorderStyle.none),
+                borderRadius: BorderRadius.circular(10)),
+            elevation: 1,
+            duration: const Duration(seconds: 1),
+            backgroundColor: Colors.red.shade400,
             content: statuscode == 401
                 ? const Text("Invalid Email")
                 : const Text("Invalid Password")),

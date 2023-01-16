@@ -88,11 +88,13 @@ class ScreenOtp extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextFormField(
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
                 controller: otpControlller,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please fill the OTP';
-                  } else if (otpControlller.text.length != 4) {
+                  } else if (otpControlller.text.length < 4) {
                     return 'Please enter your correct otp';
                   }
                   return null;

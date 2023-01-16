@@ -211,9 +211,10 @@ class ScreenHome extends StatelessWidget {
                                                 onTap: () {
                                                   valueProvider.addWhishList(
                                                       true, index);
+                                                  log(valueProvider.toString());
                                                   WhishlistApiCalls()
                                                       .addAndRemoveWishlist(
-                                                          valueProvider.userId,
+                                                          userId,
                                                           valueLi[index]
                                                               ["_id"]);
                                                 },
@@ -228,7 +229,7 @@ class ScreenHome extends StatelessWidget {
 
                                                   WhishlistApiCalls()
                                                       .addAndRemoveWishlist(
-                                                          valueProvider.userId,
+                                                          userId,
                                                           valueLi[index]
                                                               ["_id"]);
                                                 },

@@ -196,7 +196,15 @@ class ScreenSignIn extends StatelessWidget {
     if (signInEmailCOntroller.text.isEmpty &&
         signInPasswordCOntroller.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please add all fields')),
+        SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: OutlineInputBorder(
+                borderSide: const BorderSide(style: BorderStyle.none),
+                borderRadius: BorderRadius.circular(10)),
+            elevation: 1,
+            duration: const Duration(seconds: 1),
+            backgroundColor: Colors.red.shade400,
+            content: const Text('Please add all fields')),
       );
     } else if (_formKey.currentState!.validate()) {
       try {

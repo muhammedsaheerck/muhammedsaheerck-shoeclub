@@ -1,20 +1,19 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
+
+import '../../infrastructure/whishlist/whishlist_services.dart';
 
 class ScreenWhishlist extends StatelessWidget {
   const ScreenWhishlist({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // WhishlistApiCalls().getWishlist();
+    WhishlistApiCalls().getWishlist(userId);
     // log("wishlist"+wishlistnotifier.value.toString());
     return Scaffold(
       // backgroundColor: splashColorPlatinum,
@@ -43,7 +42,6 @@ class ScreenWhishlist extends StatelessWidget {
       ),
 
       body: ValueListenableBuilder(
-
         valueListenable: wishlistnotifier,
         builder: (context, valueLis, child) => ListView.builder(
             itemCount: valueLis.length,

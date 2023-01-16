@@ -17,6 +17,7 @@ class WhishlistApiCalls {
   }
 
   Future<void> addAndRemoveWishlist(dynamic userid, dynamic product) async {
+    log(userid.toString());
     try {
       Response response = await dio.post(baseUrl + whishListUrl,
           data: {"userId": userid, "product": product});
@@ -27,9 +28,10 @@ class WhishlistApiCalls {
     }
   }
 
-  Future<void> getWishlist() async {
+  Future getWishlist(String? userId) async {
     try {
-      Response response = await dio.get(baseUrl + whishListUrl);
+      Response response =
+          await dio.get("${baseUrl + whishListUrl}?userId=$userId");
       log(response.data);
       if (response.statusCode == 200) {
         final getData = Product.fromJson(jsonDecode(response.data));

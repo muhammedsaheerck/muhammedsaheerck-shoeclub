@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/const_datas.dart';
@@ -238,7 +237,15 @@ class ScreenSignUp extends StatelessWidget {
           signupPasswordController.text !=
               signupConfirmPasswordController.text) {
         return ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please add all fields')),
+          SnackBar(
+              behavior: SnackBarBehavior.floating,
+              shape: OutlineInputBorder(
+                  borderSide: const BorderSide(style: BorderStyle.none),
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 1,
+              duration: const Duration(seconds: 1),
+              backgroundColor: Colors.red.shade400,
+              content: const Text('Please add all fields')),
         );
       }
       // else {
