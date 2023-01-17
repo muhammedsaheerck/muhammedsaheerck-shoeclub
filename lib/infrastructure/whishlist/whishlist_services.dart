@@ -40,9 +40,12 @@ class WhishlistApiCalls {
         wishlistnotifier.notifyListeners();
         log(wishlistnotifier.value[0].toString());
         log(wishlistnotifier.value[0]["product"]["image"][0].toString());
+
+       
       }
     } catch (e) {
       log(e.toString());
     }
   }
+
 }

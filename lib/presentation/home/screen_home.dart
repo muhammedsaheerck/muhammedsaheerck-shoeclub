@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/application/home/home_provider.dart';
+
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 
@@ -18,6 +18,7 @@ import 'widgets/dropdownn_filter_widget.dart';
 
 ValueNotifier<List> wishlistnotifier = ValueNotifier([]);
 List aProductDetails = [];
+List valueFound = [];
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -25,6 +26,7 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductApiCalls().getProducts();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -130,10 +132,14 @@ class ScreenHome extends StatelessWidget {
         ValueListenableBuilder(
           valueListenable: productListNotifier,
           builder: (context, valueLi, child) => ListView.builder(
-              itemCount: valueLi.length,
+              itemCount: valueFound.length,
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               itemBuilder: ((context, index) {
+                final value = valueFound[index];
+                log("valueee" + value.toString());
+                // log("================" + valueFound.toString());
+                log(value["image"][0].toString());
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
@@ -158,9 +164,9 @@ class ScreenHome extends StatelessWidget {
                             // width: double.infinity,
                             child: InkWell(
                               onTap: () {
-                                log(valueLi[index].toString());
+                                log(value[index].toString());
                                 aProductDetails.clear();
-                                aProductDetails.add(valueLi[index]);
+                                aProductDetails.add(value);
                                 // log("name :===="+aProductDetails[0]["name"].toString());
                                 // log("asdas"+aProductDetails.toString());
                                 Navigator.of(context).push(
@@ -172,7 +178,8 @@ class ScreenHome extends StatelessWidget {
                                 );
                               },
                               child: Image.network(
-                                valueLi[index]["image"][0], fit: BoxFit.fill,
+                                value["image"][0], fit: BoxFit.fill,
+
                                 // width: double.infinity,
                                 // height: MediaQuery.of(context).size.height * 0.2,
                               ),
@@ -193,7 +200,7 @@ class ScreenHome extends StatelessWidget {
                                     SizedBox(
                                       width: 120,
                                       child: Text(
-                                        valueLi[index]["name"],
+                                        value["name"],
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 30,
@@ -206,7 +213,7 @@ class ScreenHome extends StatelessWidget {
                                           (context, valueProvider, child) =>
                                               Expanded(
                                         child: wishlistnotifier.value
-                                                .contains(valueLi[index])
+                                                .contains(value[index])
                                             ? GestureDetector(
                                                 onTap: () {
                                                   valueProvider.addWhishList(
@@ -214,9 +221,7 @@ class ScreenHome extends StatelessWidget {
                                                   log(valueProvider.toString());
                                                   WhishlistApiCalls()
                                                       .addAndRemoveWishlist(
-                                                          userId,
-                                                          valueLi[index]
-                                                              ["_id"]);
+                                                          userId, value["_id"]);
                                                 },
                                                 child: const Icon(
                                                   Icons.favorite,
@@ -229,9 +234,7 @@ class ScreenHome extends StatelessWidget {
 
                                                   WhishlistApiCalls()
                                                       .addAndRemoveWishlist(
-                                                          userId,
-                                                          valueLi[index]
-                                                              ["_id"]);
+                                                          userId, value["_id"]);
                                                 },
                                                 child: const Icon(
                                                   Icons.favorite,
@@ -243,7 +246,7 @@ class ScreenHome extends StatelessWidget {
                                   ],
                                 ),
                                 Text(
-                                  valueLi[index]["description"],
+                                  value["description"],
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -257,7 +260,7 @@ class ScreenHome extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "₹ ${valueLi[index]["price"].toString()}",
+                                      "₹ ${value["price"].toString()}",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500,
