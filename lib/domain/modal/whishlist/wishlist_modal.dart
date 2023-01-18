@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
+import 'package:shoeclub/domain/modal/product/product_modal.dart';
 
 WishlistModal? welcomeFromJson(String str) =>
     WishlistModal.fromJson(json.decode(str));

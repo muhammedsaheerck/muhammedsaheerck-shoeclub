@@ -122,7 +122,7 @@ class ScreenWhishlist extends StatelessWidget {
                                         ),
                                       ),
                                       Expanded(
-                                        child: Consumer<HomeProvider>(
+                                        child: Consumer<WhishListProvider>(
                                           builder: (context, value, child) =>
                                               IconButton(
                                             onPressed: (() async {

@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/core/url.dart';
-import 'package:shoeclub/domain/modal/otp_modal/otp_modal.dart';
-import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
+import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
+import 'package:shoeclub/domain/modal/user/new_user.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
 

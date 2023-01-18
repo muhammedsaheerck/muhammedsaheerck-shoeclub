@@ -1,6 +1,9 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
+import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
+
+import '../domain/modal/product/product_modal.dart';
 
 //colors
 Color buttonColor = const Color.fromRGBO(18, 27, 40, 1);
@@ -8,7 +11,7 @@ Color splashColorPlatinum = Color.fromARGB(255, 251, 248, 248);
 Color cardColorAlilceBluedark = const Color.fromARGB(255, 200, 199, 199);
 Color cardColorAlilceBlue = const Color.fromARGB(255, 234, 232, 232);
 Color backgroundColor = Color.fromARGB(255, 203, 219, 238);
-Color buttonColor2 = const Color.fromRGBO(237, 91, 78, 1);
+Color buttonColor2 = Colors.deepPurple.shade100;
 
 Color test = const Color.fromARGB(255, 241, 239, 247);
 
@@ -24,6 +27,9 @@ ButtonStyle buttonStyle = ButtonStyle(
 );
 
 //sizes
+SizedBox height5 = const SizedBox(
+  height: 5,
+);
 
 SizedBox height10 = const SizedBox(
   height: 10,
@@ -44,3 +50,10 @@ SizedBox width10 = const SizedBox(
 //key
 const userKey = "UserId";
 String? userId;
+
+//valuenotifiers
+ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
+ValueNotifier<int> totalPrice = ValueNotifier(0);
+
+//athors
+

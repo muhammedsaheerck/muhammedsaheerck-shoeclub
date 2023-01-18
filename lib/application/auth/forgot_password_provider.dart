@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:shoeclub/domain/modal/user_modal/new_user.dart';
+import 'package:shoeclub/domain/modal/user/new_user.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 
 import '../../presentation/login/screen_login.dart';

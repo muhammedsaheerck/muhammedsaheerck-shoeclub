@@ -1,13 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
+import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
+import 'package:shoeclub/domain/modal/product/product_modal.dart';
 
+import '../../infrastructure/cart/cart_services.dart';
 import '../checkout/screen_checkout.dart';
-import '../home/screen_home.dart';
 
 class ScreenProductDetails extends StatelessWidget {
   Product product;
@@ -33,7 +35,7 @@ class ScreenProductDetails extends StatelessWidget {
             ),
           ),
           actions: [
-            Consumer<HomeProvider>(
+            Consumer<WhishListProvider>(
               builder: (context, valueProvider, child) => IconButton(
                 onPressed: () {
                   valueProvider.addTOWishlist(userId!, product.id!, context);
@@ -45,7 +47,7 @@ class ScreenProductDetails extends StatelessWidget {
                       )
                     : const Icon(
                         Icons.favorite_border,
-                        color:Colors.black ,
+                        color: Colors.black,
                       ),
               ),
             )
@@ -113,18 +115,23 @@ class ScreenProductDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   CircleAvstharSizeWidget(
+                    size: "6",
                     text: '6',
                   ),
                   CircleAvstharSizeWidget(
+                    size: "7",
                     text: '7',
                   ),
                   CircleAvstharSizeWidget(
+                    size: "8",
                     text: '8',
                   ),
                   CircleAvstharSizeWidget(
+                    size: "9",
                     text: '9',
                   ),
                   CircleAvstharSizeWidget(
+                    size: "10",
                     text: '10',
                   ),
                 ],
@@ -136,7 +143,10 @@ class ScreenProductDetails extends StatelessWidget {
                     // ElevatedButton.styleFrom(
                     //     elevation: 1,
                     //     backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
-                    onPressed: (() {}),
+                    onPressed: (() {
+                      CartApiCalls().addToCart(
+                          product, 2, AProductProvider().selectedSize);
+                    }),
                     child: const Text("ADD TO BAG")),
               ),
               // height10,
@@ -191,7 +201,9 @@ class ImageChange extends StatelessWidget {
 
 class CircleAvstharSizeWidget extends StatelessWidget {
   final String text;
-  const CircleAvstharSizeWidget({Key? key, required this.text})
+  final String size;
+  const CircleAvstharSizeWidget(
+      {Key? key, required this.text, required this.size})
       : super(key: key);
 
   @override
@@ -199,12 +211,16 @@ class CircleAvstharSizeWidget extends StatelessWidget {
     return CircleAvatar(
       foregroundColor: Colors.black,
       radius: 25,
-      child: TextButton(
-          onPressed: (() {}),
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-          )),
+      child: Consumer<AProductProvider>(
+        builder: (context, valueProvider, child) => TextButton(
+            onPressed: (() {
+              valueProvider.selectSize(size);
+            }),
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+            )),
+      ),
     );
   }
 }

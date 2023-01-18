@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
+import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: ((context) => ForgotPassWord())),
         ChangeNotifierProvider(create: ((context) => ProductProvider())),
         ChangeNotifierProvider(create: ((context) => WhishListProvider())),
+        ChangeNotifierProvider(create: ((context) => AProductProvider())),
+        ChangeNotifierProvider(create: ((context) => CartProvider())),
       ],
       builder: (context, child) {
         return MaterialApp(

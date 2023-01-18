@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:shoeclub/domain/modal/otp_modal/otp_modal.dart';
+import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 
-import '../../../domain/modal/user_modal/new_user.dart';
+import '../../../domain/modal/user/new_user.dart';
 
 class ScreenOtp extends StatelessWidget {
   final String email;

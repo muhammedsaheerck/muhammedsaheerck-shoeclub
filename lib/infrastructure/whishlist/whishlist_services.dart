@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
 import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
 
 import 'package:shoeclub/presentation/home/screen_home.dart';
@@ -28,6 +27,7 @@ class WhishlistApiCalls {
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
   Future getWishlist(String? userId) async {

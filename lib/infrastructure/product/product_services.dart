@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/core/url.dart';
-import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
+import 'package:shoeclub/domain/modal/product/product_modal.dart';
 
 ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
 

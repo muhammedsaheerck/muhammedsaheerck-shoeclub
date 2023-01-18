@@ -6,18 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
+import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
+import 'package:shoeclub/infrastructure/cart/cart_services.dart';
 
 import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
 import 'package:shoeclub/presentation/product_details/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
-import '../../domain/modal/product_modal/product_modal.dart';
+import '../../domain/modal/product/product_modal.dart';
 import 'widgets/dropdownn_filter_widget.dart';
 
 ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
@@ -354,7 +357,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                               color: cardColorAlilceBlue),
                                         ),
                                       ),
-                                      Consumer<HomeProvider>(
+                                      Consumer<WhishListProvider>(
                                         builder:
                                             (context, valueProvider, child) =>
                                                 Expanded(
@@ -382,7 +385,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                   ),
                                   Text(
                                     value.description!,
-                                    maxLines: 2,
+                                    maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 15,
@@ -401,29 +404,21 @@ class _ScreenHomeState extends State<ScreenHome> {
                                             fontWeight: FontWeight.w500,
                                             color: cardColorAlilceBlue),
                                       ),
-                                      // SizedBox(
-                                      //   height: 30,
-                                      //   child: ElevatedButton(
-                                      //     style: ElevatedButton.styleFrom(
-                                      //       padding: const EdgeInsets.only(
-                                      //           left: 5, right: 5),
-                                      //       elevation: 1,
-                                      //       backgroundColor:
-                                      //           Colors.amber.shade600,
-                                      //     ),
-                                      //     onPressed: (() {}),
-                                      //     child: Text(
-                                      //       "MOVE TO BAG",
-                                      //       style: TextStyle(
-                                      //           color: buttonColor),
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      IconButton(
-                                        onPressed: (() {}),
-                                        icon: const Icon(
-                                          Icons.shopping_bag,
-                                          color: Colors.white,
+                                      Consumer<CartProvider>(
+                                        builder:
+                                            (context, valueProvider, child) =>
+                                                GestureDetector(
+                                          onTap: () {
+                                            valueProvider.addToCart(
+                                              value,
+                                              AProductProvider().selectedSize,
+                                              context,
+                                            );
+                                          },
+                                          child: const Icon(
+                                            Icons.shopping_bag,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       )
                                     ],

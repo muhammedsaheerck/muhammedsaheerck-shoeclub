@@ -8,3 +8,4 @@ String forgotPasswordUrl = '/auth/password';
 String logOutUrl = '/auth/logout';
 String userAlreadyUrl = '/users/';
 String whishListUrl = '/wishlist';
+String cartUrl = "/cart";

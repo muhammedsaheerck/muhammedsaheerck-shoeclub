@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/login/widgets/screen_forgot_password.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
-import '../../domain/modal/user_modal/new_user.dart';
+import '../../domain/modal/user/new_user.dart';
 import '../../infrastructure/auth/auth_services.dart';
 
 class ScreenSignIn extends StatelessWidget {
