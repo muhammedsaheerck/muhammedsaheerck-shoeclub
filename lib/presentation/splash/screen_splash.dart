@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
+import '../../infrastructure/product/product_services.dart';
 import 'widgets/text_ittaliana.dart';
 
 class ScreenSplash extends StatefulWidget {
@@ -19,10 +21,11 @@ class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
     alreadySigned();
+
     super.initState();
   }
 
-  bool? isSignedIn = false;
+  bool isSignedIn = false;
   Future alreadySigned() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     var obtainedUser = preferences.getBool("isSignIn");

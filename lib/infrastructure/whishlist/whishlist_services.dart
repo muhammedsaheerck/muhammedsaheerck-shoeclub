@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
+import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
 
 import 'package:shoeclub/presentation/home/screen_home.dart';
 
@@ -16,13 +17,14 @@ class WhishlistApiCalls {
         BaseOptions(baseUrl: baseUrl, responseType: ResponseType.plain);
   }
 
-  Future<void> addAndRemoveWishlist(dynamic userid, dynamic product) async {
-    log(userid.toString());
+  Future<Response?> addAndRemoveWishlist(String id, String productId) async {
+    log(productId.toString());
     try {
       Response response = await dio.post(baseUrl + whishListUrl,
-          data: {"userId": userid, "product": product});
+          data: {"userId": id, "product": productId});
       log(response.statusCode.toString());
       log(response.toString());
+      return response;
     } catch (e) {
       log(e.toString());
     }
@@ -32,20 +34,19 @@ class WhishlistApiCalls {
     try {
       Response response =
           await dio.get("${baseUrl + whishListUrl}?userId=$userId");
+      Map<String, dynamic> data = await json.decode(response.data);
       log(response.data);
       if (response.statusCode == 200) {
-        final getData = Product.fromJson(jsonDecode(response.data));
+        final getData = WishlistModal.fromJson(data);
         wishlistnotifier.value.clear();
-        wishlistnotifier.value.addAll(getData.products.reversed);
+        wishlistnotifier.value.addAll(getData.products!.reversed);
         wishlistnotifier.notifyListeners();
-        log(wishlistnotifier.value[0].toString());
-        log(wishlistnotifier.value[0]["product"]["image"][0].toString());
-
-       
+        log(getData.products.toString());
+        log("wish" + wishlistnotifier.value.toString());
+        // log(wishlistnotifier.value[0]["product"]["image"][0].toString());
       }
     } catch (e) {
       log(e.toString());
     }
   }
-
 }

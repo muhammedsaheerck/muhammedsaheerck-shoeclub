@@ -1,14 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
 
 import '../checkout/screen_checkout.dart';
 import '../home/screen_home.dart';
 
 class ScreenProductDetails extends StatelessWidget {
-  const ScreenProductDetails({super.key});
+  Product product;
+  ScreenProductDetails({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,22 @@ class ScreenProductDetails extends StatelessWidget {
             ),
           ),
           actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  size: 30,
-                ))
+            Consumer<HomeProvider>(
+              builder: (context, valueProvider, child) => IconButton(
+                onPressed: () {
+                  valueProvider.addTOWishlist(userId!, product.id!, context);
+                },
+                icon: valueProvider.searchIdForWishlist(product) == true
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                        color:Colors.black ,
+                      ),
+              ),
+            )
           ],
         ),
         body: Padding(
@@ -48,7 +61,7 @@ class ScreenProductDetails extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: Consumer<ProductProvider>(
                   builder: (context, value, child) => Image.network(
-                    aProductDetails[0]["image"][value.selectedValue],
+                    product.image![value.selectedValue]!,
                     fit: BoxFit.fitHeight,
                   ),
                 ),
@@ -57,13 +70,14 @@ class ScreenProductDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ImageChange(index: 0),
+                  ImageChange(index: 0, product: product),
                   width10,
                   ImageChange(
+                    product: product,
                     index: 1,
                   ),
                   width10,
-                  ImageChange(index: 2),
+                  ImageChange(index: 2, product: product),
                 ],
               ),
               height30,
@@ -71,11 +85,11 @@ class ScreenProductDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    aProductDetails[0]["name"],
+                    product.name!,
                     style: const TextStyle(
                         fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  Text("₹ ${aProductDetails[0]["price"].toString()}",
+                  Text("₹ ${product.price.toString()}",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500)),
                 ],
@@ -87,7 +101,7 @@ class ScreenProductDetails extends StatelessWidget {
               ),
               height10,
               Text(
-                aProductDetails[0]["description"],
+                product.description!,
               ),
               height20,
               const Text(
@@ -145,7 +159,9 @@ class ScreenProductDetails extends StatelessWidget {
 
 class ImageChange extends StatelessWidget {
   int index;
-  ImageChange({Key? key, required this.index}) : super(key: key);
+  Product product;
+  ImageChange({Key? key, required this.index, required this.product})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +180,7 @@ class ImageChange extends StatelessWidget {
               borderRadius: BorderRadius.circular(10)),
           width: MediaQuery.of(context).size.width * 0.13,
           child: Image.network(
-            aProductDetails[0]["image"][index],
+            product.image![index]!,
             fit: BoxFit.fill,
           ),
         ),

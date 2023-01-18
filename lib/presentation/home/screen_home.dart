@@ -1,27 +1,45 @@
 import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
 
 import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
 import 'package:shoeclub/presentation/product_details/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
+import '../../domain/modal/product_modal/product_modal.dart';
 import 'widgets/dropdownn_filter_widget.dart';
 
-ValueNotifier<List> wishlistnotifier = ValueNotifier([]);
+ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
 List aProductDetails = [];
-List valueFound = [];
 
-class ScreenHome extends StatelessWidget {
+class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key});
+
+  @override
+  State<ScreenHome> createState() => _ScreenHomeState();
+}
+
+class _ScreenHomeState extends State<ScreenHome> {
+  List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
+
+  String dropdownValue = "All";
+  @override
+  void initState() {
+    valueFound.value = productListNotifier.value;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +104,129 @@ class ScreenHome extends StatelessWidget {
                   color: Colors.deepPurple,
                   borderRadius: BorderRadius.circular(10)),
               width: MediaQuery.of(context).size.width * 0.13,
-              child: const DropdownFilter(),
+              child:
+                  // const DropdownFilter(),
+                  Consumer<HomeProvider>(
+                builder: (context, valueProvider, child) =>
+                    DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    isExpanded: true,
+                    customButton: const Icon(
+                      Icons.sort,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+
+                    items: filter
+                        .map<DropdownMenuItem<String>>(
+                            (String value) => DropdownMenuItem(
+                                  value: value,
+                                  onTap: () {
+                                    if (value == "All") {
+                                      valueFound.value =
+                                          productListNotifier.value;
+                                      log("casualaaa" + valueFound.toString());
+                                    } else if (value == "Casual") {
+                                      valueFound.value =
+                                          productCasualListNotifier.value;
+                                      log("+++++++++" + valueFound.toString());
+                                    } else if (value == "Formal") {
+                                      valueFound.value =
+                                          productFormalListNotifier.value;
+                                    } else {
+                                      valueFound.value =
+                                          productSportsListNotifier.value;
+                                    }
+                                    // valueProvider.dropdownShowProducts(value);
+                                  },
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ))
+                        .toList(),
+                    //     const [
+                    //   DropdownMenuItem(
+                    //     value: 0,
+                    //     child: Text(
+                    //       "All",
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   DropdownMenuItem(
+                    //     value: 1,
+                    //     child: Text(
+                    //       "Casual",
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   DropdownMenuItem(
+                    //     value: 2,
+                    //     child: Text(
+                    //       "Formal",
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   DropdownMenuItem(
+                    //     value: 3,
+                    //     child: Text(
+                    //       "Sports",
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.bold,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   )
+                    // ],
+
+                    value: dropdownValue,
+                    // HomeProvider().selectedValue,
+
+                    onChanged: (String? value) {
+                      // valueProvider.dropdownFilter(value!);
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                    dropdownDirection: DropdownDirection.right,
+                    itemHeight: 40,
+                    style: TextStyle(color: buttonColor),
+                    itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                    dropdownMaxHeight: 200,
+                    dropdownWidth: 150,
+                    dropdownPadding: null,
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomLeft: Radius.circular(15)),
+                      color: buttonColor,
+                    ),
+                    dropdownElevation: 8,
+                    scrollbarRadius: const Radius.circular(40),
+                    scrollbarThickness: 6,
+                    scrollbarAlwaysShow: true,
+                    // offset: const Offset(-20, 0),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -129,179 +269,175 @@ class ScreenHome extends StatelessWidget {
           ),
         ),
         height10,
-        ValueListenableBuilder(
-          valueListenable: productListNotifier,
-          builder: (context, valueLi, child) => ListView.builder(
-              itemCount: valueFound.length,
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              itemBuilder: ((context, index) {
-                final value = valueFound[index];
-                log("valueee" + value.toString());
-                // log("================" + valueFound.toString());
-                log(value["image"][0].toString());
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    // color: cardColorAlilceBlue,
-                    color: Colors.black87,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                            ),
-                            width: MediaQuery.of(context).size.width / 2.5,
-                            height: MediaQuery.of(context).size.height / 6,
-                            // width: double.infinity,
-                            child: InkWell(
-                              onTap: () {
-                                log(value[index].toString());
-                                aProductDetails.clear();
-                                aProductDetails.add(value);
-                                // log("name :===="+aProductDetails[0]["name"].toString());
-                                // log("asdas"+aProductDetails.toString());
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: ((context) {
-                                      return const ScreenProductDetails();
-                                    }),
-                                  ),
-                                );
-                              },
-                              child: Image.network(
-                                value["image"][0], fit: BoxFit.fill,
+        Consumer<HomeProvider>(
+          builder: (context, valueprovider, child) => ValueListenableBuilder(
+            valueListenable: valueFound,
+            builder: (context, valueLi, child) => ListView.builder(
+                itemCount: valueFound.value.length,
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemBuilder: ((context, index) {
+                  final value = valueFound.value[index];
+                  log("valueee" + value.toString());
+                  // log("================" + valueFound.toString());
+                  // log(value["image"][0].toString());
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      // color: cardColorAlilceBlue,
+                      color: Colors.black87,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              width: MediaQuery.of(context).size.width / 2.5,
+                              height: MediaQuery.of(context).size.height / 6,
+                              // width: double.infinity,
+                              child: InkWell(
+                                onTap: () {
+                                  // log(value[index].toString());
+                                  // aProductDetails.clear();
+                                  // aProductDetails.add(value);
+                                  // log("name :===="+aProductDetails[0]["name"].toString());
+                                  // log("asdas"+aProductDetails.toString());
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: ((context) {
+                                        return ScreenProductDetails(
+                                          product: value,
+                                        );
+                                      }),
+                                    ),
+                                  );
+                                },
+                                child: Image.network(
+                                  // value["image"][0]
+                                  value!.image!.first!,
+                                  fit: BoxFit.fill,
 
-                                // width: double.infinity,
-                                // height: MediaQuery.of(context).size.height * 0.2,
+                                  // width: double.infinity,
+                                  // height: MediaQuery.of(context).size.height * 0.2,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 120,
-                                      child: Text(
-                                        value["name"],
-                                        overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 120,
+                                        child: Text(
+                                          value.name!,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w500,
+                                              color: cardColorAlilceBlue),
+                                        ),
+                                      ),
+                                      Consumer<HomeProvider>(
+                                        builder:
+                                            (context, valueProvider, child) =>
+                                                Expanded(
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              await valueProvider.addTOWishlist(
+                                                  userId!, value.id!, context);
+                                            },
+                                            child: valueProvider
+                                                        .searchIdForWishlist(
+                                                            value) ==
+                                                    true
+                                                ? const Icon(
+                                                    Icons.favorite,
+                                                    color: Colors.red,
+                                                  )
+                                                : const Icon(
+                                                    Icons.favorite,
+                                                    color: Colors.white,
+                                                  ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    value.description!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: cardColorAlilceBlue),
+                                  ),
+                                  // height10,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "₹ ${value.price.toString()}",
                                         style: TextStyle(
-                                            fontSize: 30,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.w500,
                                             color: cardColorAlilceBlue),
                                       ),
-                                    ),
-                                    Consumer<WhishListProvider>(
-                                      builder:
-                                          (context, valueProvider, child) =>
-                                              Expanded(
-                                        child: wishlistnotifier.value
-                                                .contains(value[index])
-                                            ? GestureDetector(
-                                                onTap: () {
-                                                  valueProvider.addWhishList(
-                                                      true, index);
-                                                  log(valueProvider.toString());
-                                                  WhishlistApiCalls()
-                                                      .addAndRemoveWishlist(
-                                                          userId, value["_id"]);
-                                                },
-                                                child: const Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.red,
-                                                ))
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  valueProvider.addWhishList(
-                                                      false, index);
-
-                                                  WhishlistApiCalls()
-                                                      .addAndRemoveWishlist(
-                                                          userId, value["_id"]);
-                                                },
-                                                child: const Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Text(
-                                  value["description"],
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: cardColorAlilceBlue),
-                                ),
-                                // height10,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "₹ ${value["price"].toString()}",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: cardColorAlilceBlue),
-                                    ),
-                                    // SizedBox(
-                                    //   height: 30,
-                                    //   child: ElevatedButton(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       padding: const EdgeInsets.only(
-                                    //           left: 5, right: 5),
-                                    //       elevation: 1,
-                                    //       backgroundColor:
-                                    //           Colors.amber.shade600,
-                                    //     ),
-                                    //     onPressed: (() {}),
-                                    //     child: Text(
-                                    //       "MOVE TO BAG",
-                                    //       style: TextStyle(
-                                    //           color: buttonColor),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    IconButton(
-                                      onPressed: (() {}),
-                                      icon: const Icon(
-                                        Icons.shopping_bag,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      // SizedBox(
+                                      //   height: 30,
+                                      //   child: ElevatedButton(
+                                      //     style: ElevatedButton.styleFrom(
+                                      //       padding: const EdgeInsets.only(
+                                      //           left: 5, right: 5),
+                                      //       elevation: 1,
+                                      //       backgroundColor:
+                                      //           Colors.amber.shade600,
+                                      //     ),
+                                      //     onPressed: (() {}),
+                                      //     child: Text(
+                                      //       "MOVE TO BAG",
+                                      //       style: TextStyle(
+                                      //           color: buttonColor),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      IconButton(
+                                        onPressed: (() {}),
+                                        icon: const Icon(
+                                          Icons.shopping_bag,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              })),
+                  );
+                })),
+          ),
         )
       ]),
     );

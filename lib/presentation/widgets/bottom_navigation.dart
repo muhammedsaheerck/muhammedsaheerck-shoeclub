@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/wishlist/screen_wishlist.dart';
 
@@ -21,6 +22,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Consumer<BottomNavigationProvider>(
       builder: (context, value, child) => Scaffold(
         body: tabItems[value.selectedIndex],

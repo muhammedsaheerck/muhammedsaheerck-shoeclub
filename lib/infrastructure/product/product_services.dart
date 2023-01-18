@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:shoeclub/core/url.dart';
 import 'package:shoeclub/domain/modal/product_modal/product_modal.dart';
 
-ValueNotifier<List<dynamic>> productListNotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
 
-ValueNotifier<List<dynamic>> productCasualListNotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> productCasualListNotifier = ValueNotifier([]);
 
-ValueNotifier<List<dynamic>> productFormalListNotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> productFormalListNotifier = ValueNotifier([]);
 
-ValueNotifier<List<dynamic>> productSportsListNotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> productSportsListNotifier = ValueNotifier([]);
 
 class ProductApiCalls {
   final dio = Dio();
@@ -25,11 +25,12 @@ class ProductApiCalls {
   Future getProducts() async {
     try {
       Response response = await dio.get(baseUrl + productUrl);
+      Map<String, dynamic> data = await json.decode(response.data);
       log(response.data);
       if (response.statusCode == 200) {
-        final getData = Product.fromJson(jsonDecode(response.data));
+        final getData = ProductModal.fromJson(data);
         productListNotifier.value.clear();
-        productListNotifier.value.addAll(getData.products.reversed);
+        productListNotifier.value.addAll(getData.products!.reversed);
         productListNotifier.notifyListeners();
         log(productListNotifier.value.toString());
         productCasualListNotifier.value.clear();
@@ -37,11 +38,11 @@ class ProductApiCalls {
         productSportsListNotifier.value.clear();
         for (var i = 0; i < productListNotifier.value.length; i++) {
           //Category casual
-          if (productListNotifier.value[i]["category"] == "1") {
+          if (productListNotifier.value[i]!.category == "1") {
             productCasualListNotifier.value.add(productListNotifier.value[i]);
             productCasualListNotifier.notifyListeners();
-            log("casual"+productCasualListNotifier.value.toString());
-          } else if (productListNotifier.value[i]["category"] == "2") {
+            log("casual" + productCasualListNotifier.value.toString());
+          } else if (productListNotifier.value[i]!.category == "2") {
             //category Formal
             productFormalListNotifier.value.add(productListNotifier.value[i]);
             productFormalListNotifier.notifyListeners();
@@ -51,7 +52,6 @@ class ProductApiCalls {
           }
         }
         return;
-        log("-------------------" + productCasualListNotifier.value.toString());
       }
     } catch (e) {
       log(e.toString());
