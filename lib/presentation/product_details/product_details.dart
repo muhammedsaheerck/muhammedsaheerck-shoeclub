@@ -2,11 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
+import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
+import 'package:shoeclub/presentation/cart/screen_cart.dart';
 
 import '../../infrastructure/cart/cart_services.dart';
 import '../checkout/screen_checkout.dart';
@@ -138,16 +140,26 @@ class ScreenProductDetails extends StatelessWidget {
               ),
               height30,
               SizedBox(
-                child: ElevatedButton(
-                    style: buttonStyle,
-                    // ElevatedButton.styleFrom(
-                    //     elevation: 1,
-                    //     backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
-                    onPressed: (() {
-                      CartApiCalls().addToCart(
-                          product, 2, AProductProvider().selectedSize);
-                    }),
-                    child: const Text("ADD TO BAG")),
+                child: Consumer<CartProvider>(
+                  builder: (context, valueProvider, child) => ElevatedButton(
+                      style: buttonStyle,
+                      // ElevatedButton.styleFrom(
+                      //     elevation: 1,
+                      //     backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
+                      onPressed: (() {
+                        valueProvider.addToCart(
+                          product,
+                          AProductProvider().selectedSize,
+                          context,
+                        );
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: ((context) => const ScreenCart()),
+                          ),
+                        );
+                      }),
+                      child: const Text("ADD TO BAG")),
+                ),
               ),
               // height10,
               SizedBox(

@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/infrastructure/cart/cart_services.dart';
 
 class CartProvider extends ChangeNotifier {
   int totalPrice = 0;
+
   Future addToCart(
     Product product,
     String size,
@@ -40,6 +43,7 @@ class CartProvider extends ChangeNotifier {
   void qtyChangeCart(Product product, String size, int qty) async {
     try {
       await CartApiCalls().addToCart(product, qty, size) as Response;
+
       await CartApiCalls().getCart();
     } catch (e) {
       log(e.toString());
@@ -69,5 +73,15 @@ class CartProvider extends ChangeNotifier {
       log(e.toString());
     }
     notifyListeners();
+  }
+
+  int? findTotalQuantity() {
+    int totalQty = 0;
+    for (var i = 0; i < cartNotifierList.value.length; i++) {
+      totalQty = totalQty + cartNotifierList.value[i]!.qty!;
+      log("qqqqqqqq" + totalQty.toString());
+    }
+    notifyListeners();
+    return totalQty;
   }
 }

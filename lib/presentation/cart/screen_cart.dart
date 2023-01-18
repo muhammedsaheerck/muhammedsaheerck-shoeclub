@@ -226,16 +226,18 @@ class ScreenCart extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
                           "Total Quantity ",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          "₹ 2500 ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
+                        Consumer<CartProvider>(
+                          builder: (context, value, child) => Text(
+                            value.findTotalQuantity().toString(),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ],
                     ),
