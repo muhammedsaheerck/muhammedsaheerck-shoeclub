@@ -8,7 +8,7 @@ import 'package:shoeclub/presentation/cart/screen_cart.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 
 import '../../infrastructure/whishlist/whishlist_services.dart';
-import '../product_details/product_details.dart';
+import '../home/widgets/product_details.dart';
 
 class ScreenWhishlist extends StatelessWidget {
   const ScreenWhishlist({super.key});

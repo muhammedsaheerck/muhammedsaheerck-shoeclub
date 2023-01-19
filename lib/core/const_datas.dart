@@ -1,9 +1,11 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
+import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 
 import '../domain/modal/product/product_modal.dart';
+import '../domain/modal/whishlist/wishlist_modal.dart';
 
 //colors
 Color buttonColor = const Color.fromRGBO(18, 27, 40, 1);
@@ -54,6 +56,10 @@ String? userId;
 //valuenotifiers
 ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
 ValueNotifier<int> totalPrice = ValueNotifier(0);
+ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
+ValueNotifier<int?> totalQty = ValueNotifier(0);
+ValueNotifier<List<AddressElements?>> addressListNotifier = ValueNotifier([]);
 
 //athors
 

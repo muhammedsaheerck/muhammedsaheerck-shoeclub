@@ -19,6 +19,7 @@ class CartProvider extends ChangeNotifier {
       Response response =
           await CartApiCalls().addToCart(product, 1, size) as Response;
       await CartApiCalls().getCart();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -79,6 +80,7 @@ class CartProvider extends ChangeNotifier {
     int totalQty = 0;
     for (var i = 0; i < cartNotifierList.value.length; i++) {
       totalQty = totalQty + cartNotifierList.value[i]!.qty!;
+
       log("qqqqqqqq" + totalQty.toString());
     }
     notifyListeners();

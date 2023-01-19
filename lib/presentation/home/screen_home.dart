@@ -12,20 +12,9 @@ import 'package:shoeclub/application/home/home_provider.dart';
 
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
-import 'package:shoeclub/infrastructure/cart/cart_services.dart';
-
 import 'package:shoeclub/infrastructure/product/product_services.dart';
-import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
-import 'package:shoeclub/presentation/product_details/product_details.dart';
+import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
-
-import '../../domain/modal/product/product_modal.dart';
-import 'widgets/dropdownn_filter_widget.dart';
-
-ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
-ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
-List aProductDetails = [];
 
 class ScreenHome extends StatefulWidget {
   const ScreenHome({super.key});
@@ -147,7 +136,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -217,11 +206,14 @@ class _ScreenHomeState extends State<ScreenHome> {
                     dropdownWidth: 150,
                     dropdownPadding: null,
                     dropdownDecoration: BoxDecoration(
+                      
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15),
-                          bottomLeft: Radius.circular(15)),
-                      color: buttonColor,
+                          bottomLeft: Radius.circular(40),
+                          bottomRight:Radius.circular(10) ),
+                      color: Colors.deepPurple.shade100,
                     ),
+                    
                     dropdownElevation: 8,
                     scrollbarRadius: const Radius.circular(40),
                     scrollbarThickness: 6,

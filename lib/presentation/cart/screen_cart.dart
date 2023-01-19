@@ -7,9 +7,9 @@ import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
 import 'package:shoeclub/infrastructure/cart/cart_services.dart';
-import 'package:shoeclub/presentation/product_details/product_details.dart';
+import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 
-import '../checkout/screen_checkout.dart';
+import 'widgets/screen_checkout.dart';
 
 class ScreenCart extends StatelessWidget {
   const ScreenCart({super.key});
@@ -17,6 +17,7 @@ class ScreenCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartApiCalls().getCart();
+    CartProvider().findTotalQuantity();
     return Scaffold(
       backgroundColor: test,
       // backgroundColor: test,
@@ -41,162 +42,181 @@ class ScreenCart extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.5,
             child: ValueListenableBuilder(
               valueListenable: cartNotifierList,
-              builder: (context, value, child) => ListView.builder(
-                itemCount: value.length,
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemBuilder: ((context, index) {
-                  final cartProduct = value[index]!.product;
-                  return Slidable(
-                    endActionPane:
-                        ActionPane(motion: const ScrollMotion(), children: [
-                      Consumer<CartProvider>(
-                        builder: (context, valueProvider, child) =>
-                            SlidableAction(
-                          onPressed: ((context) {
-                            valueProvider.removeFromCart(cartProduct!, context);
-                          }),
-                          icon: Icons.delete,
-                          label: "Delete",
-                        ),
-                      )
-                    ]),
-                    child: Card(
-                      elevation: 2,
-                      color: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: ((context) {
-                                    return ScreenProductDetails(
-                                      product: cartProduct,
+              builder: (context, value, child) => cartNotifierList.value.isEmpty
+                  ? Center(
+                      child: Image.asset(
+                        "asset/empty-cart.png",
+                        height: 200,
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: value.length,
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemBuilder: ((context, index) {
+                        final cartProduct = value[index]!.product;
+                        return Slidable(
+                          endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                Consumer<CartProvider>(
+                                  builder: (context, valueProvider, child) =>
+                                      SlidableAction(
+                                    onPressed: ((context) {
+                                      valueProvider.removeFromCart(
+                                          cartProduct!, context);
+                                    }),
+                                    icon: Icons.delete,
+                                    label: "Delete",
+                                  ),
+                                )
+                              ]),
+                          child: Card(
+                            elevation: 2,
+                            color: Colors.black87,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: ((context) {
+                                          return ScreenProductDetails(
+                                            product: cartProduct,
+                                          );
+                                        }),
+                                      ),
                                     );
-                                  }),
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                    ),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.45,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.17,
+                                    child: Image.network(
+                                      cartProduct!.image!.first!,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white,
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.45,
-                              height: MediaQuery.of(context).size.height * 0.17,
-                              child: Image.network(
-                                cartProduct!.image!.first!,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Column(
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          cartProduct.name!,
-                                          style: const TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        ),
-                                        height5,
-                                        Text(
-                                          cartProduct.description!,
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15),
-                                        ),
-                                        //  const SizedBox(height: 60,),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                overflow: TextOverflow.ellipsis,
+                                                cartProduct.name!,
+                                                style: const TextStyle(
+                                                    fontSize: 25,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white),
+                                              ),
+                                              height5,
+                                              Text(
+                                                cartProduct.description!,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15),
+                                              ),
+                                              //  const SizedBox(height: 60,),
 
-                                        Text(
-                                          "₹ ${cartProduct.price.toString()}",
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white),
+                                              Text(
+                                                "₹ ${cartProduct.price.toString()}",
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                        Consumer<CartProvider>(
+                                          builder:
+                                              (context, valueProvider, child) =>
+                                                  Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors
+                                                        .deepPurple.shade100,
+                                                    minimumSize:
+                                                        const Size(30, 30),
+                                                    shape:
+                                                        const CircleBorder()),
+                                                onPressed: (() {
+                                                  valueProvider.qtyChangeCart(
+                                                      cartProduct,
+                                                      AProductProvider()
+                                                          .selectedSize,
+                                                      1);
+                                                }),
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              Text(
+                                                value[index]!.qty.toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      minimumSize:
+                                                          const Size(30, 30),
+                                                      backgroundColor: Colors
+                                                          .deepPurple.shade100,
+                                                      shape:
+                                                          const CircleBorder()),
+                                                  onPressed: (() {
+                                                    valueProvider.qtyChangeCart(
+                                                        cartProduct,
+                                                        AProductProvider()
+                                                            .selectedSize,
+                                                        -1);
+                                                  }),
+                                                  child: const Icon(
+                                                    Icons.remove,
+                                                    color: Colors.black,
+                                                  ))
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
-                                  Consumer<CartProvider>(
-                                    builder: (context, valueProvider, child) =>
-                                        Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.deepPurple.shade100,
-                                              minimumSize: const Size(30, 30),
-                                              shape: const CircleBorder()),
-                                          onPressed: (() {
-                                            valueProvider.qtyChangeCart(
-                                                cartProduct,
-                                                AProductProvider().selectedSize,
-                                                1);
-                                          }),
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        Text(
-                                          value[index]!.qty.toString(),
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                minimumSize: const Size(30, 30),
-                                                backgroundColor:
-                                                    Colors.deepPurple.shade100,
-                                                shape: const CircleBorder()),
-                                            onPressed: (() {
-                                              valueProvider.qtyChangeCart(
-                                                  cartProduct,
-                                                  AProductProvider()
-                                                      .selectedSize,
-                                                  -1);
-                                            }),
-                                            child: const Icon(
-                                              Icons.remove,
-                                              color: Colors.black,
-                                            ))
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      }),
                     ),
-                  );
-                }),
-              ),
             ),
           ),
           height10,
@@ -227,7 +247,7 @@ class ScreenCart extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Total Quantity ",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
@@ -235,7 +255,7 @@ class ScreenCart extends StatelessWidget {
                         Consumer<CartProvider>(
                           builder: (context, value, child) => Text(
                             value.findTotalQuantity().toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),

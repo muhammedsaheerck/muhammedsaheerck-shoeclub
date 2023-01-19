@@ -1,4 +1,4 @@
-String baseUrl = 'http://192.168.207.89:5000';
+String baseUrl = 'http://192.168.29.225:5000';
 
 String productUrl = '/products';
 String signUpUrl = '/auth/signup';
@@ -9,3 +9,4 @@ String logOutUrl = '/auth/logout';
 String userAlreadyUrl = '/users/';
 String whishListUrl = '/wishlist';
 String cartUrl = "/cart";
+String addressUrl = "/address";

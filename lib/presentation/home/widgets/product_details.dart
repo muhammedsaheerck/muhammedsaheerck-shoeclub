@@ -10,8 +10,8 @@ import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
 
-import '../../infrastructure/cart/cart_services.dart';
-import '../checkout/screen_checkout.dart';
+import '../../../infrastructure/cart/cart_services.dart';
+import '../../cart/widgets/screen_checkout.dart';
 
 class ScreenProductDetails extends StatelessWidget {
   Product product;

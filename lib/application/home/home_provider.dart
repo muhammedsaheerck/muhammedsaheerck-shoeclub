@@ -1,13 +1,8 @@
 import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shoeclub/domain/modal/product/product_modal.dart';
-import 'package:shoeclub/infrastructure/whishlist/whishlist_services.dart';
-
+import '../../core/const_datas.dart';
 import '../../infrastructure/product/product_services.dart';
-import '../../presentation/home/screen_home.dart';
 
 class HomeProvider extends ChangeNotifier {
   int selectedValue = 0;
@@ -19,8 +14,6 @@ class HomeProvider extends ChangeNotifier {
     selectedValue = value;
     notifyListeners();
   }
-
-  
 
   void dropdownShowProducts(int value) {
     if (value == 0) {
@@ -36,6 +29,4 @@ class HomeProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
- 
 }
