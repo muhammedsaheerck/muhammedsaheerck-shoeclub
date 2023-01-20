@@ -16,8 +16,9 @@ class ScreenCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartApiCalls().getCart();
-    CartProvider().findTotalQuantity();
+    Provider.of<CartProvider>(context, listen: false).getAllCart();
+
+    // CartProvider().findTotalQuantity();
     return Scaffold(
       backgroundColor: test,
       // backgroundColor: test,
@@ -241,6 +242,7 @@ class ScreenCart extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
+
                     const Divider(
                       thickness: 1,
                     ),
@@ -274,7 +276,7 @@ class ScreenCart extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
-                          valueListenable: totalPrice,
+                          valueListenable: totalAmount,
                           builder: (context, value, child) => Text(
                             value.toString(),
                             style: const TextStyle(

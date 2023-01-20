@@ -10,6 +10,13 @@ import 'package:shoeclub/infrastructure/cart/cart_services.dart';
 class CartProvider extends ChangeNotifier {
   int totalPrice = 0;
 
+  String? selectedPayment;
+
+  void radioSelectPayments(String value) {
+    selectedPayment = value;
+    notifyListeners();
+  }
+
   Future addToCart(
     Product product,
     String size,
@@ -18,7 +25,7 @@ class CartProvider extends ChangeNotifier {
     try {
       Response response =
           await CartApiCalls().addToCart(product, 1, size) as Response;
-      await CartApiCalls().getCart();
+      await getAllCart();
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -45,7 +52,7 @@ class CartProvider extends ChangeNotifier {
     try {
       await CartApiCalls().addToCart(product, qty, size) as Response;
 
-      await CartApiCalls().getCart();
+      await getAllCart();
     } catch (e) {
       log(e.toString());
     }
@@ -56,7 +63,7 @@ class CartProvider extends ChangeNotifier {
     try {
       Response response =
           await CartApiCalls().removeFromCart(product) as Response;
-      await CartApiCalls().getCart();
+      await getAllCart();
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -80,10 +87,23 @@ class CartProvider extends ChangeNotifier {
     int totalQty = 0;
     for (var i = 0; i < cartNotifierList.value.length; i++) {
       totalQty = totalQty + cartNotifierList.value[i]!.qty!;
-
+      getAllCart();
       log("qqqqqqqq" + totalQty.toString());
     }
     notifyListeners();
     return totalQty;
+  }
+
+  Future<void> getAllCart() async {
+    try {
+      final response = await CartApiCalls().getCart();
+      totalAmount.value = response!.totalPrice!;
+      totalAmount.notifyListeners();
+      cartNotifierList.value.clear();
+      cartNotifierList.value.addAll(response.products!.reversed);
+      cartNotifierList.notifyListeners();
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

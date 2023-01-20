@@ -29,6 +29,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   String dropdownValue = "All";
   @override
   void initState() {
+    Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
     valueFound.value = productListNotifier.value;
     super.initState();
   }
@@ -36,6 +37,9 @@ class _ScreenHomeState extends State<ScreenHome> {
   @override
   Widget build(BuildContext context) {
     ProductApiCalls().getProducts();
+
+    Provider.of<CartProvider>(context, listen: false).getAllCart();
+    Provider.of<CartProvider>(context, listen: false).findTotalQuantity();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       SharedPreferences sharedPreferences =
@@ -206,14 +210,13 @@ class _ScreenHomeState extends State<ScreenHome> {
                     dropdownWidth: 150,
                     dropdownPadding: null,
                     dropdownDecoration: BoxDecoration(
-                      
                       borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15),
                           bottomLeft: Radius.circular(40),
-                          bottomRight:Radius.circular(10) ),
+                          bottomRight: Radius.circular(10)),
                       color: Colors.deepPurple.shade100,
                     ),
-                    
+
                     dropdownElevation: 8,
                     scrollbarRadius: const Radius.circular(40),
                     scrollbarThickness: 6,

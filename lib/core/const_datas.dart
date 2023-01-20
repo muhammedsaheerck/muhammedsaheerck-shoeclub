@@ -45,6 +45,9 @@ SizedBox height30 = const SizedBox(
 Divider divider1 = const Divider(
   thickness: 1,
 );
+Divider divider2 = const Divider(color: Colors.deepPurple,
+  thickness: 2,
+);
 SizedBox width10 = const SizedBox(
   width: 10,
 );
@@ -55,7 +58,7 @@ String? userId;
 
 //valuenotifiers
 ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
-ValueNotifier<int> totalPrice = ValueNotifier(0);
+ValueNotifier<int> totalAmount = ValueNotifier(0);
 ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
 ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
 ValueNotifier<int?> totalQty = ValueNotifier(0);

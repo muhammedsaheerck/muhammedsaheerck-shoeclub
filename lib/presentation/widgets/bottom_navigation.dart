@@ -7,6 +7,7 @@ import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/wishlist/screen_wishlist.dart';
 
+import '../../application/cart/cart_provider.dart';
 import '../cart/screen_cart.dart';
 import '../settings/screen_settings.dart';
 
@@ -22,7 +23,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Consumer<BottomNavigationProvider>(
       builder: (context, value, child) => Scaffold(
         body: tabItems[value.selectedIndex],

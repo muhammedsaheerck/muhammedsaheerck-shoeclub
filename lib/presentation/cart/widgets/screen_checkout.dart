@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
+import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/infrastructure/address/address_services.dart';
 import 'package:shoeclub/presentation/cart/widgets/payment_details.dart';
 import 'package:shoeclub/presentation/cart/widgets/screen_add_address.dart';
@@ -15,7 +16,8 @@ class ScreenCheckout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AddressProvider().getAllAddresses();
+    Provider.of<AddressProvider>(context,listen: false).getAllAddresses();
+
     return Scaffold(
       backgroundColor: splashColorPlatinum,
       appBar: AppBar(
@@ -86,7 +88,7 @@ class ScreenCheckout extends StatelessWidget {
                   // log("addddd" + address.toString());
                   return Card(
                     elevation: 2,
-                    color: Colors.deepPurple.shade100,
+                    color: Colors.deepPurple.shade50,
                     child: Row(
                       children: [
                         Consumer<AddressProvider>(
@@ -244,82 +246,129 @@ class ScreenCheckout extends StatelessWidget {
                 },
               ),
             ),
-            height30,
-            Expanded(
+            height10,
+            const SizedBox(
+              height: 50,
               child: Card(
-                color: cardColorAlilceBlue,
+                color: Colors.deepPurple,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const OrderDetails(
-                        amount: '₹100',
-                        name: 'Order :',
-                      ),
-                      height10,
-                      const OrderDetails(
-                        amount: '₹10',
-                        name: 'Delivery :',
-                      ),
-                      divider1,
-                      const OrderDetails(
-                        amount: '₹110',
-                        name: 'Total :',
-                      ),
-                    ],
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Price Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
                 ),
               ),
             ),
-            height30,
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Payment",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey),
-              ),
-            ),
-            Card(
-              color: cardColorAlilceBlue,
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.network(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcXyqtLQ_gexpplNlllSl0iZ9HkyerYeH4mQ&usqp=CAU",
-                      width: 40,
-                      height: 40,
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 5,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.deepPurple, width: 3),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
                     ),
-                    const Text("**131242"),
-                    TextButton(
-                        onPressed: (() {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: ((context) => const ScreenPayment())));
-                        }),
-                        child: const Text("Change"))
-                  ],
+                  ),
+                  // color: cardColorAlilceBlue,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Consumer<CartProvider>(
+                          builder: (context, value, child) => OrderDetails(
+                            amount: value.findTotalQuantity().toString(),
+                            name: 'Total Quantity :',
+                          ),
+                        ),
+                        height10,
+                        const OrderDetails(
+                          amount: '₹99',
+                          name: 'Delivery Fee :',
+                        ),
+                        divider2,
+                        ValueListenableBuilder(
+                          valueListenable: totalAmount,
+                          builder: (context, value, child) {
+                            final total = value + 99;
+                            return OrderDetails(
+                              amount: total.toString(),
+                              name: 'Total Amount :',
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
             const SizedBox(
-              height: 100,
+              height: 50,
+              child: Card(
+                color: Colors.deepPurple,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "Payments",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
             ),
+            height10,
+            Consumer<CartProvider>(
+              builder: (context, valueProvider, child) => Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.deepPurple.shade100,
+                    ),
+                    child: RadioListTile(
+                      title: const Text("Cash on Delivery"),
+                      value: "Cash on Delivery",
+                      groupValue: valueProvider.selectedPayment,
+                      onChanged: ((value) {
+                        valueProvider.radioSelectPayments(value.toString());
+                      }),
+                    ),
+                  ),
+                  height10,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.deepPurple.shade100,
+                    ),
+                    child: RadioListTile(
+                      title: const Text("Cash on Delivery"),
+                      value: "Online Payment",
+                      groupValue: valueProvider.selectedPayment,
+                      onChanged: ((value) {
+                        valueProvider.radioSelectPayments(value.toString());
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            height10,
             ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(35),
-                    elevation: 1,
-                    backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
+                style: buttonStyle,
                 onPressed: (() {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) => const ScreenCheckout())));
                 }),
-                child: const Text("PAY NOW")),
+                child: const Text("CONTINUE")),
           ],
         ),
       ),
@@ -340,13 +389,11 @@ class OrderDetails extends StatelessWidget {
       children: [
         Text(
           name,
-          style: const TextStyle(
-            fontSize: 20,
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
         Text(
           amount,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         ),
       ],
     );

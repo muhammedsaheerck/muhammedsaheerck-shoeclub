@@ -162,15 +162,15 @@ class ScreenProductDetails extends StatelessWidget {
                 ),
               ),
               // height10,
-              SizedBox(
-                child: ElevatedButton(
-                    style: buttonStyle,
-                    onPressed: (() {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: ((context) => const ScreenCheckout())));
-                    }),
-                    child: const Text("BUY NOW")),
-              )
+              // SizedBox(
+              //   child: ElevatedButton(
+              //       style: buttonStyle,
+              //       onPressed: (() {
+              //         Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //             builder: ((context) => const ScreenCheckout())));
+              //       }),
+              //       child: const Text("BUY NOW")),
+              // )
             ],
           ),
         ),

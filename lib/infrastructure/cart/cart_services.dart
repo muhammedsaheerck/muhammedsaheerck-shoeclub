@@ -41,21 +41,17 @@ class CartApiCalls {
     return null;
   }
 
-  Future<Response?> getCart() async {
+  Future<CartModal?> getCart() async {
     try {
       Response response = await dio.get("${baseUrl + cartUrl}?userid=$userId");
       Map<String, dynamic> data = await json.decode(response.data);
       log(response.statusCode.toString());
-      if (response.statusCode == 200) {
-        final getData = CartModal.fromJson(data);
-        totalPrice.value = getData.totalPrice!;
-        totalPrice.notifyListeners();
-        cartNotifierList.value.clear();
-        cartNotifierList.value.addAll(getData.products!.reversed);
-        cartNotifierList.notifyListeners();
 
-        log("cart" + cartNotifierList.toString());
-      }
+      final getData = CartModal.fromJson(data);
+     
+
+      log("cart" + cartNotifierList.toString());
+      return getData;
     } catch (e) {
       log(e.toString());
     }

@@ -18,14 +18,18 @@ class HomeProvider extends ChangeNotifier {
   void dropdownShowProducts(int value) {
     if (value == 0) {
       valueFound.value = productListNotifier.value;
+      valueFound.notifyListeners();
       log("casualaaa" + valueFound.toString());
     } else if (value == 1) {
       valueFound.value = productCasualListNotifier.value;
+      valueFound.notifyListeners();
       log("+++++++++" + valueFound.toString());
     } else if (value == 2) {
       valueFound.value = productFormalListNotifier.value;
+      valueFound.notifyListeners();
     } else {
       valueFound.value = productSportsListNotifier.value;
+      valueFound.notifyListeners();
     }
     notifyListeners();
   }
