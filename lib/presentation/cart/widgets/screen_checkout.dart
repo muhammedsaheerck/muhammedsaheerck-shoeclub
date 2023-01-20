@@ -61,13 +61,16 @@ class ScreenCheckout extends StatelessWidget {
                       onPressed: (() {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: ((context) => const ScreenAddAddress()),
+                            builder: ((context) => ScreenAddAddress(
+                                  type: ActionType.addAddress,
+                                )),
                           ),
                         );
                       }),
                       icon: const Icon(
-                        Icons.edit,
+                        Icons.add,
                         color: Colors.white,
+                        size: 30,
                       ))
                 ],
               ),
@@ -82,85 +85,160 @@ class ScreenCheckout extends StatelessWidget {
                   final address = value[index];
                   // log("addddd" + address.toString());
                   return Card(
+                    elevation: 2,
                     color: Colors.deepPurple.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 250,
-                                child: Text(
-                                  overflow: TextOverflow.ellipsis,
-                                  address!.fullName!,
-                                  style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
+                    child: Row(
+                      children: [
+                        Consumer<AddressProvider>(
+                          builder: (context, valueProvider, child) => Radio(
+                              activeColor: Colors.deepPurple,
+                              value: address,
+                              groupValue: valueProvider.selectedAddress,
+                              onChanged: ((value) {
+                                valueProvider.radioSelectAddress(value!);
+                              })),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onLongPress: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: ((context) => ScreenAddAddress(
+                                        type: ActionType.editAddress,
+                                        address: address,
+                                      )),
                                 ),
-                              ),
-                              Expanded(
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                color: Colors.deepPurple.shade100,
+                                elevation: 2,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    address.title!,
-                                    style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w500),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: 250,
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              address!.fullName!,
+                                              style: const TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 30),
+                                              child: Text(
+                                                overflow: TextOverflow.ellipsis,
+                                                address.title!,
+                                                style: const TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        address.phone!,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      Text(
+                                        overflow: TextOverflow.ellipsis,
+                                        address.address!,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      Text(
+                                        address.pin!,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: 150,
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              "${address.place},",
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          width10,
+                                          Expanded(
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              "${address.state!},",
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: 250,
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              address.landMark!,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Consumer<AddressProvider>(
+                                              builder: (context, value,
+                                                      child) =>
+                                                  IconButton(
+                                                      onPressed: (() {
+                                                        value.deleteAAddress(
+                                                            address.id!,
+                                                            context);
+                                                      }),
+                                                      icon: const Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                      )),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          Text(
-                            address.phone!,
-                            style: const TextStyle(
-                              fontSize: 18,
                             ),
                           ),
-                          Text(
-                            address.address!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                          Text(
-                            address.pin!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${address.place},",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                              width10,
-                              Text(
-                                address.state!,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            address.landMark!,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

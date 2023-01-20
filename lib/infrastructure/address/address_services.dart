@@ -36,7 +36,7 @@ class AddressApiCalls {
     return null;
   }
 
-  Future<Response?> getAllAddresses() async {
+  Future<AddressModal?> getAllAddresses() async {
     try {
       Response response = await dio.get("$addressUrl?user=$userId");
       Map<String, dynamic> data = json.decode(response.data);
@@ -45,12 +45,33 @@ class AddressApiCalls {
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
         final getData = AddressModal.fromJson(data);
-        log("getdata" + getData.toString());
-        addressListNotifier.value.clear();
-        addressListNotifier.value.addAll(getData.address!.reversed);
-        addressListNotifier.notifyListeners();
-        log("+++++++++++++++++++++++++++" + addressListNotifier.toString());
+        return getData;
       }
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  Future<Response?> deleteAddress(String id) async {
+    String deleteUrl = "/$id";
+    try {
+      Response response = await dio.delete(addressUrl + deleteUrl);
+      return response;
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  Future<Response?> updateAddress(AddressElements addressElements) async {
+    String aAddressUrl = "/${addressElements.id}";
+    try {
+      Response response = await dio.patch(baseUrl + addressUrl + aAddressUrl,
+          data: addressElements.toJson());
+
+      log(response.toString());
+      log("message" + response.statusCode.toString());
       return response;
     } catch (e) {
       log(e.toString());
