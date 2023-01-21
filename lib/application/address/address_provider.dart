@@ -62,10 +62,10 @@ class AddressProvider extends ChangeNotifier {
                       borderRadius: BorderRadius.circular(10)),
                   elevation: 1,
                   duration: const Duration(seconds: 1),
-                  backgroundColor: response.statusCode == 200
+                  backgroundColor: response.statusCode == 201
                       ? Colors.green.shade400
                       : Colors.red.shade400,
-                  content: response.statusCode == 200
+                  content: response.statusCode == 201
                       ? const Text('Address added successfully')
                       : const Text('All fields are required')),
             );

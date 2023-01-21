@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
+import 'package:shoeclub/infrastructure/product/product_services.dart';
 
 import '../domain/modal/product/product_modal.dart';
 import '../domain/modal/whishlist/wishlist_modal.dart';
@@ -13,7 +14,7 @@ Color splashColorPlatinum = Color.fromARGB(255, 251, 248, 248);
 Color cardColorAlilceBluedark = const Color.fromARGB(255, 200, 199, 199);
 Color cardColorAlilceBlue = const Color.fromARGB(255, 234, 232, 232);
 Color backgroundColor = Color.fromARGB(255, 203, 219, 238);
-Color buttonColor2 = Colors.deepPurple.shade100;
+Color headMainColor = const Color.fromARGB(255, 141, 91, 226);
 
 Color test = const Color.fromARGB(255, 241, 239, 247);
 
@@ -45,7 +46,8 @@ SizedBox height30 = const SizedBox(
 Divider divider1 = const Divider(
   thickness: 1,
 );
-Divider divider2 = const Divider(color: Colors.deepPurple,
+Divider divider2 = const Divider(
+  color: Colors.deepPurple,
   thickness: 2,
 );
 SizedBox width10 = const SizedBox(

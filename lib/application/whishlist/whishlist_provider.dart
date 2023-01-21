@@ -50,4 +50,5 @@ class WhishListProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  
 }

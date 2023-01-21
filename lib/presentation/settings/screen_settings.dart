@@ -15,7 +15,7 @@ class ScreenSettings extends StatelessWidget {
         // backgroundColor: splashColorPlatinum,
         backgroundColor: test,
         appBar: AppBar(
-          backgroundColor: buttonColor2,
+          backgroundColor: headMainColor,
           elevation: 0,
         ),
         body: Column(
@@ -26,7 +26,7 @@ class ScreenSettings extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: buttonColor2,
+                      color: headMainColor,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(160),
                           bottomRight: Radius.circular(160))),
@@ -121,7 +121,7 @@ class ScreenSettings extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: buttonColor2, width: 2)),
+                          side: BorderSide(color: Colors.purple, width: 2)),
                       onPressed: (() async {
                         SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();

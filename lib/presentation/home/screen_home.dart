@@ -16,23 +16,12 @@ import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
-class ScreenHome extends StatefulWidget {
-  const ScreenHome({super.key});
+class ScreenHome extends StatelessWidget {
+  ScreenHome({super.key});
 
-  @override
-  State<ScreenHome> createState() => _ScreenHomeState();
-}
-
-class _ScreenHomeState extends State<ScreenHome> {
   List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
 
-  String dropdownValue = "All";
-  @override
-  void initState() {
-    Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
-    valueFound.value = productListNotifier.value;
-    super.initState();
-  }
+  // String dropdownValue = "All";
 
   @override
   Widget build(BuildContext context) {
@@ -193,14 +182,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                     //   )
                     // ],
 
-                    value: dropdownValue,
-                    // HomeProvider().selectedValue,
+                    value: HomeProvider().selectedValue,
 
                     onChanged: (String? value) {
-                      // valueProvider.dropdownFilter(value!);
-                      setState(() {
-                        dropdownValue = value!;
-                      });
+                      valueProvider.dropdownFilter(value!);
                     },
                     dropdownDirection: DropdownDirection.right,
                     itemHeight: 40,
@@ -400,21 +385,29 @@ class _ScreenHomeState extends State<ScreenHome> {
                                             color: cardColorAlilceBlue),
                                       ),
                                       Consumer<CartProvider>(
-                                        builder:
-                                            (context, valueProvider, child) =>
-                                                GestureDetector(
-                                          onTap: () {
-                                            valueProvider.addToCart(
-                                              value,
-                                              AProductProvider().selectedSize,
-                                              context,
-                                            );
-                                          },
-                                          child: const Icon(
-                                            Icons.shopping_bag,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        builder: (context, valueProvider,
+                                                child) =>
+                                            GestureDetector(
+                                                onTap: () {
+                                                  valueProvider.addToCart(
+                                                    value,
+                                                    AProductProvider()
+                                                        .selectedSize,
+                                                    context,
+                                                  );
+                                                },
+                                                child: valueprovider
+                                                            .searchIdForCart(
+                                                                value) ==
+                                                        false
+                                                    ? const Icon(
+                                                        Icons.shopping_bag,
+                                                        color: Colors.white,
+                                                      )
+                                                    : const Icon(
+                                                        Icons.shopping_basket,
+                                                        color: Colors.white,
+                                                      )),
                                       )
                                     ],
                                   )

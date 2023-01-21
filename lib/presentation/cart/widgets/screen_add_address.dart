@@ -21,12 +21,11 @@ class ScreenAddAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final valueprovider = Provider.of<AddressProvider>(context, listen: false);
     if (type == ActionType.editAddress) {
       if (address == null) {
         Navigator.of(context).pop();
       }
-      final valueprovider =
-          Provider.of<AddressProvider>(context, listen: false);
 
       if (address == null) {
         Navigator.of(context).pop();
@@ -40,6 +39,14 @@ class ScreenAddAddress extends StatelessWidget {
       valueprovider.addressPlaceController.text = address!.place!;
       valueprovider.addressStateController.text = address!.state!;
       valueprovider.addressTitleController.text = address!.title!;
+    } else {
+      valueprovider.addressLandmarkController.clear();
+      valueprovider.addressNameController.clear();
+      valueprovider.addressPhoneController.clear();
+      valueprovider.addressPinController.clear();
+      valueprovider.addressPlaceController.clear();
+      valueprovider.addressStateController.clear();
+      valueprovider.addressTitleController.clear();
     }
     return SafeArea(
       child: Scaffold(
@@ -105,7 +112,7 @@ class ScreenAddAddress extends StatelessWidget {
                               if (value == null || value.isEmpty) {
                                 return "Please enter your phone no";
                               } else if (valueProvider
-                                      .addressPhoneController.text ==
+                                      .addressPhoneController.text.length <
                                   10) {
                                 return "Please enter correct Phone number";
                               }

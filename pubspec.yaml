@@ -84,6 +84,7 @@ flutter:
     - asset/otpVerification.png
     - asset/wish-list.png
     - asset/empty-cart.png
+    - asset/cart- added.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -49,7 +49,7 @@ class ScreenWhishlist extends StatelessWidget {
             ? Center(
                 child: Image.asset(
                 "asset/wish-list.png",
-                height: 200,
+                height: 150,
               ))
             : ListView.builder(
                 itemCount: valueLis.length,

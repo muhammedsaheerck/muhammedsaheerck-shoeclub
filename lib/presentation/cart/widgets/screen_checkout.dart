@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
-import 'package:shoeclub/infrastructure/address/address_services.dart';
-import 'package:shoeclub/presentation/cart/widgets/payment_details.dart';
 import 'package:shoeclub/presentation/cart/widgets/screen_add_address.dart';
 
 import '../../../core/const_datas.dart';
@@ -16,7 +12,7 @@ class ScreenCheckout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<AddressProvider>(context,listen: false).getAllAddresses();
+    Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
 
     return Scaffold(
       backgroundColor: splashColorPlatinum,
@@ -48,7 +44,7 @@ class ScreenCheckout extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
-              color: Colors.deepPurple,
+              color: headMainColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -247,11 +243,11 @@ class ScreenCheckout extends StatelessWidget {
               ),
             ),
             height10,
-            const SizedBox(
+            SizedBox(
               height: 50,
               child: Card(
-                color: Colors.deepPurple,
-                child: Padding(
+                color: headMainColor,
+                child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Price Details",
@@ -269,7 +265,7 @@ class ScreenCheckout extends StatelessWidget {
                 child: Container(
                   height: MediaQuery.of(context).size.height / 5,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.deepPurple, width: 3),
+                    border: Border.all(color: headMainColor, width: 3),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
@@ -309,11 +305,11 @@ class ScreenCheckout extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 50,
               child: Card(
-                color: Colors.deepPurple,
-                child: Padding(
+                color: headMainColor,
+                child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Payments",
@@ -335,6 +331,7 @@ class ScreenCheckout extends StatelessWidget {
                       color: Colors.deepPurple.shade100,
                     ),
                     child: RadioListTile(
+                      activeColor: Colors.deepPurple,
                       title: const Text("Cash on Delivery"),
                       value: "Cash on Delivery",
                       groupValue: valueProvider.selectedPayment,
@@ -350,7 +347,8 @@ class ScreenCheckout extends StatelessWidget {
                       color: Colors.deepPurple.shade100,
                     ),
                     child: RadioListTile(
-                      title: const Text("Cash on Delivery"),
+                      activeColor: Colors.deepPurple,
+                      title: const Text("Online Payment"),
                       value: "Online Payment",
                       groupValue: valueProvider.selectedPayment,
                       onChanged: ((value) {

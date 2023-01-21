@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 
@@ -21,7 +22,9 @@ class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
     alreadySigned();
-
+    ProductApiCalls().getProducts();
+    Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
+    valueFound.value = productListNotifier.value;
     super.initState();
   }
 
@@ -41,7 +44,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
         (() => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => isSignedIn == false
                 ? ScreenSignIn()
-                : const BottomNavigationBarWidget()))));
+                : BottomNavigationBarWidget()))));
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,

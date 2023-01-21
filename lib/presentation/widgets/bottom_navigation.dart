@@ -2,6 +2,7 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
@@ -12,9 +13,9 @@ import '../cart/screen_cart.dart';
 import '../settings/screen_settings.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
-  const BottomNavigationBarWidget({super.key});
+  BottomNavigationBarWidget({super.key});
 
-  final List<Widget> tabItems = const [
+  final List<Widget> tabItems = [
     ScreenHome(),
     ScreenCart(),
     ScreenWhishlist(),
@@ -23,6 +24,10 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ProductApiCalls().getProducts();
+    // Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
+    // valueFound.value = productListNotifier.value;
+    valueFound.notifyListeners();
     return Consumer<BottomNavigationProvider>(
       builder: (context, value, child) => Scaffold(
         body: tabItems[value.selectedIndex],

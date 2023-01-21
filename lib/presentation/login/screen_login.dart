@@ -2,11 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shoeclub/application/auth/auth_provider.dart';
 import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/login/widgets/screen_forgot_password.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
+import '../../application/home/home_provider.dart';
 import '../../domain/modal/user/new_user.dart';
 import '../../infrastructure/auth/auth_services.dart';
+import '../../infrastructure/product/product_services.dart';
 
 class ScreenSignIn extends StatelessWidget {
   ScreenSignIn({super.key});
@@ -16,6 +20,7 @@ class ScreenSignIn extends StatelessWidget {
   final signInPasswordCOntroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: test,
       body: SafeArea(
@@ -83,7 +88,8 @@ class ScreenSignIn extends StatelessWidget {
                       ),
                       height10,
                       TextFormField(
-                        obscureText: true,
+                        obscureText:
+                            Provider.of<AuthProvider>(context).passVisibility,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: signInPasswordCOntroller,
                         validator: ((value) {
@@ -94,6 +100,16 @@ class ScreenSignIn extends StatelessWidget {
                         }),
                         cursorColor: buttonColor,
                         decoration: InputDecoration(
+                          suffixIcon: Consumer<AuthProvider>(
+                            builder: (context, valueProvider, child) =>
+                                IconButton(
+                                    onPressed: (() {
+                                      valueProvider.obsecureChange(false);
+                                    }),
+                                    icon: valueProvider.passVisibility
+                                        ? const Icon(Icons.visibility_off)
+                                        : const Icon(Icons.visibility)),
+                          ),
                           focusColor: Colors.deepPurple,
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),

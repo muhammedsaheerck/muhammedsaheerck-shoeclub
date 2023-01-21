@@ -42,6 +42,8 @@ class CartProvider extends ChangeNotifier {
                 ? const Text('product added to cart successfully')
                 : const Text('No product found')),
       );
+
+      notifyListeners();
     } catch (e) {
       log(e.toString());
     }
@@ -105,5 +107,12 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  bool? addCartIconChange(String id) {
+    bool icon = false;
+    cartNotifierList.value.firstWhere((element) => element!.id == id);
+    icon = true;
+    return icon;
   }
 }

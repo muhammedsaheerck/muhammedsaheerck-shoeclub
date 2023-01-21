@@ -1,16 +1,18 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import '../../core/const_datas.dart';
+import '../../domain/modal/cart/cart_modal.dart';
 import '../../infrastructure/product/product_services.dart';
 
 class HomeProvider extends ChangeNotifier {
-  int selectedValue = 0;
+  String? selectedValue = "All";
   // List<Product?> valueFound = [];
 
   // List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
 
-  void dropdownFilter(int value) {
+  void dropdownFilter(String value) {
     selectedValue = value;
     notifyListeners();
   }
@@ -32,5 +34,15 @@ class HomeProvider extends ChangeNotifier {
       valueFound.notifyListeners();
     }
     notifyListeners();
+  }
+
+  bool? searchIdForCart(Product product) {
+    bool findVCarttId = false;
+    for (var i = 0; i < cartNotifierList.value.length; i++) {
+      if (cartNotifierList.value[i]!.product!.id == product.id) {
+        findVCarttId = true;
+      }
+    }
+    return findVCarttId;
   }
 }

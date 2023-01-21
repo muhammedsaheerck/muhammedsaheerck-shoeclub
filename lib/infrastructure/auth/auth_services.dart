@@ -129,7 +129,7 @@ class AuthApiCall {
         userAlreadySigned(value.email!);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: ((context) => const BottomNavigationBarWidget()),
+            builder: ((context) => BottomNavigationBarWidget()),
           ),
         );
       }

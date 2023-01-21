@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
+import 'package:shoeclub/application/auth/auth_provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 import 'package:shoeclub/application/bottom_navigation_providder.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: ((context) => WhishListProvider())),
         ChangeNotifierProvider(create: ((context) => AProductProvider())),
         ChangeNotifierProvider(create: ((context) => CartProvider())),
+        ChangeNotifierProvider(create: ((context) => AuthProvider())),
       ],
       builder: (context, child) {
         return MaterialApp(
