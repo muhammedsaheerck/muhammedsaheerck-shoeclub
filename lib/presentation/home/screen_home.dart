@@ -11,10 +11,12 @@ import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
+
+import '../../core/core_datas.dart';
 
 class ScreenHome extends StatelessWidget {
   ScreenHome({super.key});
@@ -43,7 +45,7 @@ class ScreenHome extends StatelessWidget {
         toolbarHeight: 50,
         leadingWidth: 100,
         // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
+        backgroundColor: CoreDatas.instance.test,
         leading: Image.asset(
           "asset/logo2.png",
           // height: 50,
@@ -57,26 +59,33 @@ class ScreenHome extends StatelessWidget {
         ),
       ),
       // backgroundColor: splashColorPlatinum,
-      backgroundColor: test,
+      backgroundColor: CoreDatas.instance.test,
       body: ListView(children: [
-        height10,
+        CoreDatas.instance.height10,
         Row(
           children: [
             Flexible(
               flex: 1,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  cursorColor: Colors.grey,
-                  decoration: InputDecoration(
-                    fillColor: backgroundColor,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(color: buttonColor, fontSize: 18),
-                    prefixIcon: const Icon(Icons.search),
+                child: Consumer<HomeProvider>(
+                  builder: (context, valueProvider, child) => TextField(
+                    onChanged: (value) {
+                      valueProvider.searchaProduct(value);
+                    },
+                    controller: valueProvider.searchController,
+                    cursorColor: Colors.grey,
+                    decoration: InputDecoration(
+                      fillColor: CoreDatas.instance.backgroundColor,
+                      filled: true,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                      hintText: 'Search',
+                      hintStyle: TextStyle(
+                          color: CoreDatas.instance.buttonColor, fontSize: 18),
+                      prefixIcon: const Icon(Icons.search),
+                    ),
                   ),
                 ),
               ),
@@ -103,37 +112,39 @@ class ScreenHome extends StatelessWidget {
                     ),
 
                     items: filter
-                        .map<DropdownMenuItem<String>>(
-                            (String value) => DropdownMenuItem(
-                                  value: value,
-                                  onTap: () {
-                                    if (value == "All") {
-                                      valueFound.value =
-                                          productListNotifier.value;
-                                      log("casualaaa" + valueFound.toString());
-                                    } else if (value == "Casual") {
-                                      valueFound.value =
-                                          productCasualListNotifier.value;
-                                      log("+++++++++" + valueFound.toString());
-                                    } else if (value == "Formal") {
-                                      valueFound.value =
-                                          productFormalListNotifier.value;
-                                    } else {
-                                      valueFound.value =
-                                          productSportsListNotifier.value;
-                                    }
-                                    // valueProvider.dropdownShowProducts(value);
-                                  },
-                                  child: Text(
-                                    value,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ))
+                        .map<DropdownMenuItem<String>>((String value) =>
+                            DropdownMenuItem(
+                              value: value,
+                              onTap: () {
+                                if (value == "All") {
+                                  CoreDatas.instance.valueFound.value =
+                                      productListNotifier.value;
+                                  log("casualaaa" +
+                                      CoreDatas.instance.valueFound.toString());
+                                } else if (value == "Casual") {
+                                  CoreDatas.instance.valueFound.value =
+                                      productCasualListNotifier.value;
+                                  log("+++++++++" +
+                                      CoreDatas.instance.valueFound.toString());
+                                } else if (value == "Formal") {
+                                  CoreDatas.instance.valueFound.value =
+                                      productFormalListNotifier.value;
+                                } else {
+                                  CoreDatas.instance.valueFound.value =
+                                      productSportsListNotifier.value;
+                                }
+                                // valueProvider.dropdownShowProducts(value);
+                              },
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ))
                         .toList(),
                     //     const [
                     //   DropdownMenuItem(
@@ -189,7 +200,7 @@ class ScreenHome extends StatelessWidget {
                     },
                     dropdownDirection: DropdownDirection.right,
                     itemHeight: 40,
-                    style: TextStyle(color: buttonColor),
+                    style: TextStyle(color: CoreDatas.instance.buttonColor),
                     itemPadding: const EdgeInsets.only(left: 14, right: 14),
                     dropdownMaxHeight: 200,
                     dropdownWidth: 150,
@@ -213,7 +224,7 @@ class ScreenHome extends StatelessWidget {
             ),
           ],
         ),
-        height10,
+        CoreDatas.instance.height10,
         CarouselSlider(
           options: CarouselOptions(
               height: 200.0,
@@ -240,7 +251,7 @@ class ScreenHome extends StatelessWidget {
             );
           }).toList(),
         ),
-        height10,
+        CoreDatas.instance.height10,
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -251,16 +262,16 @@ class ScreenHome extends StatelessWidget {
             ),
           ),
         ),
-        height10,
+        CoreDatas.instance.height10,
         Consumer<HomeProvider>(
           builder: (context, valueprovider, child) => ValueListenableBuilder(
-            valueListenable: valueFound,
+            valueListenable: CoreDatas.instance.valueFound,
             builder: (context, valueLi, child) => ListView.builder(
-                itemCount: valueFound.value.length,
+                itemCount: CoreDatas.instance.valueFound.value.length,
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
                 itemBuilder: ((context, index) {
-                  final value = valueFound.value[index];
+                  final value = CoreDatas.instance.valueFound.value[index];
                   log("valueee" + value.toString());
                   // log("================" + valueFound.toString());
                   // log(value["image"][0].toString());
@@ -334,7 +345,8 @@ class ScreenHome extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.w500,
-                                              color: cardColorAlilceBlue),
+                                              color: CoreDatas.instance
+                                                  .cardColorAlilceBlue),
                                         ),
                                       ),
                                       Consumer<WhishListProvider>(
@@ -344,7 +356,9 @@ class ScreenHome extends StatelessWidget {
                                           child: GestureDetector(
                                             onTap: () async {
                                               await valueProvider.addTOWishlist(
-                                                  userId!, value.id!, context);
+                                                  CoreDatas.instance.userId!,
+                                                  value.id!,
+                                                  context);
                                             },
                                             child: valueProvider
                                                         .searchIdForWishlist(
@@ -370,7 +384,8 @@ class ScreenHome extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
-                                        color: cardColorAlilceBlue),
+                                        color: CoreDatas
+                                            .instance.cardColorAlilceBlue),
                                   ),
                                   // height10,
                                   Row(
@@ -382,33 +397,34 @@ class ScreenHome extends StatelessWidget {
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
-                                            color: cardColorAlilceBlue),
+                                            color: CoreDatas
+                                                .instance.cardColorAlilceBlue),
                                       ),
-                                      Consumer<CartProvider>(
-                                        builder: (context, valueProvider,
-                                                child) =>
-                                            GestureDetector(
-                                                onTap: () {
-                                                  valueProvider.addToCart(
-                                                    value,
-                                                    AProductProvider()
-                                                        .selectedSize,
-                                                    context,
-                                                  );
-                                                },
-                                                child: valueprovider
-                                                            .searchIdForCart(
-                                                                value) ==
-                                                        false
-                                                    ? const Icon(
-                                                        Icons.shopping_bag,
-                                                        color: Colors.white,
-                                                      )
-                                                    : const Icon(
-                                                        Icons.shopping_basket,
-                                                        color: Colors.white,
-                                                      )),
-                                      )
+                                      // Consumer<CartProvider>(
+                                      //   builder: (context, valueProvider,
+                                      //           child) =>
+                                      //       GestureDetector(
+                                      //           onTap: () {
+                                      //             valueProvider.addToCart(
+                                      //               value,
+                                      //               AProductProvider()
+                                      //                   .selectedSize,
+                                      //               context,
+                                      //             );
+                                      //           },
+                                      //           child: valueprovider
+                                      //                       .searchIdForCart(
+                                      //                           value) ==
+                                      //                   false
+                                      //               ? const Icon(
+                                      //                   Icons.shopping_bag,
+                                      //                   color: Colors.white,
+                                      //                 )
+                                      //               : const Icon(
+                                      //                   Icons.shopping_basket,
+                                      //                   color: Colors.white,
+                                      //                 )),
+                                      // )
                                     ],
                                   )
                                 ],

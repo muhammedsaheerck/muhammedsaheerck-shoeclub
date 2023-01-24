@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/infrastructure/address/address_services.dart';
 import 'package:shoeclub/presentation/cart/widgets/screen_add_address.dart';
@@ -39,7 +39,7 @@ class AddressProvider extends ChangeNotifier {
         } else {
           if (addressformKey.currentState!.validate()) {
             final newAddress = AddressElements(
-                user: userId,
+                user: CoreDatas.instance.userId,
                 address: addressController.text,
                 fullName: addressNameController.text,
                 landMark: addressLandmarkController.text,
@@ -97,7 +97,7 @@ class AddressProvider extends ChangeNotifier {
           if (addressformKey.currentState!.validate()) {
             final newAddress = AddressElements(
                 id: address!.id,
-                user: userId,
+                user: CoreDatas.instance.userId,
                 address: addressController.text,
                 fullName: addressNameController.text,
                 landMark: addressLandmarkController.text,
@@ -159,11 +159,13 @@ class AddressProvider extends ChangeNotifier {
     try {
       final response = await AddressApiCalls().getAllAddresses();
 
-      addressListNotifier.value.clear();
-      addressListNotifier.value.addAll(response!.address!.reversed);
-      addressListNotifier.notifyListeners();
-      log("+++++++++++++++++++++++++++" + addressListNotifier.toString());
-      addressListNotifier.notifyListeners();
+      CoreDatas.instance.addressListNotifier.value.clear();
+      CoreDatas.instance.addressListNotifier.value
+          .addAll(response!.address!.reversed);
+      CoreDatas.instance.addressListNotifier.notifyListeners();
+      log("+++++++++++++++++++++++++++" +
+          CoreDatas.instance.addressListNotifier.toString());
+      CoreDatas.instance.addressListNotifier.notifyListeners();
       notifyListeners();
     } catch (e) {
       log(e.toString());

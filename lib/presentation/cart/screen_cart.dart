@@ -3,13 +3,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
+import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
-import 'package:shoeclub/infrastructure/cart/cart_services.dart';
+
+import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 
-import 'widgets/screen_checkout.dart';
+import '../../core/core_datas.dart';
+import '../../domain/modal/product/product_modal.dart';
 
 class ScreenCart extends StatelessWidget {
   const ScreenCart({super.key});
@@ -17,10 +18,11 @@ class ScreenCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<CartProvider>(context, listen: false).getAllCart();
+    Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
 
     // CartProvider().findTotalQuantity();
     return Scaffold(
-      backgroundColor: test,
+      backgroundColor: CoreDatas.instance.test,
       // backgroundColor: test,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -31,7 +33,7 @@ class ScreenCart extends StatelessWidget {
           style: GoogleFonts.inika(
             fontWeight: FontWeight.bold,
             fontSize: 25,
-            color: buttonColor,
+            color: CoreDatas.instance.buttonColor,
           ),
         ),
         iconTheme: const IconThemeData(),
@@ -42,8 +44,9 @@ class ScreenCart extends StatelessWidget {
             // color: Colors.amber,
             height: MediaQuery.of(context).size.height * 0.5,
             child: ValueListenableBuilder(
-              valueListenable: cartNotifierList,
-              builder: (context, value, child) => cartNotifierList.value.isEmpty
+              valueListenable: CoreDatas.instance.cartNotifierList,
+              builder: (context, value, child) => CoreDatas
+                      .instance.cartNotifierList.value.isEmpty
                   ? Center(
                       child: Image.asset(
                         "asset/empty-cart.png",
@@ -56,6 +59,7 @@ class ScreenCart extends StatelessWidget {
                       physics: const ScrollPhysics(),
                       itemBuilder: ((context, index) {
                         final cartProduct = value[index]!.product;
+
                         return Slidable(
                           endActionPane: ActionPane(
                               motion: const ScrollMotion(),
@@ -64,8 +68,8 @@ class ScreenCart extends StatelessWidget {
                                   builder: (context, valueProvider, child) =>
                                       SlidableAction(
                                     onPressed: ((context) {
-                                      valueProvider.removeFromCart(
-                                          cartProduct!, context);
+                                      PopUpWidget(
+                                          cartProduct!, context, valueProvider);
                                     }),
                                     icon: Icons.delete,
                                     label: "Delete",
@@ -134,7 +138,7 @@ class ScreenCart extends StatelessWidget {
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.white),
                                               ),
-                                              height5,
+                                              CoreDatas.instance.height5,
                                               Text(
                                                 cartProduct.description!,
                                                 maxLines: 3,
@@ -146,7 +150,7 @@ class ScreenCart extends StatelessWidget {
                                               //  const SizedBox(height: 60,),
 
                                               Text(
-                                                "₹ ${cartProduct.price.toString()}",
+                                                "₹ ${(cartProduct.price! * value[index]!.qty!).toString()}",
                                                 style: const TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white),
@@ -166,7 +170,7 @@ class ScreenCart extends StatelessWidget {
                                                     backgroundColor: Colors
                                                         .deepPurple.shade100,
                                                     minimumSize:
-                                                        const Size(30, 30),
+                                                        const Size(25, 25),
                                                     shape:
                                                         const CircleBorder()),
                                                 onPressed: (() {
@@ -189,7 +193,7 @@ class ScreenCart extends StatelessWidget {
                                               ElevatedButton(
                                                   style: ElevatedButton.styleFrom(
                                                       minimumSize:
-                                                          const Size(30, 30),
+                                                          const Size(25, 25),
                                                       backgroundColor: Colors
                                                           .deepPurple.shade100,
                                                       shape:
@@ -220,7 +224,7 @@ class ScreenCart extends StatelessWidget {
                     ),
             ),
           ),
-          height10,
+          CoreDatas.instance.height10,
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -238,7 +242,7 @@ class ScreenCart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${cartNotifierList.value.length} Items in Cart",
+                      "${CoreDatas.instance.cartNotifierList.value.length} Items in Cart",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -263,7 +267,7 @@ class ScreenCart extends StatelessWidget {
                         ),
                       ],
                     ),
-                    height10,
+                    CoreDatas.instance.height10,
                     // const Divider(
                     //   thickness: 1,
                     // ),
@@ -276,7 +280,7 @@ class ScreenCart extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.w600),
                         ),
                         ValueListenableBuilder(
-                          valueListenable: totalAmount,
+                          valueListenable: CoreDatas.instance.totalAmount,
                           builder: (context, value, child) => Text(
                             value.toString(),
                             style: const TextStyle(
@@ -285,11 +289,11 @@ class ScreenCart extends StatelessWidget {
                         ),
                       ],
                     ),
-                    height20,
+                    CoreDatas.instance.height20,
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1,
                       child: ElevatedButton(
-                          style: buttonStyle,
+                          style: CoreDatas.instance.buttonStyle,
                           // ElevatedButton.styleFrom(
                           //     minimumSize: const Size.fromHeight(35),
                           //     elevation: 1,
@@ -309,6 +313,39 @@ class ScreenCart extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Future<dynamic> PopUpWidget(Product product, context, CartProvider provider) {
+    return showDialog(
+      context: context,
+      builder: ((context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          content: const Text('Do you Delete This product in cart?',
+              style: TextStyle(color: Colors.black, fontSize: 18)),
+          actions: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+                onPressed: (() {
+                  return Navigator.pop(context);
+                }),
+                child: Text('Cancel',
+                    style: GoogleFonts.nunito(color: Colors.white))),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+              onPressed: (() {
+                provider.removeFromCart(product, context);
+                Navigator.of(context).pop();
+              }),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.nunito(color: Colors.white),
+              ),
+            )
+          ],
+        );
+      }),
     );
   }
 }

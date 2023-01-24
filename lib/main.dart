@@ -10,13 +10,15 @@ import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
+
+import 'core/core_datas.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: buttonColor));
+      systemNavigationBarColor: CoreDatas.instance.buttonColor));
   runApp(const MyApp());
 }
 

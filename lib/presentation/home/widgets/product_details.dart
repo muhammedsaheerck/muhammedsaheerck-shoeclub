@@ -6,12 +6,12 @@ import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
 
+import '../../../core/core_datas.dart';
 import '../../../infrastructure/cart/cart_services.dart';
-import '../../cart/widgets/screen_checkout.dart';
 
 class ScreenProductDetails extends StatelessWidget {
   Product product;
@@ -22,7 +22,7 @@ class ScreenProductDetails extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
+        backgroundColor: CoreDatas.instance.test,
         appBar: AppBar(
           // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: splashColorPlatinum),
           iconTheme: const IconThemeData(),
@@ -40,7 +40,8 @@ class ScreenProductDetails extends StatelessWidget {
             Consumer<WhishListProvider>(
               builder: (context, valueProvider, child) => IconButton(
                 onPressed: () {
-                  valueProvider.addTOWishlist(userId!, product.id!, context);
+                  valueProvider.addTOWishlist(
+                      CoreDatas.instance.userId!, product.id!, context);
                 },
                 icon: valueProvider.searchIdForWishlist(product) == true
                     ? const Icon(
@@ -75,16 +76,16 @@ class ScreenProductDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ImageChange(index: 0, product: product),
-                  width10,
+                  CoreDatas.instance.width10,
                   ImageChange(
                     product: product,
                     index: 1,
                   ),
-                  width10,
+                  CoreDatas.instance.width10,
                   ImageChange(index: 2, product: product),
                 ],
               ),
-              height30,
+              CoreDatas.instance.height30,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -98,21 +99,21 @@ class ScreenProductDetails extends StatelessWidget {
                           fontSize: 20, fontWeight: FontWeight.w500)),
                 ],
               ),
-              height20,
+              CoreDatas.instance.height20,
               const Text(
                 "OverView",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
               ),
-              height10,
+              CoreDatas.instance.height10,
               Text(
                 product.description!,
               ),
-              height20,
+              CoreDatas.instance.height20,
               const Text(
                 "Select Size(UK Size)",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
               ),
-              height20,
+              CoreDatas.instance.height20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
@@ -138,27 +139,34 @@ class ScreenProductDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              height30,
+              CoreDatas.instance.height30,
               SizedBox(
                 child: Consumer<CartProvider>(
-                  builder: (context, valueProvider, child) => ElevatedButton(
-                      style: buttonStyle,
-                      // ElevatedButton.styleFrom(
-                      //     elevation: 1,
-                      //     backgroundColor: const Color.fromRGBO(237, 91, 78, 1)),
-                      onPressed: (() {
-                        valueProvider.addToCart(
-                          product,
-                          AProductProvider().selectedSize,
-                          context,
-                        );
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: ((context) => const ScreenCart()),
-                          ),
-                        );
-                      }),
-                      child: const Text("ADD TO BAG")),
+                  builder: (context, valueProvider, child) =>
+                      Provider.of<HomeProvider>(context)
+                                  .searchIdForCart(product) ==
+                              false
+                          ? ElevatedButton(
+                              style: CoreDatas.instance.buttonStyle,
+                              onPressed: (() {
+                                valueProvider.addToCart(
+                                  product,
+                                  AProductProvider().selectedSize,
+                                  context,
+                                );
+                              }),
+                              child: const Text("ADD TO BAG"))
+                          : ElevatedButton(
+                              style: CoreDatas.instance.buttonStyle,
+                              onPressed: (() {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: ((context) => const ScreenCart()),
+                                  ),
+                                );
+                              }),
+                              child: const Text("GO TO BAG"),
+                            ),
                 ),
               ),
               // height10,

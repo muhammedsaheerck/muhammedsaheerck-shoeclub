@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/core/const_datas.dart';
+import 'package:shoeclub/application/auth/auth_provider.dart';
+
+import 'package:shoeclub/core/core_datas.dart';
+import 'package:shoeclub/presentation/settings/widgets/about.dart';
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
@@ -13,9 +17,9 @@ class ScreenSettings extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
+        backgroundColor: CoreDatas.instance.test,
         appBar: AppBar(
-          backgroundColor: headMainColor,
+          backgroundColor: CoreDatas.instance.headMainColor,
           elevation: 0,
         ),
         body: Column(
@@ -26,19 +30,22 @@ class ScreenSettings extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: headMainColor,
+                      color: CoreDatas.instance.headMainColor,
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(160),
                           bottomRight: Radius.circular(160))),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.15),
-                    child: Text(
-                      'Muhammed Saheer Ck',
-                      style: GoogleFonts.inika(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
-                          color: buttonColor),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "value.nameUser!",
+                        style: GoogleFonts.inika(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -47,7 +54,7 @@ class ScreenSettings extends StatelessWidget {
                       horizontal: MediaQuery.of(context).size.width * 0.4,
                       vertical: MediaQuery.of(context).size.height * 0.05),
                   child: CircleAvatar(
-                    backgroundColor: test,
+                    backgroundColor: CoreDatas.instance.test,
                     radius: 60,
                     child: Image.asset(
                       "asset/user (1).png",
@@ -62,16 +69,7 @@ class ScreenSettings extends StatelessWidget {
                 child: ListView(
               children: [
                 ListTile(
-                  iconColor: buttonColor,
-                  leading: const Icon(Icons.person, size: 25),
-                  title: const Text(
-                    "Muhammed Sheer Ck",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                divider1,
-                ListTile(
-                  iconColor: buttonColor,
+                  iconColor: CoreDatas.instance.buttonColor,
                   leading: const Icon(
                     Icons.location_city,
                     size: 25,
@@ -81,9 +79,9 @@ class ScreenSettings extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
-                divider1,
+                CoreDatas.instance.divider1,
                 ListTile(
-                  iconColor: buttonColor,
+                  iconColor: CoreDatas.instance.buttonColor,
                   leading: Image.asset(
                     "asset/terms-and-conditions.png",
                     height: 25,
@@ -93,9 +91,9 @@ class ScreenSettings extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
-                divider1,
+                CoreDatas.instance.divider1,
                 ListTile(
-                  iconColor: buttonColor,
+                  iconColor: CoreDatas.instance.buttonColor,
                   leading: const Icon(
                     Icons.privacy_tip,
                     size: 25,
@@ -105,9 +103,13 @@ class ScreenSettings extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
-                divider1,
+                CoreDatas.instance.divider1,
                 ListTile(
-                  iconColor: buttonColor,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: ((context) => const ScreenAbout())),
+                  ),
+                  iconColor: CoreDatas.instance.buttonColor,
                   leading: Image.asset(
                     "asset/information-button.png",
                     height: 25,
@@ -134,7 +136,7 @@ class ScreenSettings extends StatelessWidget {
                       }),
                       child: Text(
                         "LOG OUT",
-                        style: TextStyle(color: buttonColor),
+                        style: TextStyle(color: CoreDatas.instance.buttonColor),
                       )),
                 )
               ],

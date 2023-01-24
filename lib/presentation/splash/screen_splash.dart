@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 
-import 'package:shoeclub/core/const_datas.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
+import '../../core/core_datas.dart';
 import '../../infrastructure/product/product_services.dart';
 import 'widgets/text_ittaliana.dart';
 
@@ -24,7 +24,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     alreadySigned();
     ProductApiCalls().getProducts();
     Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
-    valueFound.value = productListNotifier.value;
+    CoreDatas.instance.valueFound.value = productListNotifier.value;
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
+        backgroundColor: CoreDatas.instance.test,
         body: Stack(
           children: [
             Image.asset("asset/splash.png",

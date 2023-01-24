@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
+import '../../../core/core_datas.dart';
 
 class TextItalianaWidget extends StatelessWidget {
   String name;
@@ -14,7 +15,9 @@ class TextItalianaWidget extends StatelessWidget {
       name,
       style: GoogleFonts.italiana(
           textStyle: TextStyle(
-              fontSize: size, fontWeight: FontWeight.w900, color: buttonColor)),
+              fontSize: size,
+              fontWeight: FontWeight.w900,
+              color: CoreDatas.instance.buttonColor)),
     );
   }
 }

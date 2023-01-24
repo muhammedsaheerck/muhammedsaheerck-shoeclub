@@ -2,10 +2,13 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shoeclub/core/const_datas.dart';
-import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/infrastructure/cart/cart_services.dart';
+
+import '../../core/core_datas.dart';
+import '../../domain/modal/address/address_modal.dart';
+import '../address/address_provider.dart';
 
 class CartProvider extends ChangeNotifier {
   int totalPrice = 0;
@@ -87,8 +90,8 @@ class CartProvider extends ChangeNotifier {
 
   int? findTotalQuantity() {
     int totalQty = 0;
-    for (var i = 0; i < cartNotifierList.value.length; i++) {
-      totalQty = totalQty + cartNotifierList.value[i]!.qty!;
+    for (var i = 0; i < CoreDatas.instance.cartNotifierList.value.length; i++) {
+      totalQty = totalQty + CoreDatas.instance.cartNotifierList.value[i]!.qty!;
       getAllCart();
       log("qqqqqqqq" + totalQty.toString());
     }
@@ -99,11 +102,12 @@ class CartProvider extends ChangeNotifier {
   Future<void> getAllCart() async {
     try {
       final response = await CartApiCalls().getCart();
-      totalAmount.value = response!.totalPrice!;
-      totalAmount.notifyListeners();
-      cartNotifierList.value.clear();
-      cartNotifierList.value.addAll(response.products!.reversed);
-      cartNotifierList.notifyListeners();
+      CoreDatas.instance.totalAmount.value = response!.totalPrice!;
+      CoreDatas.instance.totalAmount.notifyListeners();
+      CoreDatas.instance.cartNotifierList.value.clear();
+      CoreDatas.instance.cartNotifierList.value
+          .addAll(response.products!.reversed);
+      CoreDatas.instance.cartNotifierList.notifyListeners();
     } catch (e) {
       log(e.toString());
     }
@@ -111,8 +115,12 @@ class CartProvider extends ChangeNotifier {
 
   bool? addCartIconChange(String id) {
     bool icon = false;
-    cartNotifierList.value.firstWhere((element) => element!.id == id);
+    CoreDatas.instance.cartNotifierList.value
+        .firstWhere((element) => element!.id == id);
     icon = true;
     return icon;
   }
+
+//popup
+
 }

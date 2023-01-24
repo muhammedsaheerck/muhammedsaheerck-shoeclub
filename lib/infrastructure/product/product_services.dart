@@ -3,8 +3,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shoeclub/core/url.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
+
+import '../../core/core_datas.dart';
 
 ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
 
@@ -16,15 +17,15 @@ ValueNotifier<List<Product?>> productSportsListNotifier = ValueNotifier([]);
 
 class ProductApiCalls {
   final dio = Dio();
-
+  CoreDatas url = CoreDatas.internal();
   ProductApiCalls() {
     dio.options =
-        BaseOptions(baseUrl: baseUrl, responseType: ResponseType.plain);
+        BaseOptions(baseUrl: url.baseUrl, responseType: ResponseType.plain);
   }
 
   Future getProducts() async {
     try {
-      Response response = await dio.get(baseUrl + productUrl);
+      Response response = await dio.get(url.baseUrl + url.productUrl);
       Map<String, dynamic> data = await json.decode(response.data);
       log(response.data);
       if (response.statusCode == 200) {

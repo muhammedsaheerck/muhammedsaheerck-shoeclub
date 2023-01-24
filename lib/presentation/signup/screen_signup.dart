@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/signup/widgets/screen_otp.dart';
+import '../../core/core_datas.dart';
 import '../widgets/text_widget_inikafont.dart';
 
 class ScreenSignUp extends StatelessWidget {
@@ -23,7 +24,7 @@ class ScreenSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: splashColorPlatinum,
-      backgroundColor: test,
+      backgroundColor: CoreDatas.instance.test,
       body: SafeArea(
         child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +49,7 @@ class ScreenSignUp extends StatelessWidget {
                 ),
               ),
               // FormCustomWidget(),
-              height30,
+              CoreDatas.instance.height30,
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.height / 80),
@@ -68,7 +69,7 @@ class ScreenSignUp extends StatelessWidget {
                             }
                             return null;
                           }),
-                          cursorColor: buttonColor,
+                          cursorColor: CoreDatas.instance.buttonColor,
                           decoration: InputDecoration(
                             // fillColor: const Color.fromRGBO(222, 219, 219, 1),
                             focusColor: Colors.deepPurple,
@@ -83,7 +84,7 @@ class ScreenSignUp extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.name,
                         ),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupEmailController,
@@ -97,7 +98,7 @@ class ScreenSignUp extends StatelessWidget {
                             }
                             return null;
                           }),
-                          cursorColor: buttonColor,
+                          cursorColor: CoreDatas.instance.buttonColor,
                           decoration: InputDecoration(
                             focusColor: Colors.deepPurple,
                             focusedBorder: OutlineInputBorder(
@@ -111,7 +112,7 @@ class ScreenSignUp extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: signupPasswordController,
@@ -121,7 +122,7 @@ class ScreenSignUp extends StatelessWidget {
                             }
                             return null;
                           }),
-                          cursorColor: buttonColor,
+                          cursorColor: CoreDatas.instance.buttonColor,
                           decoration: InputDecoration(
                             focusColor: Colors.deepPurple,
                             focusedBorder: OutlineInputBorder(
@@ -135,7 +136,7 @@ class ScreenSignUp extends StatelessWidget {
                           ),
                           keyboardType: TextInputType.number,
                         ),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFormField(
                           obscureText: true,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -149,7 +150,7 @@ class ScreenSignUp extends StatelessWidget {
                             }
                             return null;
                           }),
-                          cursorColor: buttonColor,
+                          cursorColor: CoreDatas.instance.buttonColor,
                           decoration: InputDecoration(
                             focusColor: Colors.deepPurple,
                             focusedBorder: OutlineInputBorder(
@@ -166,7 +167,7 @@ class ScreenSignUp extends StatelessWidget {
                       ],
                     )),
               ),
-              height30,
+              CoreDatas.instance.height30,
               Padding(
                 padding: const EdgeInsets.only(left: 170, right: 30),
                 child: ElevatedButton(

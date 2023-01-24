@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
 
-import '../../../core/const_datas.dart';
+import '../../../core/core_datas.dart';
 
 class ScreenForgotPassword extends StatelessWidget {
   ScreenForgotPassword({super.key});
@@ -75,7 +75,7 @@ class ScreenForgotPassword extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.name,
                       ),
-                      height20,
+                      CoreDatas.instance.height20,
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: valueProvider.forgotPasswordCOntroller,
@@ -99,7 +99,7 @@ class ScreenForgotPassword extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.name,
                       ),
-                      height20,
+                      CoreDatas.instance.height20,
                       TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller:
@@ -130,7 +130,7 @@ class ScreenForgotPassword extends StatelessWidget {
                     ],
                   ),
                 ),
-                height30,
+                CoreDatas.instance.height30,
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

@@ -2,15 +2,14 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
-import '../../core/const_datas.dart';
-import '../../domain/modal/cart/cart_modal.dart';
+import '../../core/core_datas.dart';
 import '../../infrastructure/product/product_services.dart';
 
 class HomeProvider extends ChangeNotifier {
+  CoreDatas core = CoreDatas.internal();
   String? selectedValue = "All";
-  // List<Product?> valueFound = [];
-
-  // List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
+  final searchController = TextEditingController();
+  List<Product> matchQuery = [];
 
   void dropdownFilter(String value) {
     selectedValue = value;
@@ -19,30 +18,45 @@ class HomeProvider extends ChangeNotifier {
 
   void dropdownShowProducts(int value) {
     if (value == 0) {
-      valueFound.value = productListNotifier.value;
-      valueFound.notifyListeners();
-      log("casualaaa" + valueFound.toString());
+      CoreDatas.instance.valueFound.value = productListNotifier.value;
+      CoreDatas.instance.valueFound.notifyListeners();
+      log("casualaaa" + CoreDatas.instance.valueFound.toString());
     } else if (value == 1) {
-      valueFound.value = productCasualListNotifier.value;
-      valueFound.notifyListeners();
-      log("+++++++++" + valueFound.toString());
+      CoreDatas.instance.valueFound.value = productCasualListNotifier.value;
+      CoreDatas.instance.valueFound.notifyListeners();
+      log("+++++++++" + CoreDatas.instance.valueFound.toString());
     } else if (value == 2) {
-      valueFound.value = productFormalListNotifier.value;
-      valueFound.notifyListeners();
+      CoreDatas.instance.valueFound.value = productFormalListNotifier.value;
+      CoreDatas.instance.valueFound.notifyListeners();
     } else {
-      valueFound.value = productSportsListNotifier.value;
-      valueFound.notifyListeners();
+      CoreDatas.instance.valueFound.value = productSportsListNotifier.value;
+      CoreDatas.instance.valueFound.notifyListeners();
     }
     notifyListeners();
   }
 
   bool? searchIdForCart(Product product) {
     bool findVCarttId = false;
-    for (var i = 0; i < cartNotifierList.value.length; i++) {
-      if (cartNotifierList.value[i]!.product!.id == product.id) {
+    for (var i = 0; i < CoreDatas.instance.cartNotifierList.value.length; i++) {
+      if (CoreDatas.instance.cartNotifierList.value[i]!.product!.id ==
+          product.id) {
         findVCarttId = true;
       }
     }
     return findVCarttId;
+  }
+//PRoduct Search
+  void searchaProduct(String enteredKeyword) {
+    List<Product?> resluts = [];
+    if (enteredKeyword.isEmpty) {
+      resluts = productListNotifier.value;
+    } else {
+      resluts = productListNotifier.value
+          .where((user) =>
+              user!.name!.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    CoreDatas.instance.valueFound.value = resluts;
+    notifyListeners();
   }
 }

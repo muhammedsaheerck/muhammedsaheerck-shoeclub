@@ -3,20 +3,19 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/core/url.dart';
 import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
 import 'package:shoeclub/domain/modal/user/new_user.dart';
-import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
-
+import '../../application/auth/auth_provider.dart';
+import '../../core/core_datas.dart';
 import '../../presentation/login/screen_login.dart';
-import '../../presentation/signup/widgets/screen_otp.dart';
 import '../../presentation/widgets/bottom_navigation.dart';
 
 class AuthApiCall {
   final dio = Dio();
-
+  CoreDatas url = CoreDatas.internal();
   AuthApiCall.internal();
   static AuthApiCall instance = AuthApiCall.internal();
   AuthApiCall factory() {
@@ -25,7 +24,7 @@ class AuthApiCall {
 
   AuthApiCall() {
     dio.options =
-        BaseOptions(baseUrl: baseUrl, responseType: ResponseType.plain);
+        BaseOptions(baseUrl: url.baseUrl, responseType: ResponseType.plain);
   }
 //signup function
 
@@ -33,10 +32,13 @@ class AuthApiCall {
     log(value.toString());
     try {
       Response response =
-          await dio.post(baseUrl + signUpUrl, data: value.toJson());
+          await dio.post(url.baseUrl + url.signUpUrl, data: value.toJson());
       log(response.statusCode.toString());
       log(response.statusMessage.toString());
       if (response.statusCode == 201) {
+         SharedPreferences sharedPreferencesUserName =
+            await SharedPreferences.getInstance();
+        sharedPreferencesUserName.setString("username", "${value.fullname}");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -82,7 +84,8 @@ class AuthApiCall {
   Future<void> sendOtp(String emaile) async {
     try {
       // log(baseUrl + otppUrl + "?email=" + emaile);
-      Response response = await dio.get("${baseUrl + otppUrl}?email=$emaile");
+      Response response =
+          await dio.get("${url.baseUrl + url.otppUrl}?email=$emaile");
       log(response.toString());
       log(response.statusCode.toString());
     } catch (e) {
@@ -95,7 +98,7 @@ class AuthApiCall {
   Future verifyOtp(OtpModal value) async {
     try {
       Response response =
-          await dio.post(baseUrl + otppUrl, data: value.toJson());
+          await dio.post(url.baseUrl + url.otppUrl, data: value.toJson());
       log(response.statusCode.toString());
     } catch (e) {
       log(e.toString());
@@ -106,7 +109,7 @@ class AuthApiCall {
 
   Future logIn(NewUser value, context) async {
     try {
-      Response response = await dio.post(baseUrl + logInUrl,
+      Response response = await dio.post(url.baseUrl + url.logInUrl,
           data: {"email": value.email, "password": value.password});
       log(response.toString());
       log(response.statusMessage.toString());
@@ -115,6 +118,8 @@ class AuthApiCall {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         sharedPreferences.setBool("isSignIn", true);
+//usernameget
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               behavior: SnackBarBehavior.floating,
@@ -126,6 +131,8 @@ class AuthApiCall {
               backgroundColor: Colors.green.shade400,
               content: const Text('SignIn successfully completed')),
         );
+        // Provider.of<AuthProvider>(context, listen: false)
+        //     .userAlreadySigned(value.email!);
         userAlreadySigned(value.email!);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -156,7 +163,7 @@ class AuthApiCall {
 //forgot Password method
   Future<void> forgotPassWord(NewUser value) async {
     try {
-      Response response = await dio.post(baseUrl + forgotPasswordUrl,
+      Response response = await dio.post(url.baseUrl + url.forgotPasswordUrl,
           data: {"email": value.email, "password": value.password});
       log(response.toString());
     } catch (e) {
@@ -165,36 +172,21 @@ class AuthApiCall {
   }
 
 //User already exist method
-  Future<Response?> userAlreadySigned(String email) async {
+  Future<NewUser?> userAlreadySigned(String email) async {
     try {
-      log("${baseUrl + userAlreadyUrl}?email=$email");
+      log("${url.baseUrl + url.userAlreadyUrl}?email=$email");
       Response response =
-          await dio.get("${baseUrl + userAlreadyUrl}?email=$email");
+          await dio.get("${url.baseUrl + url.userAlreadyUrl}?email=$email");
 
       log(response.toString());
       log(response.statusCode.toString());
       final user = NewUser.fromJson(jsonDecode(response.data));
+      url.userDetails = user;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString("UserId", user.id!);
       log(sharedPreferences.toString());
-      return response;
-      // if (response.statusCode == 200) {
-      //   return ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('User already exist, Change Your email')),
-      // );
-      // } else {
-      //   AuthApiCall().sendOtp(email);
-      //   Navigator.of(context).push(
-      //     MaterialPageRoute(
-      //       builder: ((context) => ScreenOtp(
-      //             email: email,
-      //             pass: pass,
-      //             name: name,
-      //           )),
-      //     ),
-      //   );
-      // }
+      return user;
     } catch (e) {
       log(e.toString());
       return null;

@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 
-import '../../core/url.dart';
+import '../../core/core_datas.dart';
 
 class AddressApiCalls {
+  CoreDatas url = CoreDatas.internal();
   final dio = Dio();
-
   AddressApiCalls.internal();
   static AddressApiCalls instance = AddressApiCalls.internal();
   AddressApiCalls factory() {
@@ -18,14 +18,14 @@ class AddressApiCalls {
 
   AddressApiCalls() {
     dio.options =
-        BaseOptions(baseUrl: baseUrl, responseType: ResponseType.plain);
+        BaseOptions(baseUrl: url.baseUrl, responseType: ResponseType.plain);
   }
 
   Future<Response?> createAddress(AddressElements addressModal) async {
     log("aaaaaa" + addressModal.toString());
     try {
-      Response response =
-          await dio.post(baseUrl + addressUrl, data: addressModal.toJson());
+      Response response = await dio.post(url.baseUrl + url.addressUrl,
+          data: addressModal.toJson());
       log(response.statusCode.toString());
       log(response.toString());
 
@@ -38,7 +38,8 @@ class AddressApiCalls {
 
   Future<AddressModal?> getAllAddresses() async {
     try {
-      Response response = await dio.get("$addressUrl?user=$userId");
+      Response response =
+          await dio.get("${url.addressUrl}?user=${CoreDatas.instance.userId}");
       Map<String, dynamic> data = json.decode(response.data);
       log(data.toString());
       log(response.toString());
@@ -56,7 +57,7 @@ class AddressApiCalls {
   Future<Response?> deleteAddress(String id) async {
     String deleteUrl = "/$id";
     try {
-      Response response = await dio.delete(addressUrl + deleteUrl);
+      Response response = await dio.delete(url.addressUrl + deleteUrl);
       return response;
     } catch (e) {
       log(e.toString());
@@ -67,7 +68,8 @@ class AddressApiCalls {
   Future<Response?> updateAddress(AddressElements addressElements) async {
     String aAddressUrl = "/${addressElements.id}";
     try {
-      Response response = await dio.patch(baseUrl + addressUrl + aAddressUrl,
+      Response response = await dio.patch(
+          url.baseUrl + url.addressUrl + aAddressUrl,
           data: addressElements.toJson());
 
       log(response.toString());

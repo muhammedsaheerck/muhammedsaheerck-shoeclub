@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 
 import 'package:shoeclub/presentation/widgets/textfield_customwidget.dart';
+
+import '../../../core/core_datas.dart';
 
 enum ActionType {
   addAddress,
@@ -50,7 +52,7 @@ class ScreenAddAddress extends StatelessWidget {
     }
     return SafeArea(
       child: Scaffold(
-        backgroundColor: splashColorPlatinum,
+        backgroundColor: CoreDatas.instance.splashColorPlatinum,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -60,7 +62,7 @@ class ScreenAddAddress extends StatelessWidget {
             style: GoogleFonts.inika(
               fontWeight: FontWeight.bold,
               fontSize: 25,
-              color: buttonColor,
+              color: CoreDatas.instance.buttonColor,
             ),
           ),
           iconTheme: const IconThemeData(),
@@ -92,7 +94,7 @@ class ScreenAddAddress extends StatelessWidget {
                               }
                               return null;
                             }),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                             hint: "Full Name",
                             controller: valueProvider.addressNameController,
@@ -103,7 +105,7 @@ class ScreenAddAddress extends StatelessWidget {
                               }
                               return null;
                             }),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                             hint: "Phone No",
                             controller: valueProvider.addressPhoneController,
@@ -118,7 +120,7 @@ class ScreenAddAddress extends StatelessWidget {
                               }
                               return null;
                             }),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                             hint: "Pin",
                             controller: valueProvider.addressPinController,
@@ -129,7 +131,7 @@ class ScreenAddAddress extends StatelessWidget {
                               }
                               return null;
                             }),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                             hint: "Address",
                             controller: valueProvider.addressController,
@@ -141,7 +143,7 @@ class ScreenAddAddress extends StatelessWidget {
                               return null;
                             },
                             maxLine: 50),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                           hint: "State",
                           controller: valueProvider.addressStateController,
@@ -153,7 +155,7 @@ class ScreenAddAddress extends StatelessWidget {
                             return null;
                           },
                         ),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                           hint: "Place",
                           controller: valueProvider.addressPlaceController,
@@ -165,7 +167,7 @@ class ScreenAddAddress extends StatelessWidget {
                             return null;
                           },
                         ),
-                        height10,
+                        CoreDatas.instance.height10,
                         TextFieldWidget(
                           hint: "LandMark",
                           controller: valueProvider.addressLandmarkController,
@@ -179,12 +181,12 @@ class ScreenAddAddress extends StatelessWidget {
                         ),
                       ],
                     )),
-                height30,
+                CoreDatas.instance.height30,
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: ElevatedButton(
-                      style: buttonStyle,
+                      style: CoreDatas.instance.buttonStyle,
                       onPressed: (() {
                         switch (type) {
                           case ActionType.addAddress:

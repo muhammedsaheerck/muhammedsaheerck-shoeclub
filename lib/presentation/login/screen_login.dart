@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/auth/auth_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/presentation/login/widgets/screen_forgot_password.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
 import '../../application/home/home_provider.dart';
+import '../../core/core_datas.dart';
 import '../../domain/modal/user/new_user.dart';
 import '../../infrastructure/auth/auth_services.dart';
 import '../../infrastructure/product/product_services.dart';
@@ -20,9 +21,8 @@ class ScreenSignIn extends StatelessWidget {
   final signInPasswordCOntroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      backgroundColor: test,
+      backgroundColor: CoreDatas.instance.test,
       body: SafeArea(
         // backgroundColor: splashColorPlatinum,
         child: ListView(
@@ -50,7 +50,7 @@ class ScreenSignIn extends StatelessWidget {
                           letterSpacing: 0)),
                 ),
               ),
-              height10,
+              CoreDatas.instance.height10,
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height / 10,
@@ -72,7 +72,7 @@ class ScreenSignIn extends StatelessWidget {
                           }
                           return null;
                         }),
-                        cursorColor: buttonColor,
+                        cursorColor: CoreDatas.instance.buttonColor,
                         decoration: InputDecoration(
                           focusColor: Colors.deepPurple,
                           focusedBorder: OutlineInputBorder(
@@ -86,7 +86,7 @@ class ScreenSignIn extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.name,
                       ),
-                      height10,
+                      CoreDatas.instance.height10,
                       TextFormField(
                         obscureText:
                             Provider.of<AuthProvider>(context).passVisibility,
@@ -98,7 +98,7 @@ class ScreenSignIn extends StatelessWidget {
                           }
                           return null;
                         }),
-                        cursorColor: buttonColor,
+                        cursorColor: CoreDatas.instance.buttonColor,
                         decoration: InputDecoration(
                           suffixIcon: Consumer<AuthProvider>(
                             builder: (context, valueProvider, child) =>
@@ -197,7 +197,7 @@ class ScreenSignIn extends StatelessWidget {
                   ),
                 ),
               ), // const FormCustomWidget(),
-              height10,
+              CoreDatas.instance.height10,
             ]),
       ),
     );
@@ -225,6 +225,7 @@ class ScreenSignIn extends StatelessWidget {
             email: signInEmailCOntroller.text,
             password: signInPasswordCOntroller.text);
         await AuthApiCall().logIn(login, context);
+        
       } catch (e) {
         log("aaaaaa" + e.toString());
       }

@@ -3,22 +3,23 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../core/const_datas.dart';
+
+import '../../core/core_datas.dart';
 import '../../domain/modal/product/product_modal.dart';
 import '../../infrastructure/whishlist/whishlist_services.dart';
-import '../../presentation/home/screen_home.dart';
 
 class WhishListProvider extends ChangeNotifier {
   void userIdGet(String id) {
-    userId = id;
-    log(userId.toString());
+    CoreDatas.instance.userId = id;
+    log(CoreDatas.instance.userId.toString());
     notifyListeners();
   }
 
   bool? searchIdForWishlist(Product product) {
     bool findProductId = false;
-    for (var i = 0; i < wishlistnotifier.value.length; i++) {
-      if (wishlistnotifier.value[i]!.product!.id == product.id) {
+    for (var i = 0; i < CoreDatas.instance.wishlistnotifier.value.length; i++) {
+      if (CoreDatas.instance.wishlistnotifier.value[i]!.product!.id ==
+          product.id) {
         findProductId = true;
       }
     }
@@ -50,5 +51,4 @@ class WhishListProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
 
-import '../../../core/const_datas.dart';
+import '../../core/core_datas.dart';
 
 class ScreenPayment extends StatelessWidget {
   const ScreenPayment({super.key});
@@ -22,9 +21,9 @@ class ScreenPayment extends StatelessWidget {
                 child: Column(
                   children: [
                     CardPaymentType(),
-                    height10,
+                    CoreDatas.instance.height10,
                     CardPaymentType(),
-                    height10,
+                    CoreDatas.instance.height10,
                     CardPaymentType(),
                   ],
                 ),
@@ -55,7 +54,7 @@ class CardPaymentType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: cardColorAlilceBlue,
+      color: CoreDatas.instance.cardColorAlilceBlue,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

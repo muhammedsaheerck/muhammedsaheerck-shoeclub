@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
-import 'package:shoeclub/core/const_datas.dart';
+
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 
+import '../../application/aProduct/aproduct_provider.dart';
+import '../../core/core_datas.dart';
 import '../../infrastructure/whishlist/whishlist_services.dart';
 import '../home/widgets/product_details.dart';
 
@@ -15,22 +18,24 @@ class ScreenWhishlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WhishlistApiCalls().getWishlist(userId);
+    WhishlistApiCalls().getWishlist(CoreDatas.instance.userId);
     // log("wishlist"+wishlistnotifier.value.toString());
     return Scaffold(
       // backgroundColor: splashColorPlatinum,
-      backgroundColor: test,
+      backgroundColor: CoreDatas.instance.test,
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 70,
         // backgroundColor: splashColorPlatinum,
-        backgroundColor: test,
+        backgroundColor: CoreDatas.instance.test,
         iconTheme: const IconThemeData(),
         title: Center(
           child: Text(
             'Wishlist',
             style: GoogleFonts.inika(
-                fontWeight: FontWeight.bold, fontSize: 25, color: buttonColor),
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                color: CoreDatas.instance.buttonColor),
           ),
         ),
         actions: [
@@ -44,7 +49,7 @@ class ScreenWhishlist extends StatelessWidget {
       ),
 
       body: ValueListenableBuilder(
-        valueListenable: wishlistnotifier,
+        valueListenable: CoreDatas.instance.wishlistnotifier,
         builder: (context, valueLis, child) => valueLis.isEmpty
             ? Center(
                 child: Image.asset(
@@ -126,8 +131,10 @@ class ScreenWhishlist extends StatelessWidget {
                                           builder: (context, value, child) =>
                                               IconButton(
                                             onPressed: (() async {
-                                              value.addTOWishlist(userId!,
-                                                  product.id!, context);
+                                              value.addTOWishlist(
+                                                  CoreDatas.instance.userId!,
+                                                  product.id!,
+                                                  context);
                                               // value.searchIdForWishlist(product);
                                             }),
                                             icon: const Icon(
@@ -144,17 +151,53 @@ class ScreenWhishlist extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
-                                        color: cardColorAlilceBlue),
+                                        color: CoreDatas
+                                            .instance.cardColorAlilceBlue),
                                   ),
-                                  OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                            color: Colors.white)),
-                                    onPressed: (() {}),
-                                    child: Text("MOVE TO BAG",
-                                        style: TextStyle(
-                                            color: cardColorAlilceBlue)),
-                                  )
+                                  Consumer<CartProvider>(
+                                    builder: (context, valueProvider, child) =>
+                                        Provider.of<HomeProvider>(context)
+                                                    .searchIdForCart(product) ==
+                                                false
+                                            ? OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                    side: const BorderSide(
+                                                        color: Colors.white)),
+                                                onPressed: (() {
+                                                  valueProvider.addToCart(
+                                                    product,
+                                                    AProductProvider()
+                                                        .selectedSize,
+                                                    context,
+                                                  );
+                                                }),
+                                                child: Text(
+                                                  "MOVE TO BAG",
+                                                  style: TextStyle(
+                                                      color: CoreDatas.instance
+                                                          .cardColorAlilceBlue),
+                                                ),
+                                              )
+                                            : OutlinedButton(
+                                                style: OutlinedButton.styleFrom(
+                                                    side: const BorderSide(
+                                                        color: Colors.white)),
+                                                onPressed: (() {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          const ScreenCart()),
+                                                    ),
+                                                  );
+                                                }),
+                                                child: Text(
+                                                  "Go TO BAG",
+                                                  style: TextStyle(
+                                                      color: CoreDatas.instance
+                                                          .cardColorAlilceBlue),
+                                                ),
+                                              ),
+                                  ),
                                 ],
                               ),
                             ),
