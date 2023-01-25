@@ -77,7 +77,7 @@ class CoreDatas {
 
 //URLs
 
-  String baseUrl = 'http://192.168.29.225:5000';
+  String baseUrl = 'http://192.168.143.89:5000';
 
   String productUrl = '/products';
   String signUpUrl = '/auth/signup';
@@ -89,4 +89,5 @@ class CoreDatas {
   String whishListUrl = '/wishlist';
   String cartUrl = "/cart";
   String addressUrl = "/address";
+  String ordersUrl = "/orders/";
 }

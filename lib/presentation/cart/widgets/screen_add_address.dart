@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
+import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 
 import 'package:shoeclub/presentation/widgets/textfield_customwidget.dart';
 
@@ -19,6 +20,7 @@ enum ActionType {
 class ScreenAddAddress extends StatelessWidget {
   final ActionType type;
   AddressElements? address;
+
   ScreenAddAddress({super.key, required this.type, this.address});
 
   @override

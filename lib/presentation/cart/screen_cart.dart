@@ -6,7 +6,7 @@ import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
 
-import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
+import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 
 import '../../core/core_datas.dart';
@@ -301,8 +301,7 @@ class ScreenCart extends StatelessWidget {
                           //         const Color.fromRGBO(237, 91, 78, 1)),
                           onPressed: (() {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) =>
-                                    const ScreenCheckout())));
+                                builder: ((context) => const ScreenAddress())));
                           }),
                           child: const Text("PLACE ORDER")),
                     )
