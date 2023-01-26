@@ -5,17 +5,31 @@
 import 'dart:convert';
 
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
-import 'package:shoeclub/domain/modal/product/product_modal.dart';
-import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
 
-List<OrderModal> addressModelFromJson(String str) =>
-    List<OrderModal>.from(json.decode(str).map((x) => OrderModal.fromJson(x)));
+OrderModal orderModalFromJson(String str) =>
+    OrderModal.fromJson(json.decode(str));
 
-String addressModelToJson(List<OrderModal> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String orderModalToJson(OrderModal data) => json.encode(data.toJson());
 
 class OrderModal {
   OrderModal({
+    this.orders,
+  });
+
+  List<Orders>? orders;
+
+  factory OrderModal.fromJson(Map<String, dynamic> json) => OrderModal(
+        orders:
+            List<Orders>.from(json["orders"].map((x) => Orders.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "orders": List<dynamic>.from(orders!.map((x) => x.toJson())),
+      };
+}
+
+class Orders {
+  Orders({
     this.id,
     this.addressId,
     this.userid,
@@ -53,7 +67,7 @@ class OrderModal {
   dynamic cancelDate;
   int? totalPrice;
 
-  factory OrderModal.fromJson(Map<String, dynamic> json) => OrderModal(
+  factory Orders.fromJson(Map<String, dynamic> json) => Orders(
         id: json["_id"],
         products: json["products"] == null
             ? []

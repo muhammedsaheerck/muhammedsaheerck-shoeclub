@@ -2,24 +2,16 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/infrastructure/cart/cart_services.dart';
 import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
 
 import '../../core/core_datas.dart';
-import '../address/address_provider.dart';
 
 class CartProvider extends ChangeNotifier {
   int totalPrice = 0;
 
-  PaymentType? selectedPayment;
-
-  void radioSelectPayments(PaymentType value) {
-    selectedPayment = value;
-    notifyListeners();
-  }
+ 
 
   Future addToCart(
     Product product,

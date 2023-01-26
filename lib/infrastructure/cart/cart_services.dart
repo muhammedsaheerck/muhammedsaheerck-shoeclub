@@ -26,6 +26,7 @@ class CartApiCalls {
   Future<Response?> addToCart(Product product, int? qty, String? size) async {
     log(qty.toString());
     try {
+      log("userId cartServu" + CoreDatas.instance.userId.toString());
       Response response = await dio.post(url.baseUrl + url.cartUrl, data: {
         "userid": CoreDatas.instance.userId,
         "product": product.id,
@@ -54,7 +55,11 @@ class CartApiCalls {
       log("cart" + CoreDatas.instance.cartNotifierList.toString());
       return getData;
     } catch (e) {
-      log(e.toString());
+      CoreDatas.instance.cartNotifierList.value.clear();
+      CoreDatas.instance.cartNotifierList.notifyListeners();
+
+      log("carttt---------" + e.toString());
+      log(CoreDatas.instance.cartNotifierList.toString());
     }
     return null;
   }

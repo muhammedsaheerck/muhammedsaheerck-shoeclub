@@ -27,16 +27,16 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductApiCalls().getProducts();
+    // ProductApiCalls().getProducts();
 
-    Provider.of<CartProvider>(context, listen: false).getAllCart();
-    Provider.of<CartProvider>(context, listen: false).findTotalQuantity();
+    // Provider.of<CartProvider>(context, listen: false).getAllCart();
+    // Provider.of<CartProvider>(context, listen: false).findTotalQuantity();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final user = sharedPreferences.getString("UserId");
-      log(user.toString());
+      log("userId-------------"+user.toString());
       WhishListProvider().userIdGet(user!);
     });
     return Scaffold(

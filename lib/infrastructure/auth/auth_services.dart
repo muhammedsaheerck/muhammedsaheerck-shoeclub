@@ -3,12 +3,12 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
 import 'package:shoeclub/domain/modal/user/new_user.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
-import '../../application/auth/auth_provider.dart';
+
 import '../../core/core_datas.dart';
 import '../../presentation/login/screen_login.dart';
 import '../../presentation/widgets/bottom_navigation.dart';
@@ -36,7 +36,7 @@ class AuthApiCall {
       log(response.statusCode.toString());
       log(response.statusMessage.toString());
       if (response.statusCode == 201) {
-         SharedPreferences sharedPreferencesUserName =
+        SharedPreferences sharedPreferencesUserName =
             await SharedPreferences.getInstance();
         sharedPreferencesUserName.setString("username", "${value.fullname}");
         ScaffoldMessenger.of(context).showSnackBar(
@@ -181,7 +181,7 @@ class AuthApiCall {
       log(response.toString());
       log(response.statusCode.toString());
       final user = NewUser.fromJson(jsonDecode(response.data));
-      url.userDetails = user;
+      // url.userDetails = user;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString("UserId", user.id!);

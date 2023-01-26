@@ -17,7 +17,7 @@ import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
 
 import '../../../core/core_datas.dart';
 
-enum PaymentType { cashOnDelivery, onlinePayment }
+enum PaymentType { COD, ONLINE_PAYMENT }
 
 class ScreenAddress extends StatelessWidget {
   const ScreenAddress({

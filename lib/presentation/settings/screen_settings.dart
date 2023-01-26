@@ -5,9 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/application/auth/auth_provider.dart';
 
 import 'package:shoeclub/core/core_datas.dart';
-import 'package:shoeclub/presentation/settings/widgets/about.dart';
+import 'package:shoeclub/presentation/settings/widgets/privacy_policy.dart';
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
+
+import 'widgets/screen_myorders.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});
@@ -69,6 +71,10 @@ class ScreenSettings extends StatelessWidget {
                 child: ListView(
               children: [
                 ListTile(
+                  onTap: () =>
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const ScreenMyOrders(),
+                  )),
                   iconColor: CoreDatas.instance.buttonColor,
                   leading: const Icon(
                     Icons.location_city,
@@ -93,6 +99,13 @@ class ScreenSettings extends StatelessWidget {
                 ),
                 CoreDatas.instance.divider1,
                 ListTile(
+                  onTap: () {
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: ((context) => ScreenPrivacyPolicy()),
+                    //   ),
+                    // );
+                  },
                   iconColor: CoreDatas.instance.buttonColor,
                   leading: const Icon(
                     Icons.privacy_tip,
@@ -105,10 +118,76 @@ class ScreenSettings extends StatelessWidget {
                 ),
                 CoreDatas.instance.divider1,
                 ListTile(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: ((context) => const ScreenAbout())),
-                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        context: context,
+                        builder: (BuildContext ctx) {
+                          return SizedBox(
+                            height: 300,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 50),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Card(
+                                        color: Theme.of(context).primaryColor,
+                                        elevation: 3,
+                                        shadowColor: Colors.grey,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Image.asset(
+                                          'asset/logo2.png',
+                                          height: 60,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Text('ShoeClub',
+                                          style: GoogleFonts.italiana(
+                                            textStyle: const TextStyle(
+                                              fontSize: 35,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 1,
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 40),
+                                  child: Text('Developed By Muhammed Saheer CK',
+                                      style: GoogleFonts.inika(
+                                        textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      )),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextButton(
+                                    onPressed: (() {
+                                      Navigator.pop(ctx);
+                                    }),
+                                    child: Text('Cancel',
+                                        style: GoogleFonts.nunito(
+                                          textStyle: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )))
+                              ],
+                            ),
+                          );
+                        });
+                  },
                   iconColor: CoreDatas.instance.buttonColor,
                   leading: Image.asset(
                     "asset/information-button.png",
@@ -119,11 +198,13 @@ class ScreenSettings extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
+                CoreDatas.instance.height20,
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.purple, width: 2)),
+                          side:
+                              const BorderSide(color: Colors.purple, width: 2)),
                       onPressed: (() async {
                         SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();

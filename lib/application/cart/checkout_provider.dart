@@ -17,6 +17,13 @@ class CheckoutProvider extends ChangeNotifier {
   BuildContext? context;
   AddressElements? address;
 
+  PaymentType? selectedPayment;
+
+  void radioSelectPayments(PaymentType value) {
+    selectedPayment = value;
+    notifyListeners();
+  }
+
   void payment(
     BuildContext context,
     AddressElements address,
@@ -47,7 +54,7 @@ class CheckoutProvider extends ChangeNotifier {
     log("Payment Success+${response.paymentId}${response.orderId}${response.signature}");
     Provider.of<OrderProvider>(context!, listen: false).orderCreate(
         address!,
-        PaymentType.onlinePayment,
+        PaymentType.ONLINE_PAYMENT,
         CoreDatas.instance.cartNotifierList.value,
         context);
     ScaffoldMessenger.of(context!).showSnackBar(

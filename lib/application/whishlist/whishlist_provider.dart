@@ -10,8 +10,9 @@ import '../../infrastructure/whishlist/whishlist_services.dart';
 
 class WhishListProvider extends ChangeNotifier {
   void userIdGet(String id) {
+    log("id user---" + id);
     CoreDatas.instance.userId = id;
-    log(CoreDatas.instance.userId.toString());
+    log("userId============" + CoreDatas.instance.userId.toString());
     notifyListeners();
   }
 

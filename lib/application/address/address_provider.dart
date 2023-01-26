@@ -167,8 +167,8 @@ class AddressProvider extends ChangeNotifier {
           CoreDatas.instance.addressListNotifier.toString());
       CoreDatas.instance.addressListNotifier.notifyListeners();
       notifyListeners();
-    } catch (e) {
-      log(e.toString());
+    }on DioError catch (e) {
+      log("get all dio error"+e.toString());
     }
     notifyListeners();
   }

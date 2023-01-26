@@ -26,7 +26,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     // ProductApiCalls().getProducts();
     // Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
     // valueFound.value = productListNotifier.value;
-    CoreDatas.instance.valueFound.notifyListeners();
+    // CoreDatas.instance.valueFound.notifyListeners();
     return Consumer<BottomNavigationProvider>(
       builder: (context, value, child) => Scaffold(
         body: tabItems[value.selectedIndex],

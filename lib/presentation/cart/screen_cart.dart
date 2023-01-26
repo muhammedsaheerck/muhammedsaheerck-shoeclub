@@ -18,8 +18,8 @@ class ScreenCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<CartProvider>(context, listen: false).getAllCart();
-    Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
 
+    Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
     // CartProvider().findTotalQuantity();
     return Scaffold(
       backgroundColor: CoreDatas.instance.test,

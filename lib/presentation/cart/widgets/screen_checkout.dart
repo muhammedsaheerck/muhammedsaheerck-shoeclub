@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/cart/checkout_provider.dart';
+import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/presentation/cart/widgets/order_details.dart';
 import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
@@ -19,6 +20,7 @@ class ScreenCheckOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<CartProvider>(context, listen: false).getAllCart();
     log("----------------------" + address.toString());
     return Scaffold(
       backgroundColor: CoreDatas.instance.splashColorPlatinum,
@@ -286,7 +288,7 @@ class ScreenCheckOut extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Consumer<CartProvider>(
+              child: Consumer<CheckoutProvider>(
                 builder: (context, valueProvider, child) => Column(
                   children: [
                     Container(
@@ -297,7 +299,7 @@ class ScreenCheckOut extends StatelessWidget {
                       child: RadioListTile(
                         activeColor: Colors.deepPurple,
                         title: const Text("Cash on Delivery"),
-                        value: PaymentType.cashOnDelivery,
+                        value: PaymentType.COD,
                         groupValue: valueProvider.selectedPayment,
                         onChanged: ((value) {
                           log(value.toString());
@@ -314,7 +316,7 @@ class ScreenCheckOut extends StatelessWidget {
                       child: RadioListTile(
                         activeColor: Colors.deepPurple,
                         title: const Text("Online Payment"),
-                        value: PaymentType.onlinePayment,
+                        value: PaymentType.ONLINE_PAYMENT,
                         groupValue: valueProvider.selectedPayment,
                         onChanged: ((value) {
                           log(value.toString());
@@ -331,10 +333,20 @@ class ScreenCheckOut extends StatelessWidget {
               builder: (context, valueProvider, child) => ElevatedButton(
                   style: CoreDatas.instance.buttonStyle,
                   onPressed: (() {
-                    valueProvider.payment(
-                      context,
-                      address,
-                    );
+                    if (valueProvider.selectedPayment ==
+                        PaymentType.ONLINE_PAYMENT) {
+                      valueProvider.payment(
+                        context,
+                        address,
+                      );
+                    } else {
+                      Provider.of<OrderProvider>(context, listen: false)
+                          .orderCreate(
+                              address,
+                              PaymentType.COD,
+                              CoreDatas.instance.cartNotifierList.value,
+                              context);
+                    }
                   }),
                   child: const Text("CONTINUE")),
             ),
