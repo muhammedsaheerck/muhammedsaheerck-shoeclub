@@ -41,7 +41,7 @@ class ScreenSettings extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Text(
-                        "value.nameUser!",
+                        "Muhammed Saheer",
                         style: GoogleFonts.inika(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
@@ -69,6 +69,9 @@ class ScreenSettings extends StatelessWidget {
             Flexible(
                 child: ListView(
               children: [
+                const SizedBox(
+                  height: 150,
+                ),
                 ListTile(
                   onTap: () =>
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -207,10 +210,11 @@ class ScreenSettings extends StatelessWidget {
                 CoreDatas.instance.height20,
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          side:
-                              const BorderSide(color: Colors.purple, width: 2)),
+                  child: ElevatedButton(
+                      style: CoreDatas.instance.buttonStyle,
+                      // OutlinedButton.styleFrom(
+                      //     side:
+                      //         const BorderSide(color: Colors.purple, width: 2)),
                       onPressed: (() async {
                         SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();
@@ -221,9 +225,9 @@ class ScreenSettings extends StatelessWidget {
                             ),
                             (route) => false);
                       }),
-                      child: Text(
+                      child: const Text(
                         "LOG OUT",
-                        style: TextStyle(color: CoreDatas.instance.buttonColor),
+                        style: TextStyle(color: Colors.white),
                       )),
                 )
               ],

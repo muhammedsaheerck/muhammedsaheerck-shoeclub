@@ -83,10 +83,10 @@ class CartProvider extends ChangeNotifier {
     int totalQty = 0;
     for (var i = 0; i < CoreDatas.instance.cartNotifierList.value.length; i++) {
       totalQty = totalQty + CoreDatas.instance.cartNotifierList.value[i]!.qty!;
-      getAllCart();
+
       log("qqqqqqqq" + totalQty.toString());
     }
-    notifyListeners();
+
     return totalQty;
   }
 

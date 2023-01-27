@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/infrastructure/order/order_services.dart';
+import 'package:shoeclub/presentation/home/widgets/product_details.dart';
+import 'package:shoeclub/presentation/settings/widgets/screen_order_summary.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import '../../../core/core_datas.dart';
 
@@ -41,8 +43,9 @@ class ScreenMyOrders extends StatelessWidget {
         ),
         body: Consumer<OrderProvider>(
           builder: (context, valueProvider, child) => ListView.separated(
-            itemCount: 4,
+            itemCount: valueProvider.orderDetails!.orders!.length,
             itemBuilder: (context, index) {
+              final order = valueProvider.orderDetails!.orders![index];
               return Card(
                 // decoration: BoxDecoration(color: Colors.deepPurple.shade50),
                 elevation: 2,
@@ -56,14 +59,12 @@ class ScreenMyOrders extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // height10,
-                      const Text(
-                        "Order Date",
+                      Text(
+                        "Order Date : ${valueProvider.orderDetails!.orders![index].orderDate}",
                         maxLines: 3,
-                        // overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13,
+                        style: const TextStyle(
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          // color: CoreDatas.instance.cardColorAlilceBlue
                         ),
                       ),
                       CoreDatas.instance.height10,
@@ -72,7 +73,7 @@ class ScreenMyOrders extends StatelessWidget {
                         child: ListView.separated(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: order.products!.length,
                           itemBuilder: (BuildContext context, int index) =>
                               Container(
                             decoration: BoxDecoration(
@@ -81,9 +82,18 @@ class ScreenMyOrders extends StatelessWidget {
                             ),
                             width: MediaQuery.of(context).size.width / 3,
                             // height: MediaQuery.of(context).size.height / 8,
-                            child: Image.asset(
-                              "asset/logo2.png",
-                              fit: BoxFit.fill,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ScreenProductDetails(
+                                      product:
+                                          order.products![index]!.product!),
+                                ));
+                              },
+                              child: Image.network(
+                                "${order.products![index]!.product!.image!.first}",
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           separatorBuilder: (context, index) => const SizedBox(
@@ -96,43 +106,62 @@ class ScreenMyOrders extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           CircleAvatar(
-                            maxRadius: 12,
-                            backgroundColor: Colors.grey,
-                            child: Image.asset("asset/order-Confirmed.png",fit: BoxFit.fill,),
-                          ),
+                              maxRadius: 12,
+                              backgroundColor: Colors.grey,
+                              child: order.orderStatus == "CANCELED"
+                                  ? Image.asset(
+                                      "asset/cancel-order.png",
+                                      fit: BoxFit.fill,
+                                    )
+                                  : Image.asset(
+                                      "asset/order-summary.png",
+                                      fit: BoxFit.fill,
+                                    )),
                           CoreDatas.instance.width10,
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Confirmd",
-                                  // overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    // color: CoreDatas.instance.cardColorAlilceBlue
-                                  ),
-                                ),
-                                CoreDatas.instance.height5,
-                              ],
+                          Text(
+                            order.orderStatus.toString(),
+                            // overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              // color: CoreDatas.instance.cardColorAlilceBlue
                             ),
                           ),
+                          CoreDatas.instance.height5,
                           CoreDatas.instance.width20,
-                          SizedBox(
-                            width: 101,
-                            child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    side: const BorderSide(
-                                        color: Colors.purple, width: 2)),
-                                onPressed: (() async {}),
-                                child: Text(
-                                  "SUMMARY",
-                                  style: TextStyle(
-                                      color: CoreDatas.instance.buttonColor),
-                                )),
+                          Consumer<OrderProvider>(
+                            builder: (context, valueProvider, child) =>
+                                OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        side: const BorderSide(
+                                            color: Colors.purple, width: 2)),
+                                    onPressed: (() {
+                                      valueProvider.cancelOrder(
+                                          order.id!, context);
+                                    }),
+                                    child: Text(
+                                      "CANCEL",
+                                      style: TextStyle(
+                                          color:
+                                              CoreDatas.instance.buttonColor),
+                                    )),
                           ),
+                          CoreDatas.instance.width20,
+                          OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                      color: Colors.purple, width: 2)),
+                              onPressed: (() {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ScreenOrderSummary(orders: order),
+                                ));
+                              }),
+                              child: Text(
+                                "SUMMARY",
+                                style: TextStyle(
+                                    color: CoreDatas.instance.buttonColor),
+                              )),
                         ],
                       ),
                     ],

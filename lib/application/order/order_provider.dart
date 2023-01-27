@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
@@ -13,9 +12,9 @@ import 'package:shoeclub/presentation/settings/widgets/screen_myorders.dart';
 import '../../presentation/cart/widgets/screen_address.dart';
 
 class OrderProvider extends ChangeNotifier {
-  Orders? orderDetails;
+  OrderModal? orderDetails;
 
-  getOrders(Orders orderModal) {
+  getOrders(OrderModal orderModal) {
     orderDetails = orderModal;
     notifyListeners();
   }
@@ -57,6 +56,33 @@ class OrderProvider extends ChangeNotifier {
       }
     } catch (e) {
       log("orderprovider" + e.toString());
+    }
+    notifyListeners();
+  }
+
+  Future<void> cancelOrder(String orderid, context) async {
+    try {
+      Response response = await OrdersApiCall().orderDelete(
+        orderid,
+      ) as Response;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: OutlineInputBorder(
+                borderSide: const BorderSide(style: BorderStyle.none),
+                borderRadius: BorderRadius.circular(10)),
+            elevation: 1,
+            duration: const Duration(seconds: 1),
+            backgroundColor: response.statusCode == 200
+                ? Colors.green.shade400
+                : Colors.red.shade400,
+            content: response.statusCode == 200
+                ? const Text('order canceled successfullly')
+                : const Text('order already canceled ')),
+      );
+    } on DioError catch (e) {
+      log(e.response!.data);
     }
     notifyListeners();
   }

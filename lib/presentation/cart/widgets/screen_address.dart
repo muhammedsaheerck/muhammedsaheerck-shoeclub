@@ -324,60 +324,7 @@ class ScreenAddress extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 50,
-            //   child: Card(
-            //     color: CoreDatas.instance.headMainColor,
-            //     child: const Padding(
-            //       padding: EdgeInsets.all(8.0),
-            //       child: Text(
-            //         "Payments",
-            //         style: TextStyle(
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             CoreDatas.instance.height10,
-            // Consumer<CartProvider>(
-            //   builder: (context, valueProvider, child) => Column(
-            //     children: [
-            //       Container(
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(50),
-            //           color: Colors.deepPurple.shade100,
-            //         ),
-            //         child: RadioListTile(
-            //           activeColor: Colors.deepPurple,
-            //           title: const Text("Cash on Delivery"),
-            //           value: "Cash on Delivery",
-            //           groupValue: valueProvider.selectedPayment,
-            //           onChanged: ((value) {
-            //             valueProvider.radioSelectPayments(value.toString());
-            //           }),
-            //         ),
-            //       ),
-            //       CoreDatas.instance.height10,
-            //       // Container(
-            //       //   decoration: BoxDecoration(
-            //       //     borderRadius: BorderRadius.circular(50),
-            //       //     color: Colors.deepPurple.shade100,
-            //       //   ),
-            //       //   child: RadioListTile(
-            //       //     activeColor: Colors.deepPurple,
-            //       //     title: const Text("Online Payment"),
-            //       //     value: "Online Payment",
-            //       //     groupValue: valueProvider.selectedPayment,
-            //       //     onChanged: ((value) {
-            //       //       valueProvider.radioSelectPayments(value.toString());
-            //       //     }),
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
             CoreDatas.instance.height10,
             Consumer<AddressProvider>(
               builder: (context, valueProvider, child) => ElevatedButton(
