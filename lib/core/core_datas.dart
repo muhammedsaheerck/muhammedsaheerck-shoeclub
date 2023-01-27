@@ -57,6 +57,9 @@ class CoreDatas {
   SizedBox width10 = const SizedBox(
     width: 10,
   );
+   SizedBox width20 = const SizedBox(
+    width: 10,
+  );
 
 //key
   final userKey = "UserId";

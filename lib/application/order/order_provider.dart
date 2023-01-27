@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';

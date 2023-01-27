@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/application/auth/auth_provider.dart';
 
 import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/presentation/settings/widgets/privacy_policy.dart';
+import 'package:shoeclub/presentation/settings/widgets/screen_termsaandconditions.dart';
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
@@ -87,6 +86,13 @@ class ScreenSettings extends StatelessWidget {
                 ),
                 CoreDatas.instance.divider1,
                 ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) => ScreenTermsAndConditions()),
+                      ),
+                    );
+                  },
                   iconColor: CoreDatas.instance.buttonColor,
                   leading: Image.asset(
                     "asset/terms-and-conditions.png",
@@ -100,11 +106,11 @@ class ScreenSettings extends StatelessWidget {
                 CoreDatas.instance.divider1,
                 ListTile(
                   onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: ((context) => ScreenPrivacyPolicy()),
-                    //   ),
-                    // );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) => const ScreenPrivacyPolicy()),
+                      ),
+                    );
                   },
                   iconColor: CoreDatas.instance.buttonColor,
                   leading: const Icon(

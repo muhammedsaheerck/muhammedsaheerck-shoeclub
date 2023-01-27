@@ -11,8 +11,6 @@ import '../../core/core_datas.dart';
 class CartProvider extends ChangeNotifier {
   int totalPrice = 0;
 
- 
-
   Future addToCart(
     Product product,
     String size,
@@ -112,5 +110,11 @@ class CartProvider extends ChangeNotifier {
         .firstWhere((element) => element!.id == id);
     icon = true;
     return icon;
+  }
+
+  int cartItmLength() {
+    int length = CoreDatas.instance.cartNotifierList.value.length;
+    notifyListeners();
+    return length;
   }
 }

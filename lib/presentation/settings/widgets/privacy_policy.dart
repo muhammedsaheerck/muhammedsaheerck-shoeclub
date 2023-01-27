@@ -1,20 +1,42 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/container.dart';
-// import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
-// class ScreenPrivacyPolicy extends StatelessWidget {
-//   String url;
-//   ScreenPrivacyPolicy({super.key, required this.url});
+import 'package:provider/provider.dart';
+import 'package:shoeclub/application/settings/settings_provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Flutter WebView example'),
-//         ),
-//         body: Scaffold(
-//       appBar: AppBar(title: Text("Web View Example")),
-//       body: ));
-//   }
-  
-// }
+class ScreenPrivacyPolicy extends StatelessWidget {
+  const ScreenPrivacyPolicy({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Scaffold(
+      appBar: AppBar(title: const Text("Privacy Policy")),
+      body: WebViewStack(),
+    ));
+  }
+}
+
+class WebViewStack extends StatelessWidget {
+  WebViewStack({super.key});
+  final WebViewController controller = WebViewController();
+  @override
+  Widget build(BuildContext context) {
+    Provider.of<SettingsProvider>(context, listen: false).init(controller,
+        'https://www.freeprivacypolicy.com/live/8ad3b32c-a7bd-49c3-afd6-e5445e58f403');
+    final webViewModel = Provider.of<SettingsProvider>(context, listen: false);
+    return Stack(
+      children: [
+        WebViewWidget(
+          controller: controller,
+        ),
+        if (webViewModel.loadingPercentage < 100)
+          LinearProgressIndicator(
+            value: webViewModel.loadingPercentage / 100.0,
+          ),
+      ],
+    );
+  }
+}

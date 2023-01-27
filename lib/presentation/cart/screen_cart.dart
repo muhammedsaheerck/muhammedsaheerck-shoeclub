@@ -242,7 +242,7 @@ class ScreenCart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${CoreDatas.instance.cartNotifierList.value.length} Items in Cart",
+                      "${Provider.of<CartProvider>(context).cartItmLength()} Items in Cart",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),

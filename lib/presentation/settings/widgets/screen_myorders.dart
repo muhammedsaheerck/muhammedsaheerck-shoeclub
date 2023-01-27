@@ -3,9 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/infrastructure/order/order_services.dart';
-import 'package:shoeclub/presentation/settings/screen_settings.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
-
 import '../../../core/core_datas.dart';
 
 class ScreenMyOrders extends StatelessWidget {
@@ -22,7 +20,7 @@ class ScreenMyOrders extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            'CHECKOUT',
+            'MY ORDERS',
             style: GoogleFonts.inika(
               fontWeight: FontWeight.bold,
               fontSize: 25,
@@ -33,7 +31,7 @@ class ScreenMyOrders extends StatelessWidget {
           leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const ScreenSettings(),
+                  builder: (context) => BottomNavigationBarWidget(),
                 ));
               },
               icon: const Icon(
@@ -42,75 +40,109 @@ class ScreenMyOrders extends StatelessWidget {
               )),
         ),
         body: Consumer<OrderProvider>(
-          builder: (context, valueProvider, child) => ListView.builder(
-            itemCount: valueProvider.orderDetails!.products!.length,
+          builder: (context, valueProvider, child) => ListView.separated(
+            itemCount: 4,
             itemBuilder: (context, index) {
               return Card(
+                // decoration: BoxDecoration(color: Colors.deepPurple.shade50),
                 elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        height: MediaQuery.of(context).size.height / 6,
-                        child: Image.network(
-                          valueProvider.orderDetails!.products![index]!.product!
-                              .image!.first!,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              " Confirmd",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                // color: CoreDatas.instance.cardColorAlilceBlue
-                              ),
-                            ),
-                            Text(
-                              " value.description!",
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                // color: CoreDatas.instance.cardColorAlilceBlue
-                              ),
-                            ),
-                            // height10,
-                            Text(
-                              "₹ {value.price.",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                color: Colors.deepPurple.shade50,
+                // shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // height10,
+                      const Text(
+                        "Order Date",
+                        maxLines: 3,
+                        // overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          // color: CoreDatas.instance.cardColorAlilceBlue
                         ),
                       ),
-                    ),
-                  ],
+                      CoreDatas.instance.height10,
+                      SizedBox(
+                        height: 120,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) =>
+                              Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            width: MediaQuery.of(context).size.width / 3,
+                            // height: MediaQuery.of(context).size.height / 8,
+                            child: Image.asset(
+                              "asset/logo2.png",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            width: 5,
+                          ),
+                        ),
+                      ),
+                      CoreDatas.instance.height10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            maxRadius: 12,
+                            backgroundColor: Colors.grey,
+                            child: Image.asset("asset/order-Confirmed.png",fit: BoxFit.fill,),
+                          ),
+                          CoreDatas.instance.width10,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Confirmd",
+                                  // overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    // color: CoreDatas.instance.cardColorAlilceBlue
+                                  ),
+                                ),
+                                CoreDatas.instance.height5,
+                              ],
+                            ),
+                          ),
+                          CoreDatas.instance.width20,
+                          SizedBox(
+                            width: 101,
+                            child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Colors.purple, width: 2)),
+                                onPressed: (() async {}),
+                                child: Text(
+                                  "SUMMARY",
+                                  style: TextStyle(
+                                      color: CoreDatas.instance.buttonColor),
+                                )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 15,
+            ),
           ),
         ));
   }

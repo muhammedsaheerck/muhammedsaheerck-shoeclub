@@ -11,6 +11,7 @@ import 'package:shoeclub/application/cart/checkout_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
+import 'package:shoeclub/application/settings/settings_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: ((context) => AuthProvider())),
         ChangeNotifierProvider(create: ((context) => CheckoutProvider())),
         ChangeNotifierProvider(create: ((context) => OrderProvider())),
+        ChangeNotifierProvider(create: ((context) => SettingsProvider())),
       ],
       builder: (context, child) {
         return MaterialApp(
