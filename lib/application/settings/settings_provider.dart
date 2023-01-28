@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoeclub/core/core_datas.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SettingsProvider extends ChangeNotifier {
@@ -24,5 +25,12 @@ class SettingsProvider extends ChangeNotifier {
       ..loadRequest(
         Uri.parse(url),
       );
+  }
+
+  Future userNameGet(String? name) async {
+    print(name);
+    CoreDatas.instance.userName = name;
+    print("core user${CoreDatas.instance.userName}");
+    notifyListeners();
   }
 }

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/infrastructure/order/order_services.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
-import 'package:shoeclub/presentation/settings/widgets/screen_order_summary.dart';
+import 'package:shoeclub/presentation/settings/orders/screen_order_summary.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import '../../../core/core_datas.dart';
 
@@ -114,7 +114,7 @@ class ScreenMyOrders extends StatelessWidget {
                                       fit: BoxFit.fill,
                                     )
                                   : Image.asset(
-                                      "asset/order-summary.png",
+                                      "asset/order-Confirmed.png",
                                       fit: BoxFit.fill,
                                     )),
                           CoreDatas.instance.width10,

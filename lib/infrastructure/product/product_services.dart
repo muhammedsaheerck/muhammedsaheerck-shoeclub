@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 
+import '../../application/home/home_provider.dart';
 import '../../core/core_datas.dart';
 
 ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
@@ -23,11 +25,13 @@ class ProductApiCalls {
         BaseOptions(baseUrl: url.baseUrl, responseType: ResponseType.plain);
   }
 
-  Future getProducts() async {
+  Future getProducts(context) async {
     try {
+      // Provider.of<HomeProvider>(context).dataWaitCircle(true);
       Response response = await dio.get(url.baseUrl + url.productUrl);
       Map<String, dynamic> data = await json.decode(response.data);
       log(response.data);
+
       if (response.statusCode == 200) {
         final getData = ProductModal.fromJson(data);
         productListNotifier.value.clear();
@@ -52,6 +56,7 @@ class ProductApiCalls {
             productSportsListNotifier.notifyListeners();
           }
         }
+        // Provider.of<HomeProvider>(context).dataWaitCircle(false);
         return;
       }
     } catch (e) {

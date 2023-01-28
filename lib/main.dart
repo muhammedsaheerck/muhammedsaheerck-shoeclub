@@ -13,6 +13,7 @@ import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/application/product/product_provider.dart';
 import 'package:shoeclub/application/settings/settings_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
+import 'package:shoeclub/presentation/settings/orders/cod_order_success.dart';
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 

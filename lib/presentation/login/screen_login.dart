@@ -102,13 +102,17 @@ class ScreenSignIn extends StatelessWidget {
                         decoration: InputDecoration(
                           suffixIcon: Consumer<AuthProvider>(
                             builder: (context, valueProvider, child) =>
-                                IconButton(
-                                    onPressed: (() {
-                                      valueProvider.obsecureChange(false);
-                                    }),
-                                    icon: valueProvider.passVisibility
-                                        ? const Icon(Icons.visibility_off)
-                                        : const Icon(Icons.visibility)),
+                                valueProvider.passVisibility
+                                    ? IconButton(
+                                        onPressed: (() {
+                                          valueProvider.obsecureChange(false);
+                                        }),
+                                        icon: const Icon(Icons.visibility_off))
+                                    : IconButton(
+                                        onPressed: (() {
+                                          valueProvider.obsecureChange(true);
+                                        }),
+                                        icon: const Icon(Icons.visibility)),
                           ),
                           focusColor: Colors.deepPurple,
                           focusedBorder: OutlineInputBorder(
@@ -225,7 +229,6 @@ class ScreenSignIn extends StatelessWidget {
             email: signInEmailCOntroller.text,
             password: signInPasswordCOntroller.text);
         await AuthApiCall().logIn(login, context);
-        
       } catch (e) {
         log("aaaaaa" + e.toString());
       }

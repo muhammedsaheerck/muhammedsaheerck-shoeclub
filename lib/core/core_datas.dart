@@ -57,15 +57,17 @@ class CoreDatas {
   SizedBox width10 = const SizedBox(
     width: 10,
   );
-   SizedBox width20 = const SizedBox(
+  SizedBox width20 = const SizedBox(
     width: 10,
   );
 
 //key
   final userKey = "UserId";
   String? userId;
+  String? userName;
   NewUser? userDetails;
 //valuenotifiers
+
   ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
   ValueNotifier<int> totalAmount = ValueNotifier(0);
   ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);

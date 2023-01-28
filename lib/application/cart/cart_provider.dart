@@ -44,7 +44,11 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void qtyChangeCart(Product product, String size, int qty) async {
+  void qtyChangeCart(
+    Product product,
+    String size,
+    int qty,
+  ) async {
     try {
       await CartApiCalls().addToCart(product, qty, size) as Response;
 

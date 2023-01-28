@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoeclub/application/settings/settings_provider.dart';
 
 import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/presentation/settings/widgets/privacy_policy.dart';
@@ -8,19 +11,24 @@ import 'package:shoeclub/presentation/settings/widgets/screen_termsaandcondition
 
 import 'package:shoeclub/presentation/splash/screen_splash.dart';
 
-import 'widgets/screen_myorders.dart';
+import '../../infrastructure/order/order_services.dart';
+import 'orders/screen_myorders.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await OrdersApiCall().getAllOrders(context);
+    });
+    log("userNam-----------${CoreDatas.instance.userName}");
     return SafeArea(
       child: Scaffold(
         // backgroundColor: splashColorPlatinum,
         backgroundColor: CoreDatas.instance.test,
         appBar: AppBar(
-          backgroundColor: CoreDatas.instance.headMainColor,
+          backgroundColor: Colors.deepPurple.shade100,
           elevation: 0,
         ),
         body: Column(
@@ -31,36 +39,36 @@ class ScreenSettings extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.12,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: CoreDatas.instance.headMainColor,
+                      color: Colors.deepPurple.shade100,
                       borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(160),
-                          bottomRight: Radius.circular(160))),
+                          bottomLeft: Radius.circular(40),
+                          bottomRight: Radius.circular(40))),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.15),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Text(
-                        "Muhammed Saheer",
+                        CoreDatas.instance.userName!,
                         style: GoogleFonts.inika(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
-                            color: Colors.white),
+                            color: Colors.black87),
                       ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.4,
-                      vertical: MediaQuery.of(context).size.height * 0.05),
+                      horizontal: MediaQuery.of(context).size.width * 0.35,
+                      vertical: MediaQuery.of(context).size.height * 0.03),
                   child: CircleAvatar(
                     backgroundColor: CoreDatas.instance.test,
-                    radius: 60,
+                    radius: 70,
                     child: Image.asset(
                       "asset/user (1).png",
-                      width: 60,
-                      fit: BoxFit.contain,
+                      width: 70,
+                      fit: BoxFit.fill,
                     ),
                   ),
                 )
@@ -69,8 +77,8 @@ class ScreenSettings extends StatelessWidget {
             Flexible(
                 child: ListView(
               children: [
-                const SizedBox(
-                  height: 150,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 6,
                 ),
                 ListTile(
                   onTap: () =>

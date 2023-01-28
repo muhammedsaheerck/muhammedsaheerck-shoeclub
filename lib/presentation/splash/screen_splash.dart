@@ -22,7 +22,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
     alreadySigned();
-    ProductApiCalls().getProducts();
+    ProductApiCalls().getProducts(context);
     // Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
     CoreDatas.instance.valueFound.value = productListNotifier.value;
     super.initState();

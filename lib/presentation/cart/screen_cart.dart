@@ -5,10 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
-
 import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
-
 import '../../core/core_datas.dart';
 import '../../domain/modal/product/product_modal.dart';
 
@@ -42,7 +40,7 @@ class ScreenCart extends StatelessWidget {
         children: [
           SizedBox(
             // color: Colors.amber,
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height / 1.7,
             child: ValueListenableBuilder(
               valueListenable: CoreDatas.instance.cartNotifierList,
               builder: (context, value, child) => CoreDatas
@@ -68,7 +66,7 @@ class ScreenCart extends StatelessWidget {
                                   builder: (context, valueProvider, child) =>
                                       SlidableAction(
                                     onPressed: ((context) {
-                                      PopUpWidget(
+                                      popUpWidget(
                                           cartProduct!, context, valueProvider);
                                     }),
                                     icon: Icons.delete,
@@ -178,7 +176,8 @@ class ScreenCart extends StatelessWidget {
                                                       cartProduct,
                                                       AProductProvider()
                                                           .selectedSize,
-                                                      1);
+                                                      1,
+                                                      );
                                                 }),
                                                 child: const Icon(
                                                   Icons.add,
@@ -200,10 +199,11 @@ class ScreenCart extends StatelessWidget {
                                                           const CircleBorder()),
                                                   onPressed: (() {
                                                     valueProvider.qtyChangeCart(
-                                                        cartProduct,
-                                                        AProductProvider()
-                                                            .selectedSize,
-                                                        -1);
+                                                      cartProduct,
+                                                      AProductProvider()
+                                                          .selectedSize,
+                                                      -1,
+                                                    );
                                                   }),
                                                   child: const Icon(
                                                     Icons.remove,
@@ -226,89 +226,81 @@ class ScreenCart extends StatelessWidget {
           ),
           CoreDatas.instance.height10,
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.deepPurple.shade100,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40))),
-              height: MediaQuery.of(context).size.height * 0.25,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.1,
-                    vertical: MediaQuery.of(context).size.width * 0.03),
-                // padding: const EdgeInsets.only(left: 40, top: 20, right: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${Provider.of<CartProvider>(context).cartItmLength()} Items in Cart",
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                  vertical: MediaQuery.of(context).size.width * 0.03),
+              // padding: const EdgeInsets.only(left: 40, top: 20, right: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${Provider.of<CartProvider>(context).cartItmLength()} Items in Cart",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
 
-                    const Divider(
-                      thickness: 1,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Total Quantity ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                        Consumer<CartProvider>(
-                          builder: (context, value, child) {
-                            return Text(
-                              value.findTotalQuantity().toString(),
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w600),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    CoreDatas.instance.height10,
-                    // const Divider(
-                    //   thickness: 1,
-                    // ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Bag Total ",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600),
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: CoreDatas.instance.totalAmount,
-                          builder: (context, value, child) => Text(
-                            value.toString(),
+                  const Divider(
+                    thickness: 1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Total Quantity ",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      Consumer<CartProvider>(
+                        builder: (context, value, child) {
+                          return Text(
+                            value.findTotalQuantity().toString(),
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
-                          ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  CoreDatas.instance.height10,
+                  // const Divider(
+                  //   thickness: 1,
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Bag Total ",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: CoreDatas.instance.totalAmount,
+                        builder: (context, value, child) => Text(
+                          value.toString(),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
                         ),
-                      ],
-                    ),
-                    CoreDatas.instance.height20,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1,
-                      child: ElevatedButton(
-                          style: CoreDatas.instance.buttonStyle,
-                          // ElevatedButton.styleFrom(
-                          //     minimumSize: const Size.fromHeight(35),
-                          //     elevation: 1,
-                          //     backgroundColor:
-                          //         const Color.fromRGBO(237, 91, 78, 1)),
-                          onPressed: (() {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => const ScreenAddress())));
-                          }),
-                          child: const Text("PLACE ORDER")),
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  CoreDatas.instance.height20,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1,
+                    child: ElevatedButton(
+                        style: CoreDatas.instance.buttonStyle,
+                        // ElevatedButton.styleFrom(
+                        //     minimumSize: const Size.fromHeight(35),
+                        //     elevation: 1,
+                        //     backgroundColor:
+                        //         const Color.fromRGBO(237, 91, 78, 1)),
+                        onPressed: (() {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => const ScreenAddress())));
+                        }),
+                        child: const Text("PLACE ORDER")),
+                  )
+                ],
               ),
             ),
           )
@@ -317,7 +309,7 @@ class ScreenCart extends StatelessWidget {
     );
   }
 
-  Future<dynamic> PopUpWidget(Product product, context, CartProvider provider) {
+  Future<dynamic> popUpWidget(Product product, context, CartProvider provider) {
     return showDialog(
       context: context,
       builder: ((context) {

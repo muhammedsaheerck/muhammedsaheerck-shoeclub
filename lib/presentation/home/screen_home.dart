@@ -16,28 +16,31 @@ import 'package:shoeclub/infrastructure/product/product_services.dart';
 import 'package:shoeclub/presentation/home/widgets/product_details.dart';
 import 'package:shoeclub/presentation/splash/widgets/text_ittaliana.dart';
 
+import '../../application/settings/settings_provider.dart';
 import '../../core/core_datas.dart';
 
 class ScreenHome extends StatelessWidget {
-  ScreenHome({super.key});
-
-  List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
-
-  // String dropdownValue = "All";
+  const ScreenHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     // ProductApiCalls().getProducts();
 
-    // Provider.of<CartProvider>(context, listen: false).getAllCart();
     // Provider.of<CartProvider>(context, listen: false).findTotalQuantity();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final user = sharedPreferences.getString("UserId");
-      log("userId-------------"+user.toString());
+      log("userId-------------" + user.toString());
       WhishListProvider().userIdGet(user!);
+      SharedPreferences sharedPreferencesuserName =
+          await SharedPreferences.getInstance();
+      final userName = sharedPreferencesuserName.getString("userName");
+      await SettingsProvider().userNameGet(userName);
+      print(userName);
+      log(userName!);
+      await Provider.of<CartProvider>(context, listen: false).getAllCart();
     });
     return Scaffold(
       appBar: AppBar(
@@ -111,90 +114,25 @@ class ScreenHome extends StatelessWidget {
                       color: Colors.white,
                     ),
 
-                    items: filter
-                        .map<DropdownMenuItem<String>>((String value) =>
-                            DropdownMenuItem(
-                              value: value,
-                              onTap: () {
-                                if (value == "All") {
-                                  CoreDatas.instance.valueFound.value =
-                                      productListNotifier.value;
-                                  log("casualaaa" +
-                                      CoreDatas.instance.valueFound.toString());
-                                } else if (value == "Casual") {
-                                  CoreDatas.instance.valueFound.value =
-                                      productCasualListNotifier.value;
-                                  log("+++++++++" +
-                                      CoreDatas.instance.valueFound.toString());
-                                } else if (value == "Formal") {
-                                  CoreDatas.instance.valueFound.value =
-                                      productFormalListNotifier.value;
-                                } else {
-                                  CoreDatas.instance.valueFound.value =
-                                      productSportsListNotifier.value;
-                                }
-                                // valueProvider.dropdownShowProducts(value);
-                              },
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ))
+                    items: valueProvider.filter
+                        .map<DropdownMenuItem<String>>(
+                            (String value) => DropdownMenuItem(
+                                  value: value,
+                                  onTap: () {
+                                    valueProvider.dropdownShowProducts(value);
+                                  },
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ))
                         .toList(),
-                    //     const [
-                    //   DropdownMenuItem(
-                    //     value: 0,
-                    //     child: Text(
-                    //       "All",
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   DropdownMenuItem(
-                    //     value: 1,
-                    //     child: Text(
-                    //       "Casual",
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   DropdownMenuItem(
-                    //     value: 2,
-                    //     child: Text(
-                    //       "Formal",
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   DropdownMenuItem(
-                    //     value: 3,
-                    //     child: Text(
-                    //       "Sports",
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   )
-                    // ],
-
                     value: HomeProvider().selectedValue,
-
                     onChanged: (String? value) {
                       valueProvider.dropdownFilter(value!);
                     },
@@ -299,11 +237,6 @@ class ScreenHome extends StatelessWidget {
                               // width: double.infinity,
                               child: InkWell(
                                 onTap: () {
-                                  // log(value[index].toString());
-                                  // aProductDetails.clear();
-                                  // aProductDetails.add(value);
-                                  // log("name :===="+aProductDetails[0]["name"].toString());
-                                  // log("asdas"+aProductDetails.toString());
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: ((context) {

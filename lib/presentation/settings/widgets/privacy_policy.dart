@@ -13,7 +13,8 @@ class ScreenPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Scaffold(
-      appBar: AppBar(title: const Text("Privacy Policy")),
+      appBar: AppBar(
+          backgroundColor: Colors.purple, title: const Text("Privacy Policy")),
       body: WebViewStack(),
     ));
   }

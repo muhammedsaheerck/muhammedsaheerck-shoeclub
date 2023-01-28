@@ -14,7 +14,9 @@ class ScreenTermsAndConditions extends StatelessWidget {
         'https://www.app-privacy-policy.com/live.php?token=pvCgrEWPB2rHfI37Lyfv2m6EgUfDsMFG');
     final webViewModel = Provider.of<SettingsProvider>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: const Text("Terms and Conditions")),
+      appBar: AppBar(
+          backgroundColor: Colors.purple,
+          title: const Text("Terms and Conditions")),
       body: Stack(
         children: [
           WebViewWidget(

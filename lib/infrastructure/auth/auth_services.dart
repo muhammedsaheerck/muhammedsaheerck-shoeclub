@@ -186,6 +186,11 @@ class AuthApiCall {
           await SharedPreferences.getInstance();
       sharedPreferences.setString("UserId", user.id!);
       log(sharedPreferences.toString());
+      //name save
+      SharedPreferences sharedPreferencesUsername =
+          await SharedPreferences.getInstance();
+      sharedPreferencesUsername.setString("userName", user.fullname!);
+      log("userName-------" + user.fullname!);
       return user;
     } catch (e) {
       log(e.toString());

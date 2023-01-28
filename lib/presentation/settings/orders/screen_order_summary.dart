@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoeclub/domain/modal/order/order_modal.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
-import 'package:shoeclub/presentation/settings/widgets/screen_myorders.dart';
+import 'package:shoeclub/presentation/settings/orders/screen_myorders.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 
 import '../../../core/core_datas.dart';
@@ -128,7 +128,7 @@ class ScreenOrderSummary extends StatelessWidget {
                       ),
                       core.height10,
                       Text(
-                        orders.paymentStatus.toString(),
+                       orders.paymentType=="COD"? "Pending":"Paid",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 20),
                       ),
@@ -210,11 +210,11 @@ class ScreenOrderSummary extends StatelessWidget {
                   //     side:
                   //         const BorderSide(color: Colors.purple, width: 2)),
                   onPressed: (() async {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: ((context) => BottomNavigationBarWidget()),
-                        ),
-                        (route) => false);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: ((context) => BottomNavigationBarWidget()),
+                      ),
+                    );
                   }),
                   child: const Text(
                     "CONTINUE SHOPING",

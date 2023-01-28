@@ -134,9 +134,10 @@ class ScreenCheckOut extends StatelessWidget {
                                             shape: const CircleBorder()),
                                         onPressed: (() {
                                           valueProvider.qtyChangeCart(
-                                              cartProduct,
-                                              AProductProvider().selectedSize,
-                                              1);
+                                            cartProduct,
+                                            AProductProvider().selectedSize,
+                                            1,
+                                          );
                                         }),
                                         child: const Icon(
                                           Icons.add,
@@ -156,9 +157,10 @@ class ScreenCheckOut extends StatelessWidget {
                                               shape: const CircleBorder()),
                                           onPressed: (() {
                                             valueProvider.qtyChangeCart(
-                                                cartProduct,
-                                                AProductProvider().selectedSize,
-                                                -1);
+                                              cartProduct,
+                                              AProductProvider().selectedSize,
+                                              -1,
+                                            );
                                           }),
                                           child: const Icon(
                                             Icons.remove,

@@ -54,12 +54,12 @@ class CartApiCalls {
 
       log("cart" + CoreDatas.instance.cartNotifierList.toString());
       return getData;
+    } on DioError catch (e) {
+      log("carttt---------" + e.response!.data);
+      log(CoreDatas.instance.cartNotifierList.toString());
     } catch (e) {
       CoreDatas.instance.cartNotifierList.value.clear();
       CoreDatas.instance.cartNotifierList.notifyListeners();
-
-      log("carttt---------" + e.toString());
-      log(CoreDatas.instance.cartNotifierList.toString());
     }
     return null;
   }

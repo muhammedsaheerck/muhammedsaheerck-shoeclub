@@ -7,25 +7,32 @@ import '../../infrastructure/product/product_services.dart';
 
 class HomeProvider extends ChangeNotifier {
   CoreDatas core = CoreDatas.internal();
+  List<String> filter = <String>['All', 'Casual', 'Formal', 'Sports'];
   String? selectedValue = "All";
   final searchController = TextEditingController();
-  List<Product> matchQuery = [];
+  // List<Product> matchQuery = [];
+  bool datawait = false;
 
   void dropdownFilter(String value) {
     selectedValue = value;
     notifyListeners();
   }
 
-  void dropdownShowProducts(int value) {
-    if (value == 0) {
+  // void dataWaitCircle(bool value) {
+  //   datawait = value;
+  //   notifyListeners();
+  // }
+
+  void dropdownShowProducts(String value) {
+    if (value == "All") {
       CoreDatas.instance.valueFound.value = productListNotifier.value;
       CoreDatas.instance.valueFound.notifyListeners();
       log("casualaaa" + CoreDatas.instance.valueFound.toString());
-    } else if (value == 1) {
+    } else if (value == "Casual") {
       CoreDatas.instance.valueFound.value = productCasualListNotifier.value;
       CoreDatas.instance.valueFound.notifyListeners();
       log("+++++++++" + CoreDatas.instance.valueFound.toString());
-    } else if (value == 2) {
+    } else if (value == "Formal") {
       CoreDatas.instance.valueFound.value = productFormalListNotifier.value;
       CoreDatas.instance.valueFound.notifyListeners();
     } else {
@@ -45,6 +52,7 @@ class HomeProvider extends ChangeNotifier {
     }
     return findVCarttId;
   }
+
 //PRoduct Search
   void searchaProduct(String enteredKeyword) {
     List<Product?> resluts = [];
