@@ -159,16 +159,14 @@ class AddressProvider extends ChangeNotifier {
     try {
       final response = await AddressApiCalls().getAllAddresses();
 
-      CoreDatas.instance.addressListNotifier.value.clear();
-      CoreDatas.instance.addressListNotifier.value
-          .addAll(response!.address!.reversed);
-      CoreDatas.instance.addressListNotifier.notifyListeners();
-      log("+++++++++++++++++++++++++++" +
-          CoreDatas.instance.addressListNotifier.toString());
-      CoreDatas.instance.addressListNotifier.notifyListeners();
+      addressListNotifier.value.clear();
+      addressListNotifier.value.addAll(response!.address!.reversed);
+      addressListNotifier.notifyListeners();
+      log("+++++++++++++++++++++++++++" + addressListNotifier.toString());
+      addressListNotifier.notifyListeners();
       notifyListeners();
-    }on DioError catch (e) {
-      log("get all dio error"+e.toString());
+    } on DioError catch (e) {
+      log("get all dio error" + e.toString());
     }
     notifyListeners();
   }

@@ -90,11 +90,11 @@ class ScreenAddress extends StatelessWidget {
               ),
             ),
             ValueListenableBuilder(
-              valueListenable: CoreDatas.instance.addressListNotifier,
+              valueListenable: addressListNotifier,
               builder: (context, value, child) => ListView.builder(
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
-                itemCount: CoreDatas.instance.addressListNotifier.value.length,
+                itemCount: addressListNotifier.value.length,
                 itemBuilder: (context, index) {
                   final address = value[index];
 
@@ -309,7 +309,7 @@ class ScreenAddress extends StatelessWidget {
                         ),
                         CoreDatas.instance.divider2,
                         ValueListenableBuilder(
-                          valueListenable: CoreDatas.instance.totalAmount,
+                          valueListenable: totalAmount,
                           builder: (context, value, child) {
                             // final total = value + 99;
                             return OrderDetails(

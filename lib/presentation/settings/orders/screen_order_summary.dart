@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/domain/modal/order/order_modal.dart';
 import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/settings/orders/screen_myorders.dart';
@@ -128,21 +130,25 @@ class ScreenOrderSummary extends StatelessWidget {
                       ),
                       core.height10,
                       Text(
-                       orders.paymentType=="COD"? "Pending":"Paid",
+                        orders.paymentType == "COD" ? "Pending" : "Paid",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 20),
                       ),
                       core.height10,
-                      Text(
-                        orders.orderDate.toString(),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
+                      Consumer<OrderProvider>(
+                        builder: (context, value, child) => Text(
+                          value.parseDate(orders.orderDate!),
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
                       core.height10,
-                      Text(
-                        orders.deliveryDate.toString(),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
+                      Consumer<OrderProvider>(
+                        builder: (context, value, child) => Text(
+                          value.parseDate(orders.deliveryDate!),
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
                       core.height10,
                       core.divider1,

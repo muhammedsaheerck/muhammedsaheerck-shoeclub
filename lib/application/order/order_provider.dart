@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
@@ -34,7 +35,7 @@ class OrderProvider extends ChangeNotifier {
           place: addressElements.place,
           products: productElementOrder,
           state: addressElements.state,
-          totalPrice: CoreDatas.instance.totalAmount.value,
+          totalPrice: totalAmount.value,
           userid: CoreDatas.instance.userId,
           addressId: addressElements.id);
       Response response =
@@ -49,7 +50,7 @@ class OrderProvider extends ChangeNotifier {
       log("ooooooooooooooo" + response.toString());
 
       if (response.statusCode == 201) {
-        if (type== PaymentType.COD) {
+        if (type == PaymentType.COD) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => const ScreenOrederSuccess(),
           ));
@@ -96,5 +97,10 @@ class OrderProvider extends ChangeNotifier {
       log(e.response!.data);
     }
     notifyListeners();
+  }
+
+  String parseDate(DateTime dates) {
+    final date = DateFormat.yMMMd().format(dates);
+    return date;
   }
 }

@@ -85,8 +85,8 @@ class CartProvider extends ChangeNotifier {
 
   int? findTotalQuantity() {
     int totalQty = 0;
-    for (var i = 0; i < CoreDatas.instance.cartNotifierList.value.length; i++) {
-      totalQty = totalQty + CoreDatas.instance.cartNotifierList.value[i]!.qty!;
+    for (var i = 0; i < cartNotifierList.value.length; i++) {
+      totalQty = totalQty + cartNotifierList.value[i]!.qty!;
 
       log("qqqqqqqq" + totalQty.toString());
     }
@@ -97,12 +97,15 @@ class CartProvider extends ChangeNotifier {
   Future<void> getAllCart() async {
     try {
       final response = await CartApiCalls().getCart();
-      CoreDatas.instance.totalAmount.value = response!.totalPrice!;
-      CoreDatas.instance.totalAmount.notifyListeners();
-      CoreDatas.instance.cartNotifierList.value.clear();
-      CoreDatas.instance.cartNotifierList.value
-          .addAll(response.products!.reversed);
-      CoreDatas.instance.cartNotifierList.notifyListeners();
+      if (totalQty.value! < 1) {
+        totalAmount.value = 0;
+      }
+      totalAmount.value = response!.totalPrice!;
+      totalAmount.notifyListeners();
+
+      cartNotifierList.value.clear();
+      cartNotifierList.value.addAll(response.products!.reversed);
+      cartNotifierList.notifyListeners();
     } catch (e) {
       log(e.toString());
     }
@@ -110,14 +113,13 @@ class CartProvider extends ChangeNotifier {
 
   bool? addCartIconChange(String id) {
     bool icon = false;
-    CoreDatas.instance.cartNotifierList.value
-        .firstWhere((element) => element!.id == id);
+    cartNotifierList.value.firstWhere((element) => element!.id == id);
     icon = true;
     return icon;
   }
 
   int cartItmLength() {
-    int length = CoreDatas.instance.cartNotifierList.value.length;
+    int length = cartNotifierList.value.length;
     notifyListeners();
     return length;
   }

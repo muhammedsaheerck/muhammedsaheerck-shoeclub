@@ -49,7 +49,7 @@ class ScreenWhishlist extends StatelessWidget {
       ),
 
       body: ValueListenableBuilder(
-        valueListenable: CoreDatas.instance.wishlistnotifier,
+        valueListenable: wishlistnotifier,
         builder: (context, valueLis, child) => valueLis.isEmpty
             ? Center(
                 child: Image.asset(

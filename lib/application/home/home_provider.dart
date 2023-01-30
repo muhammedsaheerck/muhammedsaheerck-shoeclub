@@ -25,28 +25,27 @@ class HomeProvider extends ChangeNotifier {
 
   void dropdownShowProducts(String value) {
     if (value == "All") {
-      CoreDatas.instance.valueFound.value = productListNotifier.value;
-      CoreDatas.instance.valueFound.notifyListeners();
-      log("casualaaa" + CoreDatas.instance.valueFound.toString());
+      valueFound.value = productListNotifier.value;
+      valueFound.notifyListeners();
+      log("casualaaa" + valueFound.toString());
     } else if (value == "Casual") {
-      CoreDatas.instance.valueFound.value = productCasualListNotifier.value;
-      CoreDatas.instance.valueFound.notifyListeners();
-      log("+++++++++" + CoreDatas.instance.valueFound.toString());
+      valueFound.value = productCasualListNotifier.value;
+      valueFound.notifyListeners();
+      log("+++++++++" + valueFound.toString());
     } else if (value == "Formal") {
-      CoreDatas.instance.valueFound.value = productFormalListNotifier.value;
-      CoreDatas.instance.valueFound.notifyListeners();
+      valueFound.value = productFormalListNotifier.value;
+      valueFound.notifyListeners();
     } else {
-      CoreDatas.instance.valueFound.value = productSportsListNotifier.value;
-      CoreDatas.instance.valueFound.notifyListeners();
+      valueFound.value = productSportsListNotifier.value;
+      valueFound.notifyListeners();
     }
     notifyListeners();
   }
 
   bool? searchIdForCart(Product product) {
     bool findVCarttId = false;
-    for (var i = 0; i < CoreDatas.instance.cartNotifierList.value.length; i++) {
-      if (CoreDatas.instance.cartNotifierList.value[i]!.product!.id ==
-          product.id) {
+    for (var i = 0; i < cartNotifierList.value.length; i++) {
+      if (cartNotifierList.value[i]!.product!.id == product.id) {
         findVCarttId = true;
       }
     }
@@ -64,7 +63,7 @@ class HomeProvider extends ChangeNotifier {
               user!.name!.toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
-    CoreDatas.instance.valueFound.value = resluts;
+    valueFound.value = resluts;
     notifyListeners();
   }
 }

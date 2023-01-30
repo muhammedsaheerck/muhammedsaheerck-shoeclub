@@ -51,7 +51,7 @@ class ScreenCheckOut extends StatelessWidget {
         child: ListView(
           children: [
             ValueListenableBuilder(
-              valueListenable: CoreDatas.instance.cartNotifierList,
+              valueListenable: cartNotifierList,
               builder: (context, value, child) => ListView.builder(
                 itemCount: value.length,
                 shrinkWrap: true,
@@ -204,7 +204,7 @@ class ScreenCheckOut extends StatelessWidget {
                       ),
                       CoreDatas.instance.divider2,
                       ValueListenableBuilder(
-                        valueListenable: CoreDatas.instance.totalAmount,
+                        valueListenable: totalAmount,
                         builder: (context, value, child) {
                           // final total = value + 99;
                           return OrderDetails(
@@ -343,11 +343,8 @@ class ScreenCheckOut extends StatelessWidget {
                       );
                     } else {
                       Provider.of<OrderProvider>(context, listen: false)
-                          .orderCreate(
-                              address,
-                              PaymentType.COD,
-                              CoreDatas.instance.cartNotifierList.value,
-                              context);
+                          .orderCreate(address, PaymentType.COD,
+                              cartNotifierList.value, context);
                     }
                   }),
                   child: const Text("CONTINUE")),

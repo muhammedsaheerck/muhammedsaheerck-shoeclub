@@ -52,14 +52,14 @@ class CartApiCalls {
 
       final getData = CartModal.fromJson(data);
 
-      log("cart" + CoreDatas.instance.cartNotifierList.toString());
+      log("cart" + cartNotifierList.toString());
       return getData;
     } on DioError catch (e) {
       log("carttt---------" + e.response!.data);
-      log(CoreDatas.instance.cartNotifierList.toString());
+      log(cartNotifierList.toString());
     } catch (e) {
-      CoreDatas.instance.cartNotifierList.value.clear();
-      CoreDatas.instance.cartNotifierList.notifyListeners();
+      cartNotifierList.value.clear();
+      cartNotifierList.notifyListeners();
     }
     return null;
   }

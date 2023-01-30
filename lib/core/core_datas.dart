@@ -5,6 +5,13 @@ import '../domain/modal/cart/cart_modal.dart';
 import '../domain/modal/product/product_modal.dart';
 import '../domain/modal/whishlist/wishlist_modal.dart';
 
+ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
+ValueNotifier<int> totalAmount = ValueNotifier(0);
+ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
+ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
+ValueNotifier<int?> totalQty = ValueNotifier(0);
+ValueNotifier<List<AddressElements?>> addressListNotifier = ValueNotifier([]);
+
 class CoreDatas {
   CoreDatas.internal();
   static CoreDatas instance = CoreDatas.internal();
@@ -67,13 +74,6 @@ class CoreDatas {
   String? userName;
   NewUser? userDetails;
 //valuenotifiers
-
-  ValueNotifier<List<ProductElementCart?>> cartNotifierList = ValueNotifier([]);
-  ValueNotifier<int> totalAmount = ValueNotifier(0);
-  ValueNotifier<List<ProductElement?>> wishlistnotifier = ValueNotifier([]);
-  ValueNotifier<List<Product?>> valueFound = ValueNotifier([]);
-  ValueNotifier<int?> totalQty = ValueNotifier(0);
-  ValueNotifier<List<AddressElements?>> addressListNotifier = ValueNotifier([]);
 
   // ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
   // ValueNotifier<List<Product?>> productCasualListNotifier = ValueNotifier([]);

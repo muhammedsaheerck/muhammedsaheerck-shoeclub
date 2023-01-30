@@ -18,9 +18,8 @@ class WhishListProvider extends ChangeNotifier {
 
   bool? searchIdForWishlist(Product product) {
     bool findProductId = false;
-    for (var i = 0; i < CoreDatas.instance.wishlistnotifier.value.length; i++) {
-      if (CoreDatas.instance.wishlistnotifier.value[i]!.product!.id ==
-          product.id) {
+    for (var i = 0; i < wishlistnotifier.value.length; i++) {
+      if (wishlistnotifier.value[i]!.product!.id == product.id) {
         findProductId = true;
       }
     }

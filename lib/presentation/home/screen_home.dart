@@ -203,13 +203,13 @@ class ScreenHome extends StatelessWidget {
         CoreDatas.instance.height10,
         Consumer<HomeProvider>(
           builder: (context, valueprovider, child) => ValueListenableBuilder(
-            valueListenable: CoreDatas.instance.valueFound,
+            valueListenable: valueFound,
             builder: (context, valueLi, child) => ListView.builder(
-                itemCount: CoreDatas.instance.valueFound.value.length,
+                itemCount: valueFound.value.length,
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
                 itemBuilder: ((context, index) {
-                  final value = CoreDatas.instance.valueFound.value[index];
+                  final value = valueFound.value[index];
                   log("valueee" + value.toString());
                   // log("================" + valueFound.toString());
                   // log(value["image"][0].toString());

@@ -60,7 +60,7 @@ class ScreenMyOrders extends StatelessWidget {
                     children: [
                       // height10,
                       Text(
-                        "Order Date : ${valueProvider.orderDetails!.orders![index].orderDate}",
+                        "Order Date : ${valueProvider.parseDate(valueProvider.orderDetails!.orders![index].orderDate!)}",
                         maxLines: 3,
                         style: const TextStyle(
                           fontSize: 16,

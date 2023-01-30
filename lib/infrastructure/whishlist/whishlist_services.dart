@@ -35,12 +35,11 @@ class WhishlistApiCalls {
       log(response.data);
       if (response.statusCode == 200) {
         final getData = WishlistModal.fromJson(data);
-        CoreDatas.instance.wishlistnotifier.value.clear();
-        CoreDatas.instance.wishlistnotifier.value
-            .addAll(getData.products!.reversed);
-        CoreDatas.instance.wishlistnotifier.notifyListeners();
+        wishlistnotifier.value.clear();
+        wishlistnotifier.value.addAll(getData.products!.reversed);
+        wishlistnotifier.notifyListeners();
         log(getData.products.toString());
-        log("wish" + CoreDatas.instance.wishlistnotifier.value.toString());
+        log("wish" + wishlistnotifier.value.toString());
         // log(wishlistnotifier.value[0]["product"]["image"][0].toString());
       }
     } catch (e) {

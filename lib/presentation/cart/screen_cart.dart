@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,9 +44,8 @@ class ScreenCart extends StatelessWidget {
             // color: Colors.amber,
             height: MediaQuery.of(context).size.height / 1.7,
             child: ValueListenableBuilder(
-              valueListenable: CoreDatas.instance.cartNotifierList,
-              builder: (context, value, child) => CoreDatas
-                      .instance.cartNotifierList.value.isEmpty
+              valueListenable: cartNotifierList,
+              builder: (context, value, child) => cartNotifierList.value.isEmpty
                   ? Center(
                       child: Image.asset(
                         "asset/empty-cart.png",
@@ -173,11 +174,11 @@ class ScreenCart extends StatelessWidget {
                                                         const CircleBorder()),
                                                 onPressed: (() {
                                                   valueProvider.qtyChangeCart(
-                                                      cartProduct,
-                                                      AProductProvider()
-                                                          .selectedSize,
-                                                      1,
-                                                      );
+                                                    cartProduct,
+                                                    AProductProvider()
+                                                        .selectedSize,
+                                                    1,
+                                                  );
                                                 }),
                                                 child: const Icon(
                                                   Icons.add,
@@ -198,12 +199,26 @@ class ScreenCart extends StatelessWidget {
                                                       shape:
                                                           const CircleBorder()),
                                                   onPressed: (() {
-                                                    valueProvider.qtyChangeCart(
-                                                      cartProduct,
-                                                      AProductProvider()
-                                                          .selectedSize,
-                                                      -1,
-                                                    );
+                                                    log({value[index]!.qty! > 0}
+                                                        .toString());
+                                                    if (value[index]!.qty! >
+                                                        1) {
+                                                      valueProvider
+                                                          .qtyChangeCart(
+                                                        cartProduct,
+                                                        AProductProvider()
+                                                            .selectedSize,
+                                                        -1,
+                                                      );
+                                                    } else {
+                                                      if (value[index]!.qty! <
+                                                          2) {
+                                                        valueProvider
+                                                            .removeFromCart(
+                                                                cartProduct,
+                                                                context);
+                                                      }
+                                                    }
                                                   }),
                                                   child: const Icon(
                                                     Icons.remove,
@@ -275,7 +290,7 @@ class ScreenCart extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       ValueListenableBuilder(
-                        valueListenable: CoreDatas.instance.totalAmount,
+                        valueListenable: totalAmount,
                         builder: (context, value, child) => Text(
                           value.toString(),
                           style: const TextStyle(
