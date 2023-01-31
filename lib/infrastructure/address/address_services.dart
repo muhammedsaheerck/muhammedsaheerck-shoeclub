@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
-
 import '../../core/core_datas.dart';
 
 class AddressApiCalls {
@@ -22,7 +19,6 @@ class AddressApiCalls {
   }
 
   Future<Response?> createAddress(AddressElements addressModal) async {
-    log("aaaaaa" + addressModal.toString());
     try {
       Response response = await dio.post(url.baseUrl + url.addressUrl,
           data: addressModal.toJson());
@@ -71,9 +67,7 @@ class AddressApiCalls {
       Response response = await dio.patch(
           url.baseUrl + url.addressUrl + aAddressUrl,
           data: addressElements.toJson());
-
       log(response.toString());
-      log("message" + response.statusCode.toString());
       return response;
     } catch (e) {
       log(e.toString());

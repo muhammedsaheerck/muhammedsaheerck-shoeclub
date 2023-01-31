@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class OrderDetails extends StatelessWidget {
   final String name;
   final String amount;

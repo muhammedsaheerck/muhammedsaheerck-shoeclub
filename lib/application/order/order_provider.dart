@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -9,10 +8,8 @@ import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 import 'package:shoeclub/domain/modal/order/order_modal.dart';
 import 'package:shoeclub/infrastructure/order/order_services.dart';
-import 'package:shoeclub/presentation/settings/orders/screen_myorders.dart';
 import 'package:shoeclub/presentation/settings/orders/screen_order_summary.dart';
-
-import '../../presentation/cart/widgets/screen_address.dart';
+import '../../presentation/cart/screen_address.dart';
 import '../../presentation/settings/orders/cod_order_success.dart';
 
 class OrderProvider extends ChangeNotifier {
@@ -41,13 +38,6 @@ class OrderProvider extends ChangeNotifier {
       Response response =
           await OrdersApiCall().orderCreateService(order) as Response;
       await OrdersApiCall().getAllOrders(context);
-      log("ordercreate success order--------------" +
-          Provider.of<OrderProvider>(context, listen: false)
-              .orderDetails!
-              .orders!
-              .last
-              .toString());
-      log("ooooooooooooooo" + response.toString());
 
       if (response.statusCode == 201) {
         if (type == PaymentType.COD) {
@@ -67,7 +57,7 @@ class OrderProvider extends ChangeNotifier {
         // await OrdersApiCall().getAllOrders(context);
       }
     } catch (e) {
-      log("orderprovider" + e.toString());
+      log(e.toString());
     }
     notifyListeners();
   }
@@ -77,7 +67,7 @@ class OrderProvider extends ChangeNotifier {
       Response response = await OrdersApiCall().orderDelete(
         orderid,
       ) as Response;
-
+      await OrdersApiCall().getAllOrders(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             behavior: SnackBarBehavior.floating,

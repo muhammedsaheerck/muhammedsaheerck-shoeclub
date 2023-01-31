@@ -28,9 +28,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future userNameGet(String? name) async {
-    print(name);
     CoreDatas.instance.userName = name;
-    print("core user${CoreDatas.instance.userName}");
     notifyListeners();
   }
 }

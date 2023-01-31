@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-
 import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
-
 import '../../core/core_datas.dart';
 
 class CartApiCalls {
@@ -26,7 +23,6 @@ class CartApiCalls {
   Future<Response?> addToCart(Product product, int? qty, String? size) async {
     log(qty.toString());
     try {
-      log("userId cartServu" + CoreDatas.instance.userId.toString());
       Response response = await dio.post(url.baseUrl + url.cartUrl, data: {
         "userid": CoreDatas.instance.userId,
         "product": product.id,
@@ -52,10 +48,10 @@ class CartApiCalls {
 
       final getData = CartModal.fromJson(data);
 
-      log("cart" + cartNotifierList.toString());
+      log("cart${cartNotifierList.toString()}");
       return getData;
     } on DioError catch (e) {
-      log("carttt---------" + e.response!.data);
+      log(e.toString());
       log(cartNotifierList.toString());
     } catch (e) {
       cartNotifierList.value.clear();

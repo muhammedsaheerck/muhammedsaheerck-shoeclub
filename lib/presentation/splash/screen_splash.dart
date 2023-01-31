@@ -1,10 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoeclub/application/home/home_provider.dart';
-
 import 'package:shoeclub/presentation/login/screen_login.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
 import '../../core/core_datas.dart';
@@ -23,7 +19,6 @@ class _ScreenSplashState extends State<ScreenSplash> {
   void initState() {
     alreadySigned();
     ProductApiCalls().getProducts(context);
-    // Provider.of<HomeProvider>(context, listen: false).dropdownShowProducts(0);
     valueFound.value = productListNotifier.value;
     super.initState();
   }
@@ -44,10 +39,9 @@ class _ScreenSplashState extends State<ScreenSplash> {
         (() => Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => isSignedIn == false
                 ? ScreenSignIn()
-                : BottomNavigationBarWidget()))));
+                : const BottomNavigationBarWidget()))));
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: splashColorPlatinum,
         backgroundColor: CoreDatas.instance.test,
         body: Stack(
           children: [
@@ -63,7 +57,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
             Padding(
               padding: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.8, left: 10),
-              child: TextItalianaWidget(
+              child: const TextItalianaWidget(
                   name: "Start Journey With \nShoe Club", size: 30),
             ),
           ],

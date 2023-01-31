@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
 import 'package:shoeclub/domain/modal/user/new_user.dart';
 import 'package:shoeclub/presentation/signup/screen_signup.dart';
-
 import '../../core/core_datas.dart';
 import '../../presentation/login/screen_login.dart';
 import '../../presentation/widgets/bottom_navigation.dart';
@@ -55,7 +52,6 @@ class AuthApiCall {
             (route) => false);
       }
     } on DioError catch (e) {
-      log("dio staussa" + e.response!.statusMessage.toString());
       log(e.message);
       log(e.response.toString());
       if (e.response!.statusCode == 400) {
@@ -83,7 +79,6 @@ class AuthApiCall {
 
   Future<void> sendOtp(String emaile) async {
     try {
-      // log(baseUrl + otppUrl + "?email=" + emaile);
       Response response =
           await dio.get("${url.baseUrl + url.otppUrl}?email=$emaile");
       log(response.toString());
@@ -131,12 +126,10 @@ class AuthApiCall {
               backgroundColor: Colors.green.shade400,
               content: const Text('SignIn successfully completed')),
         );
-        // Provider.of<AuthProvider>(context, listen: false)
-        //     .userAlreadySigned(value.email!);
         userAlreadySigned(value.email!);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: ((context) => BottomNavigationBarWidget()),
+            builder: ((context) => const BottomNavigationBarWidget()),
           ),
         );
       }
@@ -156,7 +149,6 @@ class AuthApiCall {
                 ? const Text("Invalid Email")
                 : const Text("Invalid Password")),
       );
-      // log(e.toString());
     }
   }
 
@@ -190,7 +182,6 @@ class AuthApiCall {
       SharedPreferences sharedPreferencesUsername =
           await SharedPreferences.getInstance();
       sharedPreferencesUsername.setString("userName", user.fullname!);
-      log("userName-------" + user.fullname!);
       return user;
     } catch (e) {
       log(e.toString());

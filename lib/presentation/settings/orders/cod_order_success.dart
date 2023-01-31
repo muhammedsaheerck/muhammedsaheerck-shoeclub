@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
@@ -11,14 +10,18 @@ class ScreenOrederSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(
-        const Duration(seconds: 3),
-        (() => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ScreenOrderSummary(
-                  orders: Provider.of<OrderProvider>(context)
-                      .orderDetails!
-                      .orders!
-                      .last,
-                )))));
+      const Duration(seconds: 3),
+      (() => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => ScreenOrderSummary(
+                orders: Provider.of<OrderProvider>(context)
+                    .orderDetails!
+                    .orders!
+                    .last,
+              ),
+            ),
+          )),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SizedBox(

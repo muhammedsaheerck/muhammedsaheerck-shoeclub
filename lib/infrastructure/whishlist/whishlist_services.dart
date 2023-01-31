@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:shoeclub/domain/modal/whishlist/wishlist_modal.dart';
-
 import '../../core/core_datas.dart';
 
 class WhishlistApiCalls {
@@ -39,8 +38,6 @@ class WhishlistApiCalls {
         wishlistnotifier.value.addAll(getData.products!.reversed);
         wishlistnotifier.notifyListeners();
         log(getData.products.toString());
-        log("wish" + wishlistnotifier.value.toString());
-        // log(wishlistnotifier.value[0]["product"]["image"][0].toString());
       }
     } catch (e) {
       log(e.toString());

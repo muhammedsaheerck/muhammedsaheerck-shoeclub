@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/core_datas.dart';
 
 class TextItalianaWidget extends StatelessWidget {
-  String name;
-  double size;
-  TextItalianaWidget({Key? key, required this.name, required this.size})
+  final String name;
+  final double size;
+  const TextItalianaWidget({Key? key, required this.name, required this.size})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/core/core_datas.dart';
@@ -19,11 +18,13 @@ class AddressProvider extends ChangeNotifier {
   final addressformKey = GlobalKey<FormState>();
   AddressElements? selectedAddress;
 
+//select Address
   void radioSelectAddress(AddressElements value) {
     selectedAddress = value;
     notifyListeners();
   }
 
+//add and edit address
   Future<void> createAndUpdateAddress(context, ActionType type,
       {AddressElements? address}) async {
     if (type == ActionType.addAddress) {
@@ -80,7 +81,7 @@ class AddressProvider extends ChangeNotifier {
           }
         }
       } on DioError catch (e) {
-        log("dio errorrr" + e.toString());
+        log(e.toString());
       }
     } else {
       try {
@@ -106,7 +107,6 @@ class AddressProvider extends ChangeNotifier {
                 place: addressPlaceController.text,
                 state: addressStateController.text,
                 title: addressTitleController.text);
-            log("aaaaaaaaaa" + newAddress.toString());
             log(newAddress.id.toString());
             log(newAddress.title.toString());
             log(newAddress.fullName.toString());
@@ -119,7 +119,6 @@ class AddressProvider extends ChangeNotifier {
 
             Response response = await AddressApiCalls.instance
                 .updateAddress(newAddress) as Response;
-            log("--------------" + response.statusCode.toString());
             await getAllAddresses();
 
             ScaffoldMessenger.of(context).showSnackBar(
@@ -155,6 +154,7 @@ class AddressProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//get all addresses
   Future<void> getAllAddresses() async {
     try {
       final response = await AddressApiCalls().getAllAddresses();
@@ -162,15 +162,15 @@ class AddressProvider extends ChangeNotifier {
       addressListNotifier.value.clear();
       addressListNotifier.value.addAll(response!.address!.reversed);
       addressListNotifier.notifyListeners();
-      log("+++++++++++++++++++++++++++" + addressListNotifier.toString());
       addressListNotifier.notifyListeners();
       notifyListeners();
     } on DioError catch (e) {
-      log("get all dio error" + e.toString());
+      log(e.toString());
     }
     notifyListeners();
   }
 
+//delete a address
   Future<void> deleteAAddress(String id, context) async {
     try {
       Response response = await AddressApiCalls().deleteAddress(id) as Response;

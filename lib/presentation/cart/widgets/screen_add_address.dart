@@ -1,16 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
-
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
-import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
-
 import 'package:shoeclub/presentation/widgets/textfield_customwidget.dart';
-
 import '../../../core/core_datas.dart';
+import '../../widgets/appbar_customWidget.dart';
 
 enum ActionType {
   addAddress,
@@ -19,9 +15,9 @@ enum ActionType {
 
 class ScreenAddAddress extends StatelessWidget {
   final ActionType type;
-  AddressElements? address;
+  final AddressElements? address;
 
-  ScreenAddAddress({super.key, required this.type, this.address});
+  const ScreenAddAddress({super.key, required this.type, this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -55,27 +51,11 @@ class ScreenAddAddress extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: CoreDatas.instance.splashColorPlatinum,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Text(
-            type.name.toUpperCase(),
-            style: GoogleFonts.inika(
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-              color: CoreDatas.instance.buttonColor,
-            ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBarCustomWidget(
+            appBarName: "ADD ADDRESS",
           ),
-          iconTheme: const IconThemeData(),
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                size: 30,
-              )),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),

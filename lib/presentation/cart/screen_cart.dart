@@ -1,14 +1,13 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shoeclub/application/aProduct/aproduct_provider.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
-import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
-import 'package:shoeclub/presentation/home/widgets/product_details.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
+import 'package:shoeclub/presentation/cart/screen_address.dart';
+import 'package:shoeclub/presentation/home/product_details.dart';
 import '../../core/core_datas.dart';
 import '../../domain/modal/product/product_modal.dart';
 
@@ -20,10 +19,8 @@ class ScreenCart extends StatelessWidget {
     Provider.of<CartProvider>(context, listen: false).getAllCart();
     Provider.of<CartProvider>(context, listen: false).findTotalQuantity();
     Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
-    // CartProvider().findTotalQuantity();
     return Scaffold(
       backgroundColor: CoreDatas.instance.test,
-      // backgroundColor: test,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -41,8 +38,7 @@ class ScreenCart extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            // color: Colors.amber,
-            height: MediaQuery.of(context).size.height / 1.7,
+            height: MediaQuery.of(context).size.height / 2,
             child: ValueListenableBuilder(
               valueListenable: cartNotifierList,
               builder: (context, value, child) => cartNotifierList.value.isEmpty
@@ -58,7 +54,6 @@ class ScreenCart extends StatelessWidget {
                       physics: const ScrollPhysics(),
                       itemBuilder: ((context, index) {
                         final cartProduct = value[index]!.product;
-
                         return Slidable(
                           endActionPane: ActionPane(
                               motion: const ScrollMotion(),
@@ -82,7 +77,6 @@ class ScreenCart extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15)),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   onTap: () {
@@ -175,8 +169,7 @@ class ScreenCart extends StatelessWidget {
                                                 onPressed: (() {
                                                   valueProvider.qtyChangeCart(
                                                     cartProduct,
-                                                    AProductProvider()
-                                                        .selectedSize,
+                                                    HomeProvider().selectedSize,
                                                     1,
                                                   );
                                                 }),
@@ -206,7 +199,7 @@ class ScreenCart extends StatelessWidget {
                                                       valueProvider
                                                           .qtyChangeCart(
                                                         cartProduct,
-                                                        AProductProvider()
+                                                        HomeProvider()
                                                             .selectedSize,
                                                         -1,
                                                       );
@@ -245,7 +238,6 @@ class ScreenCart extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.1,
                   vertical: MediaQuery.of(context).size.width * 0.03),
-              // padding: const EdgeInsets.only(left: 40, top: 20, right: 30),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -254,7 +246,6 @@ class ScreenCart extends StatelessWidget {
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-
                   const Divider(
                     thickness: 1,
                   ),
@@ -278,9 +269,6 @@ class ScreenCart extends StatelessWidget {
                     ],
                   ),
                   CoreDatas.instance.height10,
-                  // const Divider(
-                  //   thickness: 1,
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -304,11 +292,6 @@ class ScreenCart extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1,
                     child: ElevatedButton(
                         style: CoreDatas.instance.buttonStyle,
-                        // ElevatedButton.styleFrom(
-                        //     minimumSize: const Size.fromHeight(35),
-                        //     elevation: 1,
-                        //     backgroundColor:
-                        //         const Color.fromRGBO(237, 91, 78, 1)),
                         onPressed: (() {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: ((context) => const ScreenAddress())));

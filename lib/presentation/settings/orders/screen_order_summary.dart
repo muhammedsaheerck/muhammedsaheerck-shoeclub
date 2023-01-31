@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/domain/modal/order/order_modal.dart';
-import 'package:shoeclub/presentation/home/screen_home.dart';
 import 'package:shoeclub/presentation/settings/orders/screen_myorders.dart';
+import 'package:shoeclub/presentation/widgets/appbar_customWidget.dart';
 import 'package:shoeclub/presentation/widgets/bottom_navigation.dart';
-
 import '../../../core/core_datas.dart';
+import 'widgets/order_summarywidget.dart';
 
 class ScreenOrderSummary extends StatelessWidget {
   final Orders orders;
@@ -18,38 +18,14 @@ class ScreenOrderSummary extends StatelessWidget {
     final core = CoreDatas.internal();
     return SafeArea(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
-          child: AppBar(
-            backgroundColor: Colors.purple,
-            elevation: 0,
-            centerTitle: true,
-            title: Text(
-              'Package Summary',
-              style: GoogleFonts.inika(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.white,
-              ),
-            ),
-            iconTheme: const IconThemeData(),
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const ScreenMyOrders(),
-                  ));
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                  size: 30,
-                )),
-          ),
-        ),
+        appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(60),
+            child: AppBarCustomWidget(
+              appBarName: "PACKAGE SUMMARY",
+            )),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                   width: double.infinity,
@@ -60,112 +36,9 @@ class ScreenOrderSummary extends StatelessWidget {
                 children: [
                   Flexible(
                     flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        core.height10,
-                        const Text(
-                          "OrderStatus :",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        const Text(
-                          "paymentType",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        const Text(
-                          "paymentStatus",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        const Text(
-                          "OrderDate",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        const Text(
-                          "deliveryDate",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        core.divider1,
-                        const Text(
-                          "Delivery Fee ",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        const Text(
-                          "Total Price ",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        core.height10,
-                        core.divider1,
-                      ],
-                    ),
+                    child: OrderSummaryWidgetNames(core: core),
                   ),
-                  Flexible(
-                      // flex: 2,
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      core.height10,
-                      Text(
-                        orders.orderStatus!,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      core.height10,
-                      Text(
-                        orders.paymentType!,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      core.height10,
-                      Text(
-                        orders.paymentType == "COD" ? "Pending" : "Paid",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      core.height10,
-                      Consumer<OrderProvider>(
-                        builder: (context, value, child) => Text(
-                          value.parseDate(orders.orderDate!),
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      core.height10,
-                      Consumer<OrderProvider>(
-                        builder: (context, value, child) => Text(
-                          value.parseDate(orders.deliveryDate!),
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      core.height10,
-                      core.divider1,
-                      const Text(
-                        "₹0 ",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      core.height10,
-                      Text(
-                        "₹${orders.totalPrice.toString()}",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      core.height10,
-                      core.divider1,
-                    ],
-                  ))
+                  orderSummaryDetailsMethod(core)
                 ],
               ),
               const Text(
@@ -188,7 +61,6 @@ class ScreenOrderSummary extends StatelessWidget {
                 orders.fullName!,
                 style: const TextStyle(fontSize: 20),
               ),
-              // core.height10,
               Text(
                 orders.phone!,
                 style: const TextStyle(fontSize: 20),
@@ -212,13 +84,11 @@ class ScreenOrderSummary extends StatelessWidget {
               core.height30,
               ElevatedButton(
                   style: CoreDatas.instance.buttonStyle,
-                  // OutlinedButton.styleFrom(
-                  //     side:
-                  //         const BorderSide(color: Colors.purple, width: 2)),
                   onPressed: (() async {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: ((context) => BottomNavigationBarWidget()),
+                        builder: ((context) =>
+                            const BottomNavigationBarWidget()),
                       ),
                     );
                   }),
@@ -231,5 +101,62 @@ class ScreenOrderSummary extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Flexible orderSummaryDetailsMethod(CoreDatas core) {
+    return Flexible(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        core.height10,
+        Text(
+          orders.orderStatus!,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 20),
+        ),
+        core.height10,
+        Text(
+          orders.paymentType!,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 20),
+        ),
+        core.height10,
+        Text(
+          orders.paymentType == "COD" ? "Pending" : "Paid",
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 20),
+        ),
+        core.height10,
+        Consumer<OrderProvider>(
+          builder: (context, value, child) => Text(
+            value.parseDate(orders.orderDate!),
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        core.height10,
+        Consumer<OrderProvider>(
+          builder: (context, value, child) => Text(
+            value.parseDate(orders.deliveryDate!),
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        core.height10,
+        core.divider1,
+        const Text(
+          "₹0 ",
+          style: TextStyle(fontSize: 20),
+        ),
+        core.height10,
+        Text(
+          "₹${orders.totalPrice.toString()}",
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 20),
+        ),
+        core.height10,
+        core.divider1,
+      ],
+    ));
   }
 }

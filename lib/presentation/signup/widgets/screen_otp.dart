@@ -1,10 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shoeclub/domain/modal/otp/otp_modal.dart';
 import 'package:shoeclub/infrastructure/auth/auth_services.dart';
-import 'package:shoeclub/presentation/login/screen_login.dart';
-
 import '../../../domain/modal/user/new_user.dart';
 
 class ScreenOtp extends StatelessWidget {
@@ -18,9 +15,9 @@ class ScreenOtp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 245, 244, 248),
-        body: SafeArea(
-            child: Padding(
+      backgroundColor: const Color.fromARGB(255, 245, 244, 248),
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: ListView(children: [
             Align(
@@ -34,9 +31,6 @@ class ScreenOtp extends StatelessWidget {
                 ),
               ),
             ),
-            // const SizedBox(
-            //   height: 18,
-            // ),
             Container(
               width: 250,
               height: 250,
@@ -101,7 +95,6 @@ class ScreenOtp extends StatelessWidget {
                 },
               ),
             ),
-
             const SizedBox(
               height: 22,
             ),
@@ -156,7 +149,9 @@ class ScreenOtp extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ]),
-        )));
+        ),
+      ),
+    );
   }
 
   Future verify(context) async {
@@ -168,14 +163,7 @@ class ScreenOtp extends StatelessWidget {
           NewUser(email: email, fullname: name, password: pass);
       log(newUserSignUp.toString());
       log(newUserSignUp.id.toString());
-       AuthApiCall.instance.signUp(newUserSignUp, context);
-
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('SignUp Successfully completed')),
-      // );
-      // Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: ((context) => ScreenSignIn())),
-      //     (route) => false);
+      AuthApiCall.instance.signUp(newUserSignUp, context);
     } catch (e) {
       log(e.toString());
     }

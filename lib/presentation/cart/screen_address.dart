@@ -1,21 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoeclub/application/address/address_provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
-import 'package:shoeclub/application/cart/checkout_provider.dart';
-
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
-import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
 import 'package:shoeclub/presentation/cart/widgets/order_details.dart';
-
 import 'package:shoeclub/presentation/cart/widgets/screen_add_address.dart';
-import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
-
-import '../../../core/core_datas.dart';
+import 'package:shoeclub/presentation/cart/screen_checkout.dart';
+import '../../core/core_datas.dart';
+import '../widgets/appbar_customWidget.dart';
 
 enum PaymentType { COD, ONLINE_PAYMENT }
 
@@ -27,39 +20,18 @@ class ScreenAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<AddressProvider>(context, listen: false).getAllAddresses();
-
-//
     return Scaffold(
       backgroundColor: CoreDatas.instance.splashColorPlatinum,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'ADDRESS',
-          style: GoogleFonts.inika(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-            color: CoreDatas.instance.buttonColor,
-          ),
-        ),
-        iconTheme: const IconThemeData(),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 30,
-            )),
-      ),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBarCustomWidget(
+            appBarName: "ADDRESS",
+          )),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Card(
-              // color: CoreDatas.instance.headMainColor,
               color: Colors.purple.shade500,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,20 +44,21 @@ class ScreenAddress extends StatelessWidget {
                         color: Colors.white),
                   ),
                   IconButton(
-                      onPressed: (() {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: ((context) => ScreenAddAddress(
-                                  type: ActionType.addAddress,
-                                )),
-                          ),
-                        );
-                      }),
-                      icon: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 30,
-                      ))
+                    onPressed: (() {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: ((context) => const ScreenAddAddress(
+                                type: ActionType.addAddress,
+                              )),
+                        ),
+                      );
+                    }),
+                    icon: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -97,8 +70,6 @@ class ScreenAddress extends StatelessWidget {
                 itemCount: addressListNotifier.value.length,
                 itemBuilder: (context, index) {
                   final address = value[index];
-
-                  // log("addddd" + address.toString());
                   return Card(
                     elevation: 2,
                     color: Colors.deepPurple.shade50,
@@ -233,14 +204,15 @@ class ScreenAddress extends StatelessWidget {
                                               builder:
                                                   (context, value, child) =>
                                                       IconButton(
-                                                          onPressed: (() {
-                                                            PopUpWidget(context,
-                                                                value, address);
-                                                          }),
-                                                          icon: const Icon(
-                                                            Icons.delete,
-                                                            color: Colors.red,
-                                                          )),
+                                                onPressed: (() {
+                                                  popUpWidget(
+                                                      context, value, address);
+                                                }),
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
                                             ),
                                           )
                                         ],
@@ -263,7 +235,6 @@ class ScreenAddress extends StatelessWidget {
               height: 50,
               child: Card(
                 color: Colors.purple.shade500,
-                // color: CoreDatas.instance.headMainColor,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
@@ -288,7 +259,6 @@ class ScreenAddress extends StatelessWidget {
                       Radius.circular(10),
                     ),
                   ),
-                  // color: cardColorAlilceBlue,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -330,11 +300,13 @@ class ScreenAddress extends StatelessWidget {
               builder: (context, valueProvider, child) => ElevatedButton(
                   style: CoreDatas.instance.buttonStyle,
                   onPressed: (() {
-                    // log("onpressed address" + address.toString());
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: ((context) => ScreenCheckOut(
                               address: valueProvider.selectedAddress!,
-                            ))));
+                            )),
+                      ),
+                    );
                   }),
                   child: const Text("CONTINUE")),
             ),
@@ -344,7 +316,7 @@ class ScreenAddress extends StatelessWidget {
     );
   }
 
-  Future<dynamic> PopUpWidget(
+  Future<dynamic> popUpWidget(
     BuildContext context,
     AddressProvider value,
     AddressElements address,

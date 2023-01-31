@@ -18,20 +18,15 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void dataWaitCircle(bool value) {
-  //   datawait = value;
-  //   notifyListeners();
-  // }
-
   void dropdownShowProducts(String value) {
     if (value == "All") {
       valueFound.value = productListNotifier.value;
       valueFound.notifyListeners();
-      log("casualaaa" + valueFound.toString());
+      log(valueFound.toString());
     } else if (value == "Casual") {
       valueFound.value = productCasualListNotifier.value;
       valueFound.notifyListeners();
-      log("+++++++++" + valueFound.toString());
+      log(valueFound.toString());
     } else if (value == "Formal") {
       valueFound.value = productFormalListNotifier.value;
       valueFound.notifyListeners();
@@ -64,6 +59,29 @@ class HomeProvider extends ChangeNotifier {
           .toList();
     }
     valueFound.value = resluts;
+    notifyListeners();
+  }
+
+//size selecting
+  String selectedSize = "6";
+  void selectSize(String size) {
+    selectedSize = size;
+    log(selectedSize.toString());
+    notifyListeners();
+  }
+
+//image change a product
+  int selectedImageValue = 0;
+
+  void selectedImage(int value) {
+    selectedImageValue = value;
+    notifyListeners();
+  }
+
+//bottom NavigationBar
+  int selectedIndex = 0;
+  void tabBarChange(int index) {
+    selectedIndex = index;
     notifyListeners();
   }
 }

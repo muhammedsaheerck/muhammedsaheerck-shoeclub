@@ -6,6 +6,7 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType keybordtype;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Widget? sufixicon;
 
   const TextFieldWidget(
       {Key? key,
@@ -13,6 +14,7 @@ class TextFieldWidget extends StatelessWidget {
       required this.hint,
       required this.controller,
       required this.validator,
+      this.sufixicon,
       this.maxLine})
       : super(key: key);
 
@@ -24,6 +26,7 @@ class TextFieldWidget extends StatelessWidget {
       validator: validator,
       cursorColor: Colors.deepPurple,
       decoration: InputDecoration(
+        suffixIcon: sufixicon,
         focusColor: Colors.deepPurple,
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -35,7 +38,6 @@ class TextFieldWidget extends StatelessWidget {
       ),
       keyboardType: keybordtype,
       maxLength: maxLine,
-       
     );
   }
 }

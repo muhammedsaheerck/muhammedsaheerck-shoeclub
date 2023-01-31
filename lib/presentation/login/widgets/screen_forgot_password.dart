@@ -1,10 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/auth/forgot_password_provider.dart';
-
+import 'package:shoeclub/presentation/widgets/textfield_customwidget.dart';
 import '../../../core/core_datas.dart';
 
 class ScreenForgotPassword extends StatelessWidget {
@@ -47,9 +46,10 @@ class ScreenForgotPassword extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      TextFormField(
+                      TextFieldWidget(
+                        keybordtype: TextInputType.name,
+                        hint: "User Email",
                         controller: valueProvider.forgotEmailCOntroller,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: ((value) {
                           if (value == null || value.isEmpty) {
                             return "Please enter your Emile";
@@ -61,23 +61,11 @@ class ScreenForgotPassword extends StatelessWidget {
                           }
                           return null;
                         }),
-                        cursorColor: Colors.deepPurple,
-                        decoration: InputDecoration(
-                          focusColor: Colors.deepPurple,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          hintText: "User Email",
-                        ),
-                        keyboardType: TextInputType.name,
                       ),
                       CoreDatas.instance.height20,
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                      TextFieldWidget(
+                        keybordtype: TextInputType.name,
+                        hint: "New Password",
                         controller: valueProvider.forgotPasswordCOntroller,
                         validator: ((value) {
                           if (value!.isEmpty) {
@@ -85,23 +73,11 @@ class ScreenForgotPassword extends StatelessWidget {
                           }
                           return null;
                         }),
-                        cursorColor: Colors.deepPurple,
-                        decoration: InputDecoration(
-                          focusColor: Colors.deepPurple,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          hintText: "New Password",
-                        ),
-                        keyboardType: TextInputType.name,
                       ),
                       CoreDatas.instance.height20,
-                      TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                      TextFieldWidget(
+                        keybordtype: TextInputType.name,
+                        hint: "Confirm Password",
                         controller:
                             valueProvider.forgotConfirmPasswordCOntroller,
                         validator: ((value) {
@@ -113,19 +89,6 @@ class ScreenForgotPassword extends StatelessWidget {
                           }
                           return null;
                         }),
-                        cursorColor: Colors.deepPurple,
-                        decoration: InputDecoration(
-                          focusColor: Colors.deepPurple,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          hintText: "Confirm Password",
-                        ),
-                        keyboardType: TextInputType.name,
                       ),
                     ],
                   ),

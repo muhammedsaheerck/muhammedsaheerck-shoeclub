@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
 import 'package:shoeclub/infrastructure/cart/cart_services.dart';
-import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
-
 import '../../core/core_datas.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -88,7 +85,7 @@ class CartProvider extends ChangeNotifier {
     for (var i = 0; i < cartNotifierList.value.length; i++) {
       totalQty = totalQty + cartNotifierList.value[i]!.qty!;
 
-      log("qqqqqqqq" + totalQty.toString());
+      log(totalQty.toString());
     }
 
     return totalQty;

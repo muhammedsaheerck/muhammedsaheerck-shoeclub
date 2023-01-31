@@ -4,14 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:shoeclub/application/cart/cart_provider.dart';
 import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/whishlist/whishlist_provider.dart';
-
 import 'package:shoeclub/presentation/cart/screen_cart.dart';
-import 'package:shoeclub/presentation/home/screen_home.dart';
-
-import '../../application/aProduct/aproduct_provider.dart';
 import '../../core/core_datas.dart';
 import '../../infrastructure/whishlist/whishlist_services.dart';
-import '../home/widgets/product_details.dart';
+import '../home/product_details.dart';
 
 class ScreenWhishlist extends StatelessWidget {
   const ScreenWhishlist({super.key});
@@ -19,14 +15,11 @@ class ScreenWhishlist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WhishlistApiCalls().getWishlist(CoreDatas.instance.userId);
-    // log("wishlist"+wishlistnotifier.value.toString());
     return Scaffold(
-      // backgroundColor: splashColorPlatinum,
       backgroundColor: CoreDatas.instance.test,
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 70,
-        // backgroundColor: splashColorPlatinum,
         backgroundColor: CoreDatas.instance.test,
         iconTheme: const IconThemeData(),
         title: Center(
@@ -47,7 +40,6 @@ class ScreenWhishlist extends StatelessWidget {
               icon: const Icon(Icons.shopping_bag))
         ],
       ),
-
       body: ValueListenableBuilder(
         valueListenable: wishlistnotifier,
         builder: (context, valueLis, child) => valueLis.isEmpty
@@ -71,7 +63,6 @@ class ScreenWhishlist extends StatelessWidget {
                           borderRadius: BorderRadius.circular(40)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             decoration: BoxDecoration(
@@ -80,13 +71,8 @@ class ScreenWhishlist extends StatelessWidget {
                             ),
                             width: MediaQuery.of(context).size.width * 0.50,
                             height: MediaQuery.of(context).size.height * 0.2,
-                            // width: double.infinity,
                             child: InkWell(
                               onTap: () {
-                                // aProductDetails.clear();
-                                // aProductDetails.add(valueLis[index]);
-                                // log("name :===="+aProductDetails[0]["name"].toString());
-                                // log("asdas"+aProductDetails.toString());
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: ((context) {
@@ -100,8 +86,6 @@ class ScreenWhishlist extends StatelessWidget {
                               child: Image.network(
                                 product!.image!.first!,
                                 fit: BoxFit.fill,
-                                // width: double.infinity,
-                                // height: MediaQuery.of(context).size.height * 0.2,
                               ),
                             ),
                           ),
@@ -166,8 +150,7 @@ class ScreenWhishlist extends StatelessWidget {
                                                 onPressed: (() {
                                                   valueProvider.addToCart(
                                                     product,
-                                                    AProductProvider()
-                                                        .selectedSize,
+                                                    HomeProvider().selectedSize,
                                                     context,
                                                   );
                                                 }),
@@ -206,7 +189,8 @@ class ScreenWhishlist extends StatelessWidget {
                       ),
                     ),
                   );
-                })),
+                }),
+              ),
       ),
     );
   }

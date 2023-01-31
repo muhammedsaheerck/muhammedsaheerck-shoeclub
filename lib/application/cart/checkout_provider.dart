@@ -1,16 +1,11 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/core/core_datas.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
-import 'package:shoeclub/domain/modal/cart/cart_modal.dart';
-import 'package:shoeclub/presentation/cart/widgets/screen_checkout.dart';
-
-import '../../presentation/cart/widgets/screen_address.dart';
+import '../../presentation/cart/screen_address.dart';
 
 class CheckoutProvider extends ChangeNotifier {
   final _razorpay = Razorpay();

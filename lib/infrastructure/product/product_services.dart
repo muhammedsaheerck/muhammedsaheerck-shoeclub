@@ -1,20 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shoeclub/domain/modal/product/product_modal.dart';
-
-import '../../application/home/home_provider.dart';
 import '../../core/core_datas.dart';
 
 ValueNotifier<List<Product?>> productListNotifier = ValueNotifier([]);
-
 ValueNotifier<List<Product?>> productCasualListNotifier = ValueNotifier([]);
-
 ValueNotifier<List<Product?>> productFormalListNotifier = ValueNotifier([]);
-
 ValueNotifier<List<Product?>> productSportsListNotifier = ValueNotifier([]);
 
 class ProductApiCalls {
@@ -27,7 +20,6 @@ class ProductApiCalls {
 
   Future getProducts(context) async {
     try {
-      // Provider.of<HomeProvider>(context).dataWaitCircle(true);
       Response response = await dio.get(url.baseUrl + url.productUrl);
       Map<String, dynamic> data = await json.decode(response.data);
       log(response.data);
@@ -46,7 +38,6 @@ class ProductApiCalls {
           if (productListNotifier.value[i]!.category == "1") {
             productCasualListNotifier.value.add(productListNotifier.value[i]);
             productCasualListNotifier.notifyListeners();
-            log("casual" + productCasualListNotifier.value.toString());
           } else if (productListNotifier.value[i]!.category == "2") {
             //category Formal
             productFormalListNotifier.value.add(productListNotifier.value[i]);
@@ -56,7 +47,6 @@ class ProductApiCalls {
             productSportsListNotifier.notifyListeners();
           }
         }
-        // Provider.of<HomeProvider>(context).dataWaitCircle(false);
         return;
       }
     } catch (e) {

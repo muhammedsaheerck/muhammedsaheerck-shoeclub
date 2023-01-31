@@ -1,51 +1,32 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shoeclub/application/cart/checkout_provider.dart';
+import 'package:shoeclub/application/home/home_provider.dart';
 import 'package:shoeclub/application/order/order_provider.dart';
 import 'package:shoeclub/domain/modal/address/address_modal.dart';
 import 'package:shoeclub/presentation/cart/widgets/order_details.dart';
-import 'package:shoeclub/presentation/cart/widgets/screen_address.dart';
-
-import '../../../application/aProduct/aproduct_provider.dart';
-import '../../../application/address/address_provider.dart';
-import '../../../application/cart/cart_provider.dart';
-import '../../../core/core_datas.dart';
+import 'package:shoeclub/presentation/cart/screen_address.dart';
+import '../../application/cart/cart_provider.dart';
+import '../../core/core_datas.dart';
+import '../widgets/appbar_customWidget.dart';
+import 'widgets/checkout_show_address.dart';
 
 class ScreenCheckOut extends StatelessWidget {
-  AddressElements address;
-  ScreenCheckOut({super.key, required this.address});
+  final AddressElements address;
+  const ScreenCheckOut({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
     Provider.of<CartProvider>(context, listen: false).getAllCart();
-    log("----------------------" + address.toString());
     return Scaffold(
       backgroundColor: CoreDatas.instance.splashColorPlatinum,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'CHECKOUT',
-          style: GoogleFonts.inika(
-            fontWeight: FontWeight.bold,
-            fontSize: 25,
-            color: CoreDatas.instance.buttonColor,
-          ),
-        ),
-        iconTheme: const IconThemeData(),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 30,
-            )),
-      ),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBarCustomWidget(
+            appBarName: "CHECKOUT",
+          )),
       body: Padding(
         padding: const EdgeInsets.all(2.0),
         child: ListView(
@@ -58,8 +39,6 @@ class ScreenCheckOut extends StatelessWidget {
                 physics: const ScrollPhysics(),
                 itemBuilder: ((context, index) {
                   final cartProduct = value[index]!.product;
-                  log("cartttttttttttttt" + cartProduct.toString());
-
                   return Card(
                     elevation: 2,
                     color: Colors.black87,
@@ -67,7 +46,6 @@ class ScreenCheckOut extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15)),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           decoration: BoxDecoration(
@@ -111,8 +89,6 @@ class ScreenCheckOut extends StatelessWidget {
                                         style: const TextStyle(
                                             color: Colors.white, fontSize: 15),
                                       ),
-                                      //  const SizedBox(height: 60,),
-
                                       Text(
                                         "₹ ${(cartProduct.price! * value[index]!.qty!).toString()}",
                                         style: const TextStyle(
@@ -135,7 +111,7 @@ class ScreenCheckOut extends StatelessWidget {
                                         onPressed: (() {
                                           valueProvider.qtyChangeCart(
                                             cartProduct,
-                                            AProductProvider().selectedSize,
+                                            HomeProvider().selectedSize,
                                             1,
                                           );
                                         }),
@@ -150,22 +126,23 @@ class ScreenCheckOut extends StatelessWidget {
                                             color: Colors.white),
                                       ),
                                       ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              minimumSize: const Size(25, 25),
-                                              backgroundColor:
-                                                  Colors.deepPurple.shade100,
-                                              shape: const CircleBorder()),
-                                          onPressed: (() {
-                                            valueProvider.qtyChangeCart(
-                                              cartProduct,
-                                              AProductProvider().selectedSize,
-                                              -1,
-                                            );
-                                          }),
-                                          child: const Icon(
-                                            Icons.remove,
-                                            color: Colors.black,
-                                          ))
+                                        style: ElevatedButton.styleFrom(
+                                            minimumSize: const Size(25, 25),
+                                            backgroundColor:
+                                                Colors.deepPurple.shade100,
+                                            shape: const CircleBorder()),
+                                        onPressed: (() {
+                                          valueProvider.qtyChangeCart(
+                                            cartProduct,
+                                            HomeProvider().selectedSize,
+                                            -1,
+                                          );
+                                        }),
+                                        child: const Icon(
+                                          Icons.remove,
+                                          color: Colors.black,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 )
@@ -189,7 +166,6 @@ class ScreenCheckOut extends StatelessWidget {
                     Radius.circular(10),
                   ),
                 ),
-                // color: cardColorAlilceBlue,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -220,73 +196,7 @@ class ScreenCheckOut extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Card(
-                elevation: 5,
-                color: Colors.deepPurple.shade100,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.fullName!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.phone!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.address!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.place!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.state!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.pin!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      CoreDatas.instance.height5,
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        address.landMark!,
-                        style: const TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              child: CheckoutAddressShow(address: address),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
